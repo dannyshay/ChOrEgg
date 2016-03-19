@@ -1,3 +1,2 @@
-/**
- * Created by dannyshay on 3/19/16.
- */
+// public/js/app.js
+angular.module('ChOrEgg', ['ngRoute', 'appRoutes','mainCtrl','itemCtrl','itemService']);
