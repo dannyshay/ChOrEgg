@@ -1,4 +1,8 @@
-// public/js/controllers/MainCtrl.js
-angular.module('MainCtrl', []).controller('mainController', function($scope) {
-   $scope.tagLine = 'To the moon and back!';
+angular.module('MainCtrl', []).controller('MainController', function($scope, $http) {
+   if (!$scope.Items) {
+      $http.get("http://localhost:8080/api/items").success(function(data){
+         $scope.Items = data;
+         console.log(data);
+      });
+   };
 });

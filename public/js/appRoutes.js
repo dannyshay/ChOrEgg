@@ -6,13 +6,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
     // home page
         .when('/', {
             templateUrl: 'views/home.html',
-            controller: 'mainController'
-        })
-
-    // items page that will use the ItemController
-        .when('/items', {
-            templateUrl: 'views/item.html',
-            controller: 'ItemController'
+            controller: 'MainController'
         });
 
     $locationProvider.html5Mode(true);
