@@ -20,6 +20,30 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/api/items/:category', function(req, res) {
+        Item.find(function(err, items){
+            if (err)
+                res.send(err);
+
+            res.json(items);
+        }).where({category:req.params.category});
+    });
+
+    app.get('/api/items/:category/getCount', function(req, res){
+        Item.count({category:req.params.category}, function(err, c){
+            res.json(c);
+        })
+    })
+
+    app.get('/api/items/:category/:itemID', function(req, res) {
+       Item.find(function(err, items) {
+           if (err)
+            res.send(err);
+
+           res.json(items);
+       }).where({category:req.params.category, index:parseInt(req.params.itemID)});
+    });
+
     // route to handle creating goes here (app.post)
     // route to handle delete goes here (app.delete)
 
