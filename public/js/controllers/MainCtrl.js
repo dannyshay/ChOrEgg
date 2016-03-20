@@ -1,9 +1,30 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $http) {
-   if (!$scope.Items) {
-      $http.get("/api/items").success(function(data){
-         $scope.Items = data;
-      });
-   };
+    var category = "People";
+
+    if (!$scope.numItems) {
+       $http.get("/api/items/" + category + "/getCount").success(function(data){
+           $scope.numItems = parseInt(data);
+
+           getTwoItems();
+       });
+    };
+
+    function getTwoItems() {
+        var num1 = getRandomInt(1, $scope.numItems);
+        var num2 = 0;
+
+        while (num2 == 0 || num2 == num1) {
+            num2 = getRandomInt(1, $scope.numItems);
+        }
+
+        $http.get("/api/items/" + category + "/" + num1).success(function(data) {
+            $scope.Item1 = data[0];
+        });
+
+        $http.get("/api/items/" + category + "/" + num2).success(function(data) {
+            $scope.Item2 = data[0];
+        });
+    };
 
    $scope.imgClick = function($index) {
       switch ($index) {
@@ -18,3 +39,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
       }
    };
 });
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
