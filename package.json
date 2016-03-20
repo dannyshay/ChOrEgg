@@ -6,7 +6,8 @@
     "express": "latest",
     "mongoose" : "latest",
     "body-parser" : "latest",
-    "method-override" : "latest"
+    "method-override" : "latest",
+    "bower" :"latest"
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install"
