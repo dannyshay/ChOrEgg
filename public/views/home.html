@@ -2,8 +2,8 @@
 <div class="jumbotron text-center">
     <h1>ChOrEgg</h1>
 
-    <div ng-repeat="item in Items.slice(0,2)">
+    <div ng-repeat="item in Items.slice(0,2) track by $index">
         <span>Hello {{ item.name }}</span>
-        <img ng-src="{{item.image}}" />
+        <img ng-src="{{item.image}}" ng-click="imgClick($index)" />
     </div>
 </div>
