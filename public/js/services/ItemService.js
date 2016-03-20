@@ -1,8 +1,9 @@
 // public/js/services/ItemService.js
-angular.module('itemService', []).factory('item', ['$http', function() {
+angular.module('ItemService', []).factory('Item', ['$http', function($http) {
     return {
         // call to get all items
         get : function() {
+            console.log('hit item service.');
             return $http.get('/api/items');
         },
 
@@ -10,7 +11,7 @@ angular.module('itemService', []).factory('item', ['$http', function() {
         //call to POST and create a new item
 
         create : function(itemData) {
-            return $http/post('/api/items', itemData);
+            return $http.post('/api/items', itemData);
         },
 
         // call to DELETE an item
