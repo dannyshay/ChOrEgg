@@ -2,7 +2,6 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
    if (!$scope.Items) {
       $http.get("/api/items").success(function(data){
          $scope.Items = data;
-         console.log(data);
       });
    };
 });
