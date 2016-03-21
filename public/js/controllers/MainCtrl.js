@@ -1,13 +1,27 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $http) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies) {
     var category = "People";
 
-    if (!$scope.numItems) {
+    if (!$cookies.get('numItems')) {
        $http.get("/api/items/" + category + "/getCount").success(function(data){
            $scope.numItems = parseInt(data);
-
-           getTwoItems();
+           $cookies.put('numItems', $scope.numItems);
        });
+    } else {
+        $scope.numItems = parseInt($cookies.get('numItems'));
     };
+
+    if (!$cookies.get('imagesLoaded')) {
+        $.ajax('/api/items/getImages').done(function(data) {
+            $.each(data, function(k, v) {
+                preload(v);
+            });
+        }).fail(function() {
+            $cookies.remove('imagesLoaded');
+        });
+        $cookies.put('imagesLoaded', true);
+    }
+
+    getTwoItems();
 
     function getTwoItems() {
         var num1 = getRandomInt(1, $scope.numItems);
@@ -25,6 +39,14 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
             $scope.Item2 = data[0];
         });
     };
+
+    function preload() {
+        var images = Array();
+        for (var i = 0; i < preload.arguments.length; i++) {
+            images[i] = new Image()
+            images[i].src = preload.arguments[i]
+        }
+    }
 
    $scope.imgClick = function($index) {
        var clickedItem;
