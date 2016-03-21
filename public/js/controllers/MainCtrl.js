@@ -26,8 +26,19 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     function getTwoItems() {
         var num1 = getRandomInt(1, $scope.numItems);
         var num2 = 0;
+        var oldNum1 = 0;
+        var oldNum2 = 0;
 
-        while (num2 == 0 || num2 == num1) {
+        if ($cookies.get('num1')) {
+            oldNum1 = parseInt($cookies.get('num1'));
+            oldNum2 = parseInt($cookies.get('num2'))
+        }
+
+        while ((oldNum1 != 0 && num1 == oldNum1) || (oldNum2 != 0 && num1 == oldNum2)) {
+            num1 = getRandomInt(1, $scope.numItems);
+        }
+
+        while ((num2 == 0 || num2 == num1) || (oldNum1 != 0 && num2 == oldNum1) || (oldNum2 != 0 && num2 == oldNum2))  {
             num2 = getRandomInt(1, $scope.numItems);
         }
 
@@ -38,6 +49,9 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $http.get("/api/items/" + category + "/" + num2).success(function(data) {
             $scope.Item2 = data[0];
         });
+
+        $cookies.put('num1', num1)
+        $cookies.put('num2', num2);
     };
 
     function preload() {
