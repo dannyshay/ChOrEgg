@@ -11,7 +11,6 @@ var mongoose        = require('mongoose');
 
 // config files
 var db = require('./config/db');
-var utils = require('./public/js/utilities')
 
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/bower_components', express.static(__dirname + '/../bower_components'));
