@@ -70,7 +70,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
            alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
        }
 
-       location.reload();
+       getTwoItems();
    };
 });
 
