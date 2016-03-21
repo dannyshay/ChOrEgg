@@ -27,16 +27,28 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     };
 
    $scope.imgClick = function($index) {
+       var clickedItem;
+       var otherItem;
       switch ($index) {
          case 1:
-             alert('image 1 clicked!');
+             clickedItem = $scope.Item1;
+             otherItem = $scope.Item2;
               break;
          case 2:
-            alert('image 2 clicked!');
+
+             clickedItem = $scope.Item2;
+             otherItem = $scope.Item1;
               break;
          default:
               break;
       }
+       if (clickedItem.date < otherItem.date) {
+           alert('Correct!   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born before ' + otherItem.name + ' (' + otherItem.date + ')');
+       } else {
+           alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
+       }
+
+       location.reload();
    };
 });
 
