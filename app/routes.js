@@ -11,6 +11,15 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/api/items/getImages', function(req, res) {
+        Item.find().distinct('image', function(err, items) {
+            if (err)
+                res.send(err);
+
+            res.json(items); //return all items in JSON format
+        });
+    });
+
     app.get('/api/items/getCategories', function(req, res) {
         Item.find().distinct('category', function(err, items) {
             if (err)
