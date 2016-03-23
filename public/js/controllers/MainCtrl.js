@@ -1,29 +1,42 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies) {
     var category = "People";
+    var numItems = parseInt($cookies.get('numItems'));
 
-    if (!$cookies.get('numItems')) {
+    if (isNaN(numItems) || numItems == 0) {
        $http.get("/api/items/" + category + "/getCount").success(function(data){
            $scope.numItems = parseInt(data);
            $cookies.put('numItems', $scope.numItems);
+
+           loadItems();
        });
     } else {
-        $scope.numItems = parseInt($cookies.get('numItems'));
-    };
+        $scope.numItems = numItems;
 
-    if (!$cookies.get('imagesLoaded')) {
-        $.ajax('/api/items/getImages').done(function(data) {
-            $.each(data, function(k, v) {
-                preload(v);
-            });
-        }).fail(function() {
-            $cookies.remove('imagesLoaded');
-        });
-        $cookies.put('imagesLoaded', true);
+        loadItems();
     }
 
-    getTwoItems();
 
-    function getTwoItems() {
+    function loadItems() {
+
+        loadImages();
+
+        getTwoRandomItems();
+    }
+
+    function loadImages() {
+        if (!$cookies.get('imagesLoaded')) {
+            $.ajax('/api/items/getImages').done(function(data) {
+                $.each(data, function(k, v) {
+                    preload(v);
+                });
+            }).fail(function() {
+                $cookies.remove('imagesLoaded');
+            });
+            $cookies.put('imagesLoaded', true);
+        }
+    }
+
+    function getTwoRandomItems() {
         var num1 = getRandomInt(1, $scope.numItems);
         var num2 = 0;
         var oldNum1 = 0;
@@ -84,7 +97,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
            alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
        }
 
-       getTwoItems();
+       getTwoRandomItems();
    };
 });
 
