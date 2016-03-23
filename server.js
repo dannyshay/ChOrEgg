@@ -20,6 +20,9 @@ app.use('/partials', express.static(__dirname + '/partials'));
 // set our port
 var port = process.env.PORT || 8080;
 
+var mode = process.env['mode'] || 'DEV';
+console.log('Current environment: ' + mode);
+
 // connect to our mongoDB database
 // (uncomment after we setup mongoDB)
 mongoose.connect(db.url);
@@ -48,7 +51,7 @@ require('./app/routes')(app);
 app.listen(port);
 
 // shoutout to the user
-console.log('Magic happens on port ' + port);
+console.log('App started on port ' + port);
 
 // expose app
 exports = module.exports = app;
