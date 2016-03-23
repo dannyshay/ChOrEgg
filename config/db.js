@@ -1,6 +1,6 @@
 // config/db.js
 var url = "";
-var mode = process.env.mode || "DEV";
+var mode = process.env['mode'] || 'DEV';
 
 switch (mode) {
     case "PROD":
