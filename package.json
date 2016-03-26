@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "main": "server.js",
   "dependencies": {
-    "express": "latest",
-    "mongoose": "latest",
     "body-parser": "latest",
-    "method-override": "latest",
     "bower": "latest",
+    "express": "latest",
     "gm": "latest",
+    "gridfs-stream": "^1.1.1",
+    "method-override": "latest",
+    "mongoose": "latest",
     "request": "latest"
   },
   "scripts": {
