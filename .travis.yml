@@ -2,3 +2,5 @@ language: node_js
 notifications:
   email: false
   slack: mangzltd:Ux1SgFzmHe36BRCayGyjogqw
+services:
+- mongodb
