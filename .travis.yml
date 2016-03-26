@@ -1,6 +1,6 @@
 language: node_js
+node_js:
+  - "5"
 notifications:
   email: false
   slack: mangzltd:Ux1SgFzmHe36BRCayGyjogqw
-services:
-- mongodb
