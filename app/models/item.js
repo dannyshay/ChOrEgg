@@ -6,7 +6,8 @@ var itemSchema = new Schema({
    name: String,
    date: Number,
    image: String,
-   category: String
+   category: String,
+   index: Number
 });
 
 var Item = mongoose.model('item', itemSchema);
