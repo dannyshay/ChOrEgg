@@ -5,6 +5,8 @@ var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
+var session       = require('express-session');
+var MongoStore    = require('connect-mongo')(session);
 var mongoose        = require('mongoose');
 var fs = require('fs')
     , gm = require('gm');
@@ -28,6 +30,15 @@ console.log('Current environment: ' + mode);
 // connect to our mongoDB database
 // (uncomment after we setup mongoDB)
 mongoose.connect(db.url);
+
+app.use(session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    secret: 'thisismysecretpasswordandyoullneverguessit',
+    name: 'session',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true}));
+
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
