@@ -30,12 +30,10 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 
     function loadImages() {
         if (!$cookies.get('imagesLoaded')) {
-            $.ajax('/api/items/getImages').done(function(data) {
-                $.each(data, function(k, v) {
-                    preload(v);
+            $http.get('/api/items/getImages').success(function(data) {
+                data.forEach(function(k, v) {
+                    preload(v)
                 });
-            }).fail(function() {
-                $cookies.remove('imagesLoaded');
             });
             $cookies.put('imagesLoaded', true);
         }
