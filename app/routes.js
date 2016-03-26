@@ -19,12 +19,7 @@ module.exports = function(app) {
 
                     var myMinImgPath = myImgPath.slice(0,myImgPath.length - 4) + '-min.png';
 
-                    gm(myImgPath)
-                        .resize(240,240,'!')
-                        .write(myMinImgPath, function (err) {
-                            if (!err) console.log('done');
-                            if (err) console.log(err);
-                        });
+                    cropImageToBounds(myImgPath, myMinImgPath, 350, 350);
                 });
             });
 
@@ -89,14 +84,7 @@ module.exports = function(app) {
 
                 var myMinImgPath = myImgPath.slice(0,myImgPath.length - 4) + '-min.png';
 
-                gm(myImgPath)
-                    .resize(240,240,'!')
-                    .write(myMinImgPath, function (err) {
-                        if (!err) console.log('done');
-                        if (err) console.log(err);
-
-                        res.json({successful:true});
-                    });
+                cropImageToBounds(myImgPath, myMinImgPath, 250, 350);
             });
         }).where({category:req.params.category, index:parseInt(req.params.itemID)});
     });
@@ -119,3 +107,33 @@ var download = function(uri, filename, callback){
         request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
     });
 };
+
+function cropImageToBounds(myImgPath, myMinImgPath, width, height) {
+    gm(myImgPath)
+        .size(function(err, size) {
+            var posX = 0;
+            var posY = 0;
+            var cropwidth = width;
+            var cropheight = height;
+
+            //Landscape image
+            if (size.width > size.height) {
+                posX = (size.width - size.height) / 2;
+                posY = 0;
+                cropwidth = size.height;
+                cropheight = size.height;
+            } else { // Portrait Image
+                posX = 0;
+                posY = (size.height - size.width) / 2;
+                cropwidth = size.width;
+                cropheight = size.width;
+            }
+
+            gm(myImgPath)
+                .crop(posX, posY, cropwidth, cropheight)
+                .write(myMinImgPath, function (err) {
+                    if (!err) console.log('done');
+                    if (err) console.log(err);
+                });
+        });
+}
