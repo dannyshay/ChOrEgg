@@ -5,6 +5,8 @@ var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
+const session       = require('express-session');
+const MongoStore    = require('connect-mongo')(session);
 var mongoose        = require('mongoose');
 var fs = require('fs')
     , gm = require('gm');
@@ -18,6 +20,14 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use('/bower_components', express.static(__dirname + '/../bower_components'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
+
+app.use(session({secret:'thisismysecretpasswordandyoullneverguessit',
+                 name: 'session',
+                 store: new MongoStore({url:db.url}),
+                 proxy: true,
+                 resave: true,
+                 saveUninitialized: true}));
+
 
 // set our port
 var port = process.env.PORT || 8080;
