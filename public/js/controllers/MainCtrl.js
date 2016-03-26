@@ -1,6 +1,11 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies, $analytics) {
     var category = "People";
     var numItems = parseInt($cookies.get('numItems'));
+    var score = $scope.Score;
+
+    if (isNaN(score) || score == 0) {
+        $scope.Score = 0;
+    }
 
     if (isNaN(numItems) || numItems == 0) {
        $http.get("/api/items/" + category + "/count").success(function(data){
@@ -95,9 +100,11 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
       }
        if (clickedItem.date < otherItem.date) {
            $analytics.eventTrack('User choice - Correct');
+           $scope.Score = parseInt($scope.Score) + 1;
            alert('Correct!   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born before ' + otherItem.name + ' (' + otherItem.date + ')');
        } else {
            $analytics.eventTrack('User choice - Wrong');
+           $scope.Score = 0;
            alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
        }
 
