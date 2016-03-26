@@ -94,7 +94,6 @@ module.exports = function(app) {
     var path = require('path');
 
     app.get('*', function(req, res) {
-        res.body.error = false;
        res.sendFile(path.join(__dirname, '../public/index.html')); //load our public/index.html file
     });
 };
