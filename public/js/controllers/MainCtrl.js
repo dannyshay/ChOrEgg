@@ -3,7 +3,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     var numItems = parseInt($cookies.get('numItems'));
 
     if (isNaN(numItems) || numItems == 0) {
-       $http.get("/api/items/" + category + "/getCount").success(function(data){
+       $http.get("/api/items/" + category + "/count").success(function(data){
            $scope.numItems = parseInt(data);
            $cookies.put('numItems', $scope.numItems);
 
@@ -94,8 +94,10 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
               break;
       }
        if (clickedItem.date < otherItem.date) {
+           $analytics.eventTrack('User choice - Correct');
            alert('Correct!   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born before ' + otherItem.name + ' (' + otherItem.date + ')');
        } else {
+           $analytics.eventTrack('User choice - Wrong');
            alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
        }
 
