@@ -1,4 +1,4 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies, $analytics) {
     var category = "People";
     var numItems = parseInt($cookies.get('numItems'));
 
@@ -76,6 +76,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     }
 
    $scope.imgClick = function($index) {
+       $analytics.eventTrack('Image ' + $index +  ' Clicked')
+
        var clickedItem;
        var otherItem;
       switch ($index) {
