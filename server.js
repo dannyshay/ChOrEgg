@@ -6,6 +6,8 @@ var app             = express();
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var mongoose        = require('mongoose');
+var fs = require('fs')
+    , gm = require('gm');
 
 // configuration =================================================
 
@@ -48,7 +50,9 @@ require('./app/routes')(app);
 
 // start app =====================================================
 // startup our app at http://localhost:8080
-app.listen(port);
+if(!module.parent) {
+    app.listen(port);
+}
 
 // shoutout to the user
 console.log('App started on port ' + port);
