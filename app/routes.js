@@ -7,6 +7,31 @@ var fs = require('fs')
 var request = require('request');
 
 module.exports = function(app) {
+    app.get('/api/downloadAndFormatImages', function(req, res) {
+        Item.find(function(err, items) {
+            if (err) {res.send(err);}
+
+            items.forEach(function(myImage) {
+                var myImgPath = './public/img/ConvertedImages/' +  myImage.category + '/' + myImage.index + '.png'
+
+                download(myImage.image, myImgPath,function() {
+                    console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);
+
+                    var myMinImgPath = myImgPath.slice(0,myImgPath.length - 4) + '-min.png';
+
+                    gm(myImgPath)
+                        .resize(240,240,'!')
+                        .write(myMinImgPath, function (err) {
+                            if (!err) console.log('done');
+                            if (err) console.log(err);
+                        });
+                });
+            });
+
+            res.json({successful:true});
+        });
+    });
+
     app.get('/api/items', function(req, res) {
         Item.find(function(err, items) {
             if (err)
@@ -69,12 +94,9 @@ module.exports = function(app) {
                     .write(myMinImgPath, function (err) {
                         if (!err) console.log('done');
                         if (err) console.log(err);
+
+                        res.json({successful:true});
                     });
-
-                var path = require('path');
-
-                //res.redirect('../' + myMinImgPath);
-                res.redirect('localhost:8080/public/img/ConvertedImages/People/1-min.png');
             });
         }).where({category:req.params.category, index:parseInt(req.params.itemID)});
     });
@@ -91,8 +113,8 @@ module.exports = function(app) {
 
 var download = function(uri, filename, callback){
     request.head(uri, function(err, res, body){
-        console.log('content-type:', res.headers['content-type']);
-        console.log('content-length:', res.headers['content-length']);
+        //console.log('content-type:', res.headers['content-type']);
+        //console.log('content-length:', res.headers['content-length']);
 
         request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
     });
