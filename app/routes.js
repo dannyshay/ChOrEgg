@@ -18,7 +18,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/api/items/getCategories', function(req, res) {
+    app.get('/api/items/categories', function(req, res) {
         Item.find().distinct('category', function(err, items) {
             if (err)
                 res.send(err);
@@ -26,6 +26,12 @@ module.exports = function(app) {
             res.json(items); //return all items in JSON format
         });
     });
+
+    app.get('/api/items/:category/count', function(req, res){
+        Item.count({category:req.params.category}, function(err, c){
+            res.json(c);
+        })
+    })
 
     app.get('/api/items/:category', function(req, res) {
         Item.find(function(err, items){
@@ -35,12 +41,6 @@ module.exports = function(app) {
             res.json(items);
         }).where({category:req.params.category});
     });
-
-    app.get('/api/items/:category/getCount', function(req, res){
-        Item.count({category:req.params.category}, function(err, c){
-            res.json(c);
-        })
-    })
 
     app.get('/api/items/:category/:itemID', function(req, res) {
        Item.find(function(err, items) {
