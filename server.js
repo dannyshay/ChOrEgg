@@ -20,7 +20,7 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
 
 // set our port
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 
 var mode = process.env['mode'] || 'DEV';
 console.log('Current environment: ' + mode);
@@ -50,7 +50,9 @@ require('./app/routes')(app);
 
 // start app =====================================================
 // startup our app at http://localhost:8080
-app.listen(port);
+if(!module.parent) {
+    app.listen(port);
+}
 
 // shoutout to the user
 console.log('App started on port ' + port);
