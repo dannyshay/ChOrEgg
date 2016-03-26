@@ -4,12 +4,20 @@
   "main": "server.js",
   "dependencies": {
     "express": "latest",
-    "mongoose" : "latest",
-    "body-parser" : "latest",
-    "method-override" : "latest",
-    "bower" :"latest"
+    "mongoose": "latest",
+    "body-parser": "latest",
+    "method-override": "latest",
+    "bower": "latest",
+    "gm": "latest",
+    "request": "latest"
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install",
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.3.0",
+    "supertest": "^1.2.0"
   }
 }
