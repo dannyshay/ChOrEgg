@@ -9,7 +9,6 @@
     "angular-route": "latest",
     "angular-resource": "latest",
     "angular-cookies": "latest",
-    "angulartics-google-analytics": "^0.1.4",
-    "jQuery":"latest"
+    "angulartics-google-analytics": "^0.1.4"
   }
 }
