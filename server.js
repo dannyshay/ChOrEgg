@@ -21,14 +21,6 @@ app.use('/bower_components', express.static(__dirname + '/../bower_components'))
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
 
-app.use(session({secret:'thisismysecretpasswordandyoullneverguessit',
-                 name: 'session',
-                 store: new MongoStore({url:db.url}),
-                 proxy: true,
-                 resave: true,
-                 saveUninitialized: true}));
-
-
 // set our port
 var port = process.env.PORT || 8080;
 
@@ -38,6 +30,15 @@ console.log('Current environment: ' + mode);
 // connect to our mongoDB database
 // (uncomment after we setup mongoDB)
 mongoose.connect(db.url);
+
+app.use(session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    secret: 'thisismysecretpasswordandyoullneverguessit',
+    name: 'session',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true}));
+
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
