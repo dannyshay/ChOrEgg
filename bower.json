@@ -9,6 +9,8 @@
     "angular-route": "latest",
     "angular-resource": "latest",
     "angular-cookies": "latest",
-    "angulartics-google-analytics": "^0.1.4"
+    "angulartics-google-analytics": "^0.1.4",
+    "jQuery":"latest",
+    "flip": "^1.0.20"
   }
 }
