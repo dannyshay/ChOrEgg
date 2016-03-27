@@ -1,22 +1,42 @@
 <!-- public/views/item.html-->
 <div class="text-center">
-    <h1>ChOrEgg</h1>
+    <h1 class="text-primary">ChOrEgg</h1>
 
     <div class="row">
         <div class="col-md-6">
-            <strong>{{ Item1.name }}</strong>
+            <h2 class="text-muted">{{ Item1.name }}</h2>
             <div class="item">
-                <img id="Image1" class="image img-responsive img-thumbnail" ng-src="{{ Item1.image }}" ng-click="imgClick(1)" />
+                <div class="flip">
+                    <div class="card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped=!isFlipped">
+                        <div class="face front">
+                            <img id="Image1" class="image img-responsive img-thumbnail" ng-src="{{ Item1.image }}" />
+                        </div>
+                        <div class="face back">
+                            <div ng-class="{'correct':Item1Correct, 'incorrect':!Item1Correct}">
+                                <span>{{Item1Message}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="col-md-6"></div>
         <div class="col-md-6">
-            <strong>{{ Item2.name }}</strong>
+            <h2 class="text-muted">{{ Item2.name }}</h2>
             <div class="item">
-                <img id="Image2" class="image img-responsive img-thumbnail" ng-src="{{ Item2.image }}" ng-click="imgClick(2)" />
+                <div class="flip">
+                    <div class="card" ng-class="{'flipped':isFlipped2}" ng-click="isFlipped2=!isFlipped2">
+                        <div class="face front">
+                            <img id="Image2" class="image img-responsive img-thumbnail" ng-src="{{ Item2.image }}"  />
+                        </div>
+                        <div class="face back">
+                            <div ng-class="{'correct':Item2Correct, 'incorrect':!Item2Correct}">
+                                <span>{{Item2Message}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="margin-top:20px">
-        <strong>Score: {{ Score }}</strong>
     </div>
 </div>

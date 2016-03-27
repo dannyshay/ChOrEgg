@@ -20,7 +20,6 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         loadItems();
     }
 
-
     function loadItems() {
 
         loadImages();
@@ -64,6 +63,9 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 
         $http.get("/api/items/" + category + "/" + num2).success(function(data) {
             $scope.Item2 = data[0];
+
+            $scope.Item1Correct = ($scope.Item1.date < $scope.Item2.date);
+            $scope.Item2Correct = ($scope.Item1.date >= $scope.Item2.date);
         });
 
         $cookies.put('num1', num1)
