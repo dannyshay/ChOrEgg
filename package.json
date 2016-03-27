@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "server.js",
   "dependencies": {
+    "angulartics": "^1.0.3",
     "body-parser": "latest",
     "bower": "latest",
     "connect-mongo": "latest",
