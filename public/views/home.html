@@ -7,36 +7,68 @@
             <h2 class="text-muted">{{ Item1.name }}</h2>
             <div class="item">
                 <div class="flip">
-                    <div class="card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped=!isFlipped">
+                    <div class="card" ng-class="{'flipped':isFlipped}" ng-click="imgClick(1)">
                         <div class="face front">
                             <img id="Image1" class="image img-responsive img-thumbnail" ng-src="{{ Item1.image }}" />
                         </div>
                         <div class="face back">
                             <div ng-class="{'correct':Item1Correct, 'incorrect':!Item1Correct}">
-                                <span>{{Item1Message}}</span>
+                                <div class="text-center" ng-hide="!Item1Correct">
+                                    <div class="row">
+                                        <h1 class="text-warning">Correct!</h1>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{Item1.name}} ({{Item1.date}}) + was born before {{Item2.name}} ({{Item2.date}})</span>
+                                    </div>
+                                </div>
+                                <div class="text-center" ng-hide="Item1Correct">
+                                    <div class="row">
+                                        <h1 class="text-danger">Incorrect...</h1>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{Item1.name}} ({{Item1.date}}) + was born after {{Item2.name}} ({{Item2.date}})</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6"></div>
         <div class="col-md-6">
             <h2 class="text-muted">{{ Item2.name }}</h2>
             <div class="item">
                 <div class="flip">
-                    <div class="card" ng-class="{'flipped':isFlipped2}" ng-click="isFlipped2=!isFlipped2">
+                    <div class="card" ng-class="{'flipped':isFlipped2}" ng-click="imgClick(2)">
                         <div class="face front">
                             <img id="Image2" class="image img-responsive img-thumbnail" ng-src="{{ Item2.image }}"  />
                         </div>
                         <div class="face back">
                             <div ng-class="{'correct':Item2Correct, 'incorrect':!Item2Correct}">
-                                <span>{{Item2Message}}</span>
+                                <div class="text-center" ng-hide="!Item2Correct">
+                                    <div class="row">
+                                        <h1 class="text-warning">Correct!</h1>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{Item2.name}} ({{Item2.date}}) + was born before {{Item1.name}} ({{Item1.date}})</span>
+                                    </div>
+                                </div>
+                                <div class="text-center" ng-hide="Item2Correct">
+                                    <div class="row">
+                                        <h1 class="text-danger">Incorrect...</h1>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{Item2.name}} ({{Item2.date}}) + was born after {{Item1.name}} ({{Item1.date}})</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <h1>Score = {{Score}}</h1>
         </div>
     </div>
 </div>
