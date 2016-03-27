@@ -1,2 +1,8 @@
-// public/js/app.js
-angular.module('ChOrEgg', ['ngRoute', 'appRoutes','ngCookies','MainCtrl','ItemService']);
+var deps = ['ngRoute', 'appRoutes','ngCookies','MainCtrl','ItemService','angulartics'];
+
+try {
+    angular.module("angulartics.google.analytics"); // this throws if GA script is not loaded
+    deps.push('angulartics.google.analytics');
+} catch(e){ console.error("GA not available", e); }
+
+angular.module('ChOrEgg', deps);
