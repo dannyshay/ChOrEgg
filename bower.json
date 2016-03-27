@@ -8,8 +8,6 @@
     "angular": "latest",
     "angular-route": "latest",
     "angular-resource": "latest",
-    "angular-cookies": "latest",
-    "angulartics-google-analytics": "^0.1.4",
-    "angulartics": "^1.0.3"
+    "angular-cookies": "latest"
   }
 }
