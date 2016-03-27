@@ -20,7 +20,6 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         loadItems();
     }
 
-
     function loadItems() {
 
         loadImages();
@@ -83,30 +82,43 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 
        var clickedItem;
        var otherItem;
+       var needsNewItems = false;
+
+       $scope.Item1Correct = ($scope.Item1.date < $scope.Item2.date);
+       $scope.Item2Correct = ($scope.Item1.date >= $scope.Item2.date);
+
       switch ($index) {
          case 1:
              clickedItem = $scope.Item1;
              otherItem = $scope.Item2;
+
+             $scope.isFlipped=!$scope.isFlipped;
+
+             if (!$scope.isFlipped) {needsNewItems = true};
               break;
          case 2:
 
              clickedItem = $scope.Item2;
              otherItem = $scope.Item1;
+
+             $scope.isFlipped2=!$scope.isFlipped2;
+
+             if (!$scope.isFlipped2) {needsNewItems = true};
               break;
          default:
               break;
       }
-       if (clickedItem.date < otherItem.date) {
-           $analytics.eventTrack('User choice - Correct');
-           $scope.Score = parseInt($scope.Score) + 1;
-           alert('Correct!   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born before ' + otherItem.name + ' (' + otherItem.date + ')');
+       if (!needsNewItems) {
+           if (clickedItem.date < otherItem.date) {
+               $analytics.eventTrack('User choice - Correct');
+               $scope.Score = parseInt($scope.Score) + 1;
+           } else {
+               $analytics.eventTrack('User choice - Wrong');
+               $scope.Score = 0;
+           }
        } else {
-           $analytics.eventTrack('User choice - Wrong');
-           $scope.Score = 0;
-           alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
-       }
-
-       getTwoRandomItems();
+           getTwoRandomItems();
+       };
    };
 });
 
