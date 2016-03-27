@@ -1,4 +1,4 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $cookies, $analytics) {
     var category = "People";
     var numItems = parseInt($cookies.get('numItems'));
     var score = $scope.Score;
@@ -79,7 +79,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     }
 
    $scope.imgClick = function($index) {
-     //  $analytics.eventTrack('Image ' + $index +  ' Clicked')
+       $analytics.eventTrack('Image ' + $index +  ' Clicked')
 
        var clickedItem;
        var otherItem;
@@ -97,11 +97,11 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
               break;
       }
        if (clickedItem.date < otherItem.date) {
-       //    $analytics.eventTrack('User choice - Correct');
+           $analytics.eventTrack('User choice - Correct');
            $scope.Score = parseInt($scope.Score) + 1;
            alert('Correct!   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born before ' + otherItem.name + ' (' + otherItem.date + ')');
        } else {
-       //    $analytics.eventTrack('User choice - Wrong');
+           $analytics.eventTrack('User choice - Wrong');
            $scope.Score = 0;
            alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
        }
