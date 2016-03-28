@@ -31,4 +31,14 @@ describe("API", function() {
             })
             .end(done);
     });
+
+    it("GET /api/items/getImages - should return some image URLs.", function(done) {
+        request
+            .get('/api/items/getImages')
+            .expect(200)
+            .expect(function(res) {
+                if(!res.body.length > 0) throw new Error("GET /api/items/getImages - No urls returned.")
+            })
+            .end(done);
+    })
 });
