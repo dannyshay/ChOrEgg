@@ -3,6 +3,13 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     var numItems = parseInt($cookies.get('numItems'));
     var score = $scope.Score;
 
+    $scope.afterFlop = function() {
+        if($scope.Items[0].flipped == $scope.Items[1].flipped){
+            getTwoRandomItems();
+        }
+
+    };
+
     if (isNaN(score) || score == 0) {
         $scope.Score = 0;
     }
@@ -19,7 +26,6 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 
         loadItems();
     }
-
 
     function loadItems() {
 
@@ -44,6 +50,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         var num2 = 0;
         var oldNum1 = 0;
         var oldNum2 = 0;
+        $scope.Items = [];
 
         if ($cookies.get('num1')) {
             oldNum1 = parseInt($cookies.get('num1'));
@@ -59,11 +66,13 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         }
 
         $http.get("/api/items/" + category + "/" + num1).success(function(data) {
-            $scope.Item1 = data[0];
+            $scope.Items[0] = data[0];
+            $scope.Items[0].flipped = false;
         });
 
         $http.get("/api/items/" + category + "/" + num2).success(function(data) {
-            $scope.Item2 = data[0];
+            $scope.Items[1] = data[0];
+            $scope.Items[1].flipped = false;
         });
 
         $cookies.put('num1', num1)
@@ -83,32 +92,47 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 
        var clickedItem;
        var otherItem;
-      switch ($index) {
-         case 1:
-             clickedItem = $scope.Item1;
-             otherItem = $scope.Item2;
-              break;
-         case 2:
+       var needsNewItems = false;
 
-             clickedItem = $scope.Item2;
-             otherItem = $scope.Item1;
-              break;
-         default:
-              break;
-      }
-       if (clickedItem.date < otherItem.date) {
-           $analytics.eventTrack('User choice - Correct');
-           $scope.Score = parseInt($scope.Score) + 1;
-           alert('Correct!   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born before ' + otherItem.name + ' (' + otherItem.date + ')');
-       } else {
-           $analytics.eventTrack('User choice - Wrong');
-           $scope.Score = 0;
-           alert('Wrong.   ' + clickedItem.name + ' (' +  clickedItem.date + ') was born after ' + otherItem.name + ' (' + otherItem.date + ')');
-       }
+       $scope.Items[0].correct = ($scope.Items[0].date < $scope.Items[1].date);
+       $scope.Items[1].correct = ($scope.Items[0].date >= $scope.Items[1].date);
 
-       getTwoRandomItems();
+       clickedItem = $scope.Items[$index];
+       otherItem = $scope.Items[($index == 0 ? 1 : 0)];
+
+       clickedItem.flipped=!clickedItem.flipped;
+
+       if (!clickedItem.flipped) {needsNewItems = true};
+
+       if (!needsNewItems) {
+           if (clickedItem.date < otherItem.date) {
+               $analytics.eventTrack('User choice - Correct');
+               $scope.Score = parseInt($scope.Score) + 1;
+           } else {
+               $analytics.eventTrack('User choice - Wrong');
+               $scope.Score = 0;
+           }
+       };
    };
-});
+}).directive('myFlip', function($animate) {
+    return {
+        scope: {
+            'myFlip': '=',
+            'afterFlip': '&',
+            'afterFlop': '&'
+        },
+        link: function(scope, element) {
+            scope.$watch("myFlip", function(flip, OldFlipped) {
+                if (flip) {
+                    $animate.addClass(element, "flipped");
+                }
+                if (!flip && OldFlipped) {
+                    $animate.removeClass(element, "flipped").then(scope.afterFlop);
+                }
+            });
+        }
+    }
+})
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
