@@ -1,11 +1,14 @@
 var category = "People";
 
-
-
 angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics) {
     var numItems = parseInt($cookies.get('numItems'));
 
-    if ($scope.Score == undefined) { $scope.Score = 0; }
+    if ($scope.score == undefined) {
+        $http.get('/api/user/getScore').success(function(data) {
+           $scope.score = parseInt(data);
+            console.log(data);
+        });
+    }
 
     if (isNaN(numItems) || numItems == 0) {
         //We are starting cold here - get the number of API items
@@ -92,10 +95,10 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         if (!needsNewItems) {
             if (clickedItem.date < otherItem.date) {
                 $analytics.eventTrack('User choice - Correct');
-                $scope.Score = parseInt($scope.Score) + 1;
+                $scope.score = parseInt($scope.score) + 1;
             } else {
                 $analytics.eventTrack('User choice - Wrong');
-                $scope.Score = 0;
+                $scope.score = 0;
             }
         }
     };
