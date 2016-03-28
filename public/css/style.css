@@ -10,8 +10,37 @@
     box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.bg-primary {
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
 body {
     background-color: lightblue;
+}
+
+.vertical-center {
+    height:100%;
+    width:100%;
+
+    text-align: center;  /* align the inline(-block) elements horizontally */
+    font: 0/0 a;         /* remove the gap between inline(-block) elements */
+}
+
+.vertical-center:before {    /* create a full-height inline block pseudo=element */
+    content: " ";
+    display: inline-block;
+    vertical-align: middle;    /* vertical alignment of the inline element */
+    height: 100%;
+}
+
+.vertical-center > .container {
+    max-width: 100%;
+
+    display: inline-block;
+    vertical-align: middle;  /* vertical alignment of the inline element */
+    /* reset the font property */
+    font: 16px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .flip {
@@ -50,10 +79,12 @@ body {
     background-color: green;
     height:100%;
     width:100%;
+    color:white;
 }
 
 .flip .card .back .incorrect {
     height:100%;
     width:100%;
     background-color: red;
+    color: black;
 }

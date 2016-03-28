@@ -9,6 +9,10 @@
     "angular-route": "latest",
     "angular-resource": "latest",
     "angular-cookies": "latest",
-    "angulartics-google-analytics": "^0.1.4"
+    "angulartics-google-analytics": "^0.1.4",
+    "angular-animate": "^1.5.3"
+  },
+  "resolutions": {
+    "angular": "1.5.2"
   }
 }
