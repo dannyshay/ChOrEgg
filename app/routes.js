@@ -27,6 +27,10 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/api/user/getScore', function(req, res) {
+       res.json((req.session.score == undefined ? 0 : parseInt(req.session.score)));
+    });
+
     app.get('/api/items', function(req, res) {
         Item.find(function(err, items) {
             if (err)
