@@ -3,4 +3,4 @@ var url = process.env['mongoURI'] || "mongodb://localhost/choregg";
 
 module.exports = {
     url : url
-}
+};

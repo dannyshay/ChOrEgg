@@ -12,7 +12,7 @@ module.exports = function(app) {
             if (err) {res.send(err);}
 
             items.forEach(function(myImage) {
-                var myImgPath = './public/img/ConvertedImages/' +  myImage.category + '/' + myImage.index + '.png'
+                var myImgPath = './public/img/ConvertedImages/' +  myImage.category + '/' + myImage.index + '.png';
 
                 download(myImage.image, myImgPath,function() {
                     console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);
@@ -38,6 +38,15 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/api/items/getImages', function(req, res) {
+        Item.find().distinct('image', function(err, items) {
+            if (err)
+                res.send(err);
+
+            res.json(items); //return all items in JSON format
+        });
+    });
+
     app.get('/api/items/categories', function(req, res) {
         Item.find().distinct('category', function(err, items) {
             if (err)
@@ -51,7 +60,7 @@ module.exports = function(app) {
         Item.count({category:req.params.category}, function(err, c){
             res.json(c);
         })
-    })
+    });
 
     app.get('/api/items/:category', function(req, res) {
         Item.find(function(err, items){
@@ -77,7 +86,7 @@ module.exports = function(app) {
 
             var myImage = items[0];
 
-            var myImgPath = './public/img/ConvertedImages/' +  myImage.category + '/' + myImage.index + '.png'
+            var myImgPath = './public/img/ConvertedImages/' +  myImage.category + '/' + myImage.index + '.png';
 
             download(myImage.image, myImgPath,function() {
                 console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);
