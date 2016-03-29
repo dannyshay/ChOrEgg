@@ -1,9 +1,3 @@
-.item {
-    width: 100%;
-    height: 500px;
-    background-size: cover;
-}
-
 .image {
     width: 100%;
     height: 100%;
@@ -105,4 +99,91 @@ body {
     -webkit-border-radius:25px;
     -moz-border-radius:25px;
     border-radius:25px;
+}
+
+.correctHeader {
+    font-size:36px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.correctMessage {
+    font-size: 20px;
+    padding:10px;
+}
+
+.paddedRow {
+    padding-bottom:15px;
+}
+
+/*Mobile*/
+@media all and (max-width: 799px){
+    .item {
+        width: auto;
+        height: 280px;
+        background-size: cover;
+    }
+
+    @media all and (max-width: 400px) {
+        .item {
+            height: 240px;
+        }
+
+        .correctHeader {
+            font-size: 32px;
+        }
+
+        .correctMessage {
+            font-size: 20px;
+        }
+
+        @media all and (max-height: 600px) {
+            .item {
+                height:200px;
+            }
+
+            .correctHeader {
+                font-size: 28px;
+            }
+
+            .correctMessage {
+                font-size:16px;
+            }
+
+            @media all and (max-height: 500px) {
+                .item {
+                    height:160px;
+                }
+            }
+        }
+    }
+
+    .col-md-6 {
+        padding-bottom:10px;
+    }
+
+    .flip {
+        padding: 0px;
+    }
+
+    .navbar {
+        margin-bottom: 0px;
+    }
+
+    .itemName {
+        font-size: 1.5em;
+    }
+}
+
+/*Desktop*/
+@media all and (min-width: 800px){
+    .item {
+        width: 100%;
+        height: 500px;
+        background-size: cover;
+    }
+
+    .itemName {
+        font-size:3em;
+    }
 }

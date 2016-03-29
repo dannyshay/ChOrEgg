@@ -6,7 +6,6 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
     if ($scope.score == undefined) {
         $http.get('/api/user/getScore').success(function(data) {
            $scope.score = parseInt(data);
-            console.log(data);
         });
     }
 
