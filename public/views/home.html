@@ -27,9 +27,9 @@
     <div class="container-fluid text-center">
         <div class="row">
             <!--Item 1-->
-            <div class="col-md-6" ng-repeat="item in Items track by $index">
+            <div class="col-sm-6 padded" ng-repeat="item in Items track by $index">
                 <!--Name-->
-                <span class="itemName">{{ item.name }}</span>
+                <span class="label-important">{{ item.name }}</span>
                 <!--Flipper - Item-->
                 <div class="item">
                     <div class="flip">
@@ -46,7 +46,7 @@
                                     <div class="vertical-center">
                                         <!--Needed for Vertical-Center CSS-->
                                         <div class="container">
-                                            <div class="row paddedRow">
+                                            <div class="row padded">
                                                 <span class="correctHeader">{{(item.correct ? "Correct!" : "Incorrect...")}}</span>
                                             </div>
                                             <div class="row" >
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="row">
-            <span>Score: {{score}}</span>
+            <span class="label">Score: {{score}}</span>
         </div>
     </div>
 </div>
