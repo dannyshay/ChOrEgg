@@ -1,33 +1,63 @@
-<div class="text-center">
+<div>
     <!--Title-->
-    <h1 class="bg-primary">ChOrEgg</h1>
-    <!--Items-->
-    <div class="row">
-        <!--Item 1-->
-        <div class="col-md-6" ng-repeat="item in Items track by $index">
-            <!--Name-->
-            <h2 class="modal-header">{{ item.name }}</h2>
-            <!--Flipper - Item-->
-            <div class="item">
-                <div class="flip">
-                    <!--Card-->
-                    <div class="card" my-flip="item.flipped" after-Flip="afterFlip()" after-Flop="afterFlop()" ng-click="imgClick($index)">
-                        <!--Front of the Card-->
-                        <div class="face front">
-                            <!--Actual Image-->
-                            <img class="image img-responsive img-thumbnail" ng-src="{{ item.image }}" />
-                        </div>
-                        <!--Back of the Card-->
-                        <div class="face back">
-                            <div ng-class="{'correct':item.correct, 'incorrect':!item.correct}">
-                                <div class="vertical-center">
-                                    <!--Needed for Vertical-Center CSS-->
-                                    <div class="container">
-                                        <div class="row">
-                                            <h1>{{(item.correct ? "Correct!" : "Incorrect...")}}</h1>
-                                        </div>
-                                        <div class="row">
-                                            <span>{{item.name}} ({{item.date}}) was born {{(item.correct ? "before" : "after")}} {{(Items[0] == item ? Items[1].name + " (" + Items[1].date + ")" : Items[0].name + " (" + Items[0].date + ")")}}</span>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">ChOrEgg</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">People</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" ng-click="ClearCookies()">Clear Cookies</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<!--Items-->
+    <div class="container-fluid text-center topPadding">
+        <div class="row">
+            <!--Item 1-->
+            <div class="col-sm-6 padded" ng-repeat="item in Items track by $index">
+                <!--Name-->
+                <span class="label-important">{{ item.name }}</span>
+                <!--Flipper - Item-->
+                <div class="item">
+                    <div class="flip">
+                        <!--Card-->
+                        <div class="card" my-flip="item.flipped" after-Flip="afterFlip()" after-Flop="afterFlop()" ng-click="imgClick($index)">
+                            <!--Front of the Card-->
+                            <div class="face front">
+                                <!--Actual Image-->
+                                <img class="image img-responsive img-thumbnail" ng-src="{{ item.image }}" />
+                            </div>
+                            <!--Back of the Card-->
+                            <div class="face back">
+                                <div ng-class="{'correct':item.correct, 'incorrect':!item.correct}">
+                                    <div class="vertical-center">
+                                        <!--Needed for Vertical-Center CSS-->
+                                        <div class="container">
+                                            <div class="row padded">
+                                                <span class="correctHeader">{{(item.correct ? "Correct!" : "Incorrect...")}}</span>
+                                            </div>
+                                            <div class="row" >
+                                                <span class="correctMessage">{{item.name}} ({{item.date}}) was born {{(item.correct ? "before" : "after")}} {{(Items[0] == item ? Items[1].name + " (" + Items[1].date + ")" : Items[0].name + " (" + Items[0].date + ")")}}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -37,8 +67,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <h1>Score: {{Score}}</h1>
+        <div class="row">
+            <span class="label">Score: {{score}}</span>
+        </div>
     </div>
 </div>
