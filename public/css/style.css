@@ -6,6 +6,13 @@
     border-radius:25px;
 }
 
+.navbar {
+    -webkit-border-radius:15px;
+    -moz-border-radius:15px;
+    border-radius: 15px;
+    margin: 10px;
+}
+
 .item {
     height:400px;
 }
@@ -17,7 +24,7 @@
 
 body {
     background-color: lightblue;
-    padding-top: 20px;
+    padding-top: 10px;
     padding-bottom: 20px;
 }
 
@@ -123,10 +130,15 @@ body {
     padding-bottom:15px;
 }
 
+.topPadding {
+    margin-top:60px;
+}
+
 /*Mobile*/
+/*iPhone6+*/
 @media screen and (max-width : 800px) {
     .item {
-        height: 200px;
+        height: 220px;
     }
 
     .label {
@@ -143,10 +155,11 @@ body {
         }
     }
 
+    /*iPhone5*/
     @media screen and (max-width : 320px) {
         @media screen and (max-height: 600px) {
             .item {
-                height: 140px;
+                height: 150px;
             }
 
             .correctHeader {
@@ -158,6 +171,7 @@ body {
             }
         }
 
+        /*iPhone4*/
         @media screen and (max-height: 500px){
             .item {
                 height: 100px;
