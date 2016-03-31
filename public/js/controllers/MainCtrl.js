@@ -107,6 +107,14 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         $cookies.put('num2', num2);
     }
 
+    $scope.ClearCookies = function() {
+        $cookies.put('num1', '');
+        $cookies.put('num2', '');
+        $cookies.put('imagesLoaded', '');
+        $cookies.put('numItems', '');
+        alert('Cookies cleared!');
+    }
+
     $scope.imgClick = function ($index) {
         $analytics.eventTrack('Image ' + $index + ' Clicked');
 
