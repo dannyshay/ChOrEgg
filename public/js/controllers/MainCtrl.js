@@ -1,11 +1,47 @@
+(function( win ){
+    var doc = win.document;
+
+    // If there's a hash, or addEventListener is undefined, stop here
+    if( !location.hash && win.addEventListener ){
+
+        //scroll to 1
+        window.scrollTo( 0, 1 );
+        var scrollTop = 1,
+            getScrollTop = function(){
+                return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+            },
+
+        //reset to 0 on bodyready, if needed
+            bodycheck = setInterval(function(){
+                if( doc.body ){
+                    clearInterval( bodycheck );
+                    scrollTop = getScrollTop();
+                    win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+                }
+            }, 15 );
+
+        win.addEventListener( "load", function(){
+            setTimeout(function(){
+                //at load, if user hasn't scrolled more than 20 or so...
+                if( getScrollTop() < 20 ){
+                    //reset to hide addr bar at onload
+                    win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+                }
+            }, 0);
+        } );
+    }
+})( this );
+
 var category = "People";
 
-
-
-angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics) {
+angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics, $window) {
     var numItems = parseInt($cookies.get('numItems'));
 
-    if ($scope.Score == undefined) { $scope.Score = 0; }
+    if ($scope.score == undefined) {
+        $http.get('/api/user/getScore').success(function(data) {
+           $scope.score = parseInt(data);
+        });
+    }
 
     if (isNaN(numItems) || numItems == 0) {
         //We are starting cold here - get the number of API items
@@ -71,6 +107,14 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         $cookies.put('num2', num2);
     }
 
+    $scope.ClearCookies = function() {
+        $cookies.put('num1', '');
+        $cookies.put('num2', '');
+        $cookies.put('imagesLoaded', '');
+        $cookies.put('numItems', '');
+        alert('Cookies cleared!');
+    }
+
     $scope.imgClick = function ($index) {
         $analytics.eventTrack('Image ' + $index + ' Clicked');
 
@@ -92,10 +136,10 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         if (!needsNewItems) {
             if (clickedItem.date < otherItem.date) {
                 $analytics.eventTrack('User choice - Correct');
-                $scope.Score = parseInt($scope.Score) + 1;
+                $scope.score = parseInt($scope.score) + 1;
             } else {
                 $analytics.eventTrack('User choice - Wrong');
-                $scope.Score = 0;
+                $scope.score = 0;
             }
         }
     };
