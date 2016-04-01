@@ -144,12 +144,21 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         }
     };
 
-    var clickBack = function (myIndex) {
-        $scope.imgClick(myIndex);
+    var resetItems = function () {
+        $scope.Items.forEach(function(element) {
+           element.flipped = false;
+        });
+        getTwoRandomItems();
+        $cookies.put('flipping', '');
     };
 
     $scope.afterFlip = function(myIndex) {
-        $timeout(function () {clickBack(myIndex)}, 2000);
+        var flipping = $cookies.get('flipping');
+
+        if (flipping != 'true') {
+            $cookies.put('flipping', 'true');
+            $timeout(function () {resetItems()}, 2000);
+        }
     };
 
     $scope.afterFlop = function () {
