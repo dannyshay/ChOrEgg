@@ -34,7 +34,7 @@
 
 var category = "People";
 
-angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics, $window) {
+angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics, $timeout) {
     var numItems = parseInt($cookies.get('numItems'));
 
     if ($scope.score == undefined) {
@@ -144,6 +144,14 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         }
     };
 
+    var clickBack = function (myIndex) {
+        $scope.imgClick(myIndex);
+    };
+
+    $scope.afterFlip = function(myIndex) {
+        $timeout(function () {clickBack(myIndex)}, 2000);
+    };
+
     $scope.afterFlop = function () {
         if ($scope.Items[0].flipped == $scope.Items[1].flipped) {
             getTwoRandomItems();
@@ -154,12 +162,13 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         scope: {
             'myFlip': '=',
             'afterFlip': '&',
-            'afterFlop': '&'
+            'afterFlop': '&',
+            index: '='
         },
         link: function (scope, element) {
             scope.$watch("myFlip", function (flip, OldFlipped) {
                 if (flip) {
-                    $animate.addClass(element, "flipped");
+                    $animate.addClass(element, "flipped").then(scope.afterFlip({$index:scope.index}));
                 }
                 if (!flip && OldFlipped) {
                     $animate.removeClass(element, "flipped").then(scope.afterFlop);
