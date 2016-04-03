@@ -1,70 +1,18 @@
-(function( win ){
-    var doc = win.document;
-
-    // If there's a hash, or addEventListener is undefined, stop here
-    if( !location.hash && win.addEventListener ){
-
-        //scroll to 1
-        window.scrollTo( 0, 1 );
-        var scrollTop = 1,
-            getScrollTop = function(){
-                return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
-            },
-
-        //reset to 0 on bodyready, if needed
-            bodycheck = setInterval(function(){
-                if( doc.body ){
-                    clearInterval( bodycheck );
-                    scrollTop = getScrollTop();
-                    win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-                }
-            }, 15 );
-
-        win.addEventListener( "load", function(){
-            setTimeout(function(){
-                //at load, if user hasn't scrolled more than 20 or so...
-                if( getScrollTop() < 20 ){
-                    //reset to hide addr bar at onload
-                    win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-                }
-            }, 0);
-        } );
-    }
-})( this );
-
 var category = "People";
 
-angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics, $window) {
-    var numItems = parseInt($cookies.get('numItems'));
-
+angular.module('MainCtrl', []).controller('MainController', function ($scope, $http, $cookies, $analytics, $timeout) {
     if ($scope.score == undefined) {
         $http.get('/api/user/getScore').success(function(data) {
            $scope.score = parseInt(data);
         });
     }
 
-    if (isNaN(numItems) || numItems == 0) {
-        //We are starting cold here - get the number of API items
-        $http.get("/api/items/" + category + "/count").success(function (data) {
-            $scope.numItems = parseInt(data);
-            $cookies.put('numItems', $scope.numItems);
-
-            loadItems();
-        });
-    } else {
-        $scope.numItems = numItems;
-
-        loadItems();
-    }
-
-    function loadItems() {
-        loadImages();
-        getTwoRandomItems();
-    }
+    loadImages();
+    loadItems();
 
     function loadImages() {
         if (!$cookies.get('imagesLoaded')) {
-            $http.get('/api/items/getImages').success(function (data) {
+            $http.get('/api/items/images').success(function (data) {
                 data.forEach(function (k) {
                     preload(k);
                 });
@@ -73,45 +21,14 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         }
     }
 
-    function getTwoRandomItems() {
-        var num1 = getRandomInt(1, $scope.numItems);
-        var num2 = 0;
-        var oldNum1 = 0;
-        var oldNum2 = 0;
-        $scope.Items = [];
-
-        if ($cookies.get('num1')) {
-            oldNum1 = parseInt($cookies.get('num1'));
-            oldNum2 = parseInt($cookies.get('num2'))
-        }
-
-        while ((oldNum1 != 0 && num1 == oldNum1) || (oldNum2 != 0 && num1 == oldNum2)) {
-            num1 = getRandomInt(1, $scope.numItems);
-        }
-
-        while ((num2 == 0 || num2 == num1) || (oldNum1 != 0 && num2 == oldNum1) || (oldNum2 != 0 && num2 == oldNum2)) {
-            num2 = getRandomInt(1, $scope.numItems);
-        }
-
-        $http.get("/api/items/" + category + "/" + num1).success(function (data) {
-            $scope.Items[0] = data[0];
-            $scope.Items[0].flipped = false;
+    function loadItems() {
+        $http.get('/api/items/getTwoItems?category=' + category + '&timeSpan=15').success(function (data) {
+            $scope.Items = data;
         });
-
-        $http.get("/api/items/" + category + "/" + num2).success(function (data) {
-            $scope.Items[1] = data[0];
-            $scope.Items[1].flipped = false;
-        });
-
-        $cookies.put('num1', num1);
-        $cookies.put('num2', num2);
     }
 
     $scope.ClearCookies = function() {
-        $cookies.put('num1', '');
-        $cookies.put('num2', '');
         $cookies.put('imagesLoaded', '');
-        $cookies.put('numItems', '');
         alert('Cookies cleared!');
     }
 
@@ -144,22 +61,36 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         }
     };
 
+    var resetItems = function () {
+        console.log('resetting items');
+        $scope.Items.forEach(function(element) {
+           element.flipped = false;
+        });
+        loadItems();
+        $cookies.put('flipping', '');
+    };
+
+    $scope.afterFlip = function(myIndex) {
+        $timeout(function () {resetItems()}, 2000);
+    };
+
     $scope.afterFlop = function () {
-        if ($scope.Items[0].flipped == $scope.Items[1].flipped) {
-            getTwoRandomItems();
-        }
+        //if ($scope.Items[0].flipped == $scope.Items[1].flipped) {
+        //    loadItems();
+        //}
     };
 }).directive('myFlip', function ($animate) {
     return {
         scope: {
             'myFlip': '=',
             'afterFlip': '&',
-            'afterFlop': '&'
+            'afterFlop': '&',
+            index: '='
         },
         link: function (scope, element) {
             scope.$watch("myFlip", function (flip, OldFlipped) {
                 if (flip) {
-                    $animate.addClass(element, "flipped");
+                    $animate.addClass(element, "flipped").then(scope.afterFlip({$index:scope.index}));
                 }
                 if (!flip && OldFlipped) {
                     $animate.removeClass(element, "flipped").then(scope.afterFlop);
