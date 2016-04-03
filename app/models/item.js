@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
-
-var itemSchema = new Schema({
+var itemSchema = new mongoose.Schema({
    name: String,
    date: Number,
    image: String,
@@ -10,8 +8,4 @@ var itemSchema = new Schema({
    index: Number
 });
 
-var Item = mongoose.model('item', itemSchema);
-
-// define our item model
-// module.exports allows us to pass this to other files when it is called
-module.exports = Item;
+module.exports = mongoose.model('item', itemSchema);
