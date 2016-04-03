@@ -1,87 +1,52 @@
-// grab the Item model we created
+//Includes
 var Item = require('./models/item');
+
+var itemHelper = require('./models/itemHelper')
 
 var fs = require('fs')
     , gm = require('gm');
 
 var request = require('request');
 
+//API Calls
 module.exports = function(app) {
+    //General Functions
     app.get('/api/downloadAndFormatImages', function(req, res) {
-        Item.find(function(err, items) {
-            if (err) {res.send(err);}
-
-            items.forEach(function(myImage) {
-                var myImgPath = './public/img/ConvertedImages/' +  myImage.category + '/' + myImage.index + '.png';
-
-                download(myImage.image, myImgPath,function() {
-                    console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);
-
-                    var myMinImgPath = myImgPath.slice(0,myImgPath.length - 4) + '-min.png';
-
-                    cropImageToBounds(myImgPath, myMinImgPath, 350, 350);
-                });
-            });
-
-            res.json({successful:true});
-        });
+        itemHelper.downloadAndFormatImages(res);
     });
 
+    //User Functions
     app.get('/api/user/getScore', function(req, res) {
        res.json((req.session.score == undefined ? 0 : parseInt(req.session.score)));
     });
 
+    //Item Functions
     app.get('/api/items', function(req, res) {
-        Item.find(function(err, items) {
-            if (err)
-                res.send(err);
-
-            res.error = false;
-
-            res.json(items); //return all items in JSON format
-        });
+        itemHelper.getAll(res);
     });
 
-    app.get('/api/items/getImages', function(req, res) {
-        Item.find().distinct('image', function(err, items) {
-            if (err)
-                res.send(err);
-
-            res.json(items); //return all items in JSON format
-        });
+    app.get('/api/items/images', function(req, res) {
+        itemHelper.getDistinctImages(res);
     });
 
     app.get('/api/items/categories', function(req, res) {
-        Item.find().distinct('category', function(err, items) {
-            if (err)
-                res.send(err);
+        itemHelper.getCategories(res);
+    });
 
-            res.json(items); //return all items in JSON format
-        });
+    app.get('/api/items/getTwoItems', function(req, res) {
+        itemHelper.getTwoItems(req, res);
     });
 
     app.get('/api/items/:category/count', function(req, res){
-        Item.count({category:req.params.category}, function(err, c){
-            res.json(c);
-        })
+        itemHelper.getCountByCategory(req, res);
     });
 
     app.get('/api/items/:category', function(req, res) {
-        Item.find(function(err, items){
-            if (err)
-                res.send(err);
-
-            res.json(items);
-        }).where({category:req.params.category});
+        itemHelper.getByCategory(req, res);
     });
 
     app.get('/api/items/:category/:itemID', function(req, res) {
-       Item.find(function(err, items) {
-           if (err)
-            res.send(err);
-
-           res.json(items);
-       }).where({category:req.params.category, index:parseInt(req.params.itemID)});
+       itemHelper.getByCategoryAndID(req, res);
     });
 
     app.get('/api/items/:category/:itemID/formatted', function(req, res) {

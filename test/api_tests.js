@@ -32,13 +32,33 @@ describe("API", function() {
             .end(done);
     });
 
-    it("GET /api/items/getImages - should return some image URLs.", function(done) {
+    it("GET /api/:category/:id - should return an item.", function(done) {
         request
-            .get('/api/items/getImages')
+            .get('/api/items/People/1')
             .expect(200)
             .expect(function(res) {
-                if(!res.body.length > 0) throw new Error("GET /api/items/getImages - No urls returned.")
+                if(!(res.body.length == 1)) throw new Error("GET /api/items/:category:/id - No item returned.")
             })
             .end(done);
-    })
+    });
+
+    it("GET /api/items/images - should return some image URLs.", function(done) {
+        request
+            .get('/api/items/images')
+            .expect(200)
+            .expect(function(res) {
+                if(!res.body.length > 0) throw new Error("GET /api/items/images - No urls returned.")
+            })
+            .end(done);
+    });
+
+    it("GET /api/items/:category - should return some items.", function(done) {
+       request
+           .get('/api/items/People/')
+           .expect(200)
+           .expect(function(res) {
+               if(!res.body.length > 0) throw new Error("GET /api/items/:category - No items returned.")
+           })
+           .end(done);
+    });
 });
