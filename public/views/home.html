@@ -16,7 +16,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">People</a></li>
+                            <li ng-repeat="category in categories track by $index"><a href="#" ng-click="categoryChange(category)">{{category}}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -40,7 +40,7 @@
                 <div class="item">
                     <div class="flip">
                         <!--Card-->
-                        <div class="card" my-flip="item.flipped" index="$index" after-Flip="afterFlip($index)" after-Flop="afterFlop()" ng-click="imgClick($index)">
+                        <div class="card" my-flip="item.flipped" index="$index" after-Flip="afterFlip()" after-Flop="afterFlop()" ng-click="imgClick($index)">
                             <!--Front of the Card-->
                             <div class="face front">
                                 <!--Actual Image-->
