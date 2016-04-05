@@ -88,6 +88,7 @@ module.exports = {
 
                 while (item2.id == item1.id ||
                 Math.abs(item2.date - item1.date) > timeSpan ||
+                item1.date == item2.date ||
                 (oldItem1ID != 0 && (item1.id == oldItem1ID || item2.id == oldItem1ID)) ||
                 (oldItem2ID != 0 && (item1.id == oldItem2ID || item2.id == oldItem2ID))) {
                     item1 = items[utilities.getRandomInt(0, numItems - 1)];
