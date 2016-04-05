@@ -32,16 +32,6 @@ describe("API", function() {
             .end(done);
     });
 
-    it("GET /api/:category/:id - should return an item.", function(done) {
-        request
-            .get('/api/items/People/1')
-            .expect(200)
-            .expect(function(res) {
-                if(!(res.body.length == 1)) throw new Error("GET /api/items/:category:/id - No item returned.")
-            })
-            .end(done);
-    });
-
     it("GET /api/items/images - should return some image URLs.", function(done) {
         request
             .get('/api/items/images')
