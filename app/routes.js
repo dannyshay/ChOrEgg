@@ -1,7 +1,7 @@
 //Includes
-var Item = require('./models/item');
-
 var itemHelper = require('./models/itemHelper')
+
+var genAPIHelper = require('./models/genAPIHelper')
 
 var fs = require('fs')
     , gm = require('gm');
@@ -18,6 +18,10 @@ module.exports = function(app) {
     //User Functions
     app.get('/api/user/getScore', function(req, res) {
        res.json((req.session.score == undefined ? 0 : parseInt(req.session.score)));
+    });
+
+    app.get('/api/difficulties', function(req, res) {
+        genAPIHelper.getAll(res);
     });
 
     //Item Functions
