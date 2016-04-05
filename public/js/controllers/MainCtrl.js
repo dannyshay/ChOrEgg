@@ -49,6 +49,18 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
         $http.get(apiString).success(function (data) {
             $scope.Items = data;
+
+            $scope.Items.forEach(function(element) {
+               switch (element.category) {
+                   case "People":
+                       element.verb = "born";
+                       break;
+                   default:
+                       element.verb = "made";
+                       break;
+               }
+            });
+
             $cookies.put('loadingItems', false);
         });
     }
