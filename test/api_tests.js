@@ -32,6 +32,22 @@ describe("API", function() {
             .end(done);
     });
 
+    it("GET /api/items/getTwoRandomItems - should return two random items within the proper timespan.", function(done) {
+        var timespan = 15;
+        var category = "People";
+
+       request
+           .get('/api/items/getTwoItemsInTimespan?category=' + category + '&timeSpan=' + timespan)
+           .expect(200)
+           .expect(function(res) {
+               if(!(res.body.length == 2)) throw new Error("GET /api/items/getTwoItemsInTimespan - Items weren't returned.");
+               var item1 = res.body[0];
+               var item2 = res.body[1];
+
+               if(!(Math.abs(item1.date - item2.date) <= timespan)) throw new Error("GET /api/items/getTwoItemsInTimespan - Items weren't in timespan specified.");
+           }).end(done);
+    });
+
     it("GET /api/items/images - should return some image URLs.", function(done) {
         request
             .get('/api/items/images')
