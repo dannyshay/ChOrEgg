@@ -40,5 +40,16 @@ module.exports = {
                         if (err) console.log(err);
                     });
             });
+    },
+    handleErrors : function (res, err) {
+        if (err)
+            res.send(err);
+    },
+
+    handleErrorsAndItems : function (err, items, res) {
+        if (err)
+            res.send(err);
+
+        res.json(items);
     }
 };
