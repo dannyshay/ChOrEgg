@@ -2,6 +2,9 @@ var Item = require('./item');
 
 var utilities = require("./server_utilities");
 
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
+
 var handleErrors = function (res, err) {
     if (err)
         res.send(err);
@@ -53,7 +56,7 @@ module.exports = {
     getByCategoryAndID: function (req, res) {
         Item.find(function (err, items) {
             handleErrorsAndItems(err, items, res);
-        }).where({category: req.params.category, id: parseInt(req.params.id)});
+        }).where({category: req.params.category, _id: mongoose.Types.ObjectId(req.params.id)});
     },
 
     getTwoItemsInTimespan: function (req, res) {
@@ -106,12 +109,12 @@ module.exports = {
             items.forEach(function (myImage) {
                 var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '.png';
 
-                download(myImage.image, myImgPath, function () {
+                utilties.download(myImage.image, myImgPath, function () {
                     console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);
 
                     var myMinImgPath = myImgPath.slice(0, myImgPath.length - 4) + '-min.png';
 
-                    cropImageToBounds(myImgPath, myMinImgPath, 350, 350);
+                    utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350);
                 });
             });
 
