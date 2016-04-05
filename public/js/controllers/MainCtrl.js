@@ -13,16 +13,36 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
             $scope.categories = categories;
 
-            loadImages();
-            loadItems();
+            loadPage();
         });
     } else {
         categories = JSON.parse(categories);
 
         $scope.categories = categories;
 
-        loadImages();
-        loadItems();
+        loadPage();
+    }
+
+    function loadPage() {
+        var difficulties = $cookies.get('difficulties');
+        if(difficulties == undefined) {
+            $http.get('/api/difficulties').success(function(data) {
+                difficulties = data;
+                $cookies.put('difficulties', JSON.stringify(data));
+
+                $scope.difficulties = difficulties;
+
+                loadImages();
+                loadItems();
+            });
+        } else {
+            difficulties = JSON.parse(difficulties);
+
+            $scope.difficulties = difficulties;
+
+            loadImages();
+            loadItems();
+        }
     }
 
     function loadImages() {
@@ -38,10 +58,14 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
     function loadItems() {
         if (!$scope.currentCategory) {
-            $scope.currentCategory = categories[0];
+            $scope.currentCategory = $scope.categories[0];
         }
 
-        var apiString = '/api/items/getTwoItemsInTimespan?category=' + $scope.currentCategory + '&timeSpan=15';
+        if (!$scope.currentDifficulty) {
+            $scope.currentDifficulty = $scope.difficulties[0];
+        }
+
+        var apiString = '/api/items/getTwoItemsInTimespan?category=' + $scope.currentCategory + '&timeSpan=' + $scope.currentDifficulty.timeSpan;
 
         if ($scope.Items) {
             apiString += '&oldID1=' + $scope.Items[0]._id + '&oldID2=' + $scope.Items[1]._id;
@@ -69,6 +93,19 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         $cookies.put('imagesLoaded', '');
         $cookies.put('categories', '');
         alert('Cookies cleared!');
+    }
+
+    $scope.isActiveCategory = function (category) {
+        return $scope.currentCategory == category;
+    }
+
+    $scope.isActiveDifficulty = function (difficulty) {
+        return $scope.currentDifficulty == difficulty;
+    }
+
+    $scope.difficultyChange = function (difficulty) {
+        $scope.currentDifficulty = difficulty;
+        loadItems();
     }
 
     $scope.categoryChange = function (category) {
