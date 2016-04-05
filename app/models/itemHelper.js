@@ -2,7 +2,7 @@ var Item = require('./item');
 
 var utilities = require("./server_utilities");
 
-var handleErrors = function(res, err) {
+var handleErrors = function (res, err) {
     if (err)
         res.send(err);
 }
@@ -44,35 +44,38 @@ module.exports = {
         });
     },
 
-    getByCategory : function (req, res) {
-        Item.find(function(err, items){
+    getByCategory: function (req, res) {
+        Item.find(function (err, items) {
             handleErrorsAndItems(err, items, res);
-        }).where({category:req.params.category});
+        }).where({category: req.params.category});
     },
 
-    getByCategoryAndID : function (req, res) {
-        Item.find(function(err, items) {
+    getByCategoryAndID: function (req, res) {
+        Item.find(function (err, items) {
             handleErrorsAndItems(err, items, res);
-        }).where({category:req.params.category, index:parseInt(req.params.itemID)});
+        }).where({category: req.params.category, id: parseInt(req.params.id)});
     },
 
-    getTwoItems : function (req, res) {
+    getTwoItemsInTimespan: function (req, res) {
         var category = req.query.category;
         var timeSpan = req.query.timeSpan;
 
+        var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
+        var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
+
         if (!category) {
-            res.send({Error:"Must specify a category."});
+            res.send({Error: "Must specify a category."});
             return;
         }
 
         if (!timeSpan) {
-            res.send({Error:"Must specify a timeSpan."});
+            res.send({Error: "Must specify a timeSpan."});
             return;
         } else {
             timeSpan = parseInt(timeSpan);
         }
 
-        Item.find(function(err, items) {
+        Item.find(function (err, items) {
             handleErrors(res, err);
 
             Item.count({category: req.query.category}, function (err2, count) {
@@ -80,16 +83,19 @@ module.exports = {
 
                 var numItems = parseInt(count);
 
-                var item1 = items[utilities.getRandomInt(1, numItems)];
-                var item2 = items[utilities.getRandomInt(1, numItems)];
+                var item1 = items[utilities.getRandomInt(0, numItems - 1)];
+                var item2 = items[utilities.getRandomInt(0, numItems - 1)];
 
-                while (item2.index == item1.index || Math.abs(item2.date - item1.date) > timeSpan) {
-                    item2 = items[utilities.getRandomInt(1, numItems)];
+                while (item2.id == item1.id ||
+                Math.abs(item2.date - item1.date) > timeSpan ||
+                (oldItem1ID != 0 && (item1.id == oldItem1ID || item2.id == oldItem1ID)) ||
+                (oldItem2ID != 0 && (item1.id == oldItem2ID || item2.id == oldItem2ID))) {
+                    item1 = items[utilities.getRandomInt(0, numItems - 1)];
+                    item2 = items[utilities.getRandomInt(0, numItems - 1)];
                 }
-
-                res.json([item1,item2]);
+                res.json([item1, item2]);
             });
-        }).where({category:req.query.category})
+        }).where({category: req.query.category})
     },
 
     downloadAndFormatImages: function (res) {
@@ -97,7 +103,7 @@ module.exports = {
             handleErrors(res, err);
 
             items.forEach(function (myImage) {
-                var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.index + '.png';
+                var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '.png';
 
                 download(myImage.image, myImgPath, function () {
                     console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);

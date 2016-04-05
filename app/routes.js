@@ -33,8 +33,8 @@ module.exports = function(app) {
         itemHelper.getCategories(res);
     });
 
-    app.get('/api/items/getTwoItems', function(req, res) {
-        itemHelper.getTwoItems(req, res);
+    app.get('/api/items/getTwoItemsInTimespan', function(req, res) {
+        itemHelper.getTwoItemsInTimespan(req, res);
     });
 
     app.get('/api/items/:category/count', function(req, res){
@@ -45,11 +45,11 @@ module.exports = function(app) {
         itemHelper.getByCategory(req, res);
     });
 
-    app.get('/api/items/:category/:itemID', function(req, res) {
+    app.get('/api/items/:category/:id', function(req, res) {
        itemHelper.getByCategoryAndID(req, res);
     });
 
-    app.get('/api/items/:category/:itemID/formatted', function(req, res) {
+    app.get('/api/items/:category/:id/formatted', function(req, res) {
         Item.find(function(err, items) {
             if (err) {res.send(err);}
 
@@ -64,7 +64,7 @@ module.exports = function(app) {
 
                 cropImageToBounds(myImgPath, myMinImgPath, 250, 350);
             });
-        }).where({category:req.params.category, index:parseInt(req.params.itemID)});
+        }).where({category:req.params.category, id:parseInt(req.params.id)});
     });
 
     // frontend routes ============================================
