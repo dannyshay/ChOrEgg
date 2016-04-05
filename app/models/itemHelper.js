@@ -94,16 +94,17 @@ module.exports = {
             utilities.handleErrors(res, err);
 
             items.forEach(function (myImage) {
+                utilities.createDirectoryIfDoesntExist('./public/img/ConvertedImages/');
+                utilities.createDirectoryIfDoesntExist('./public/img/ConvertedImages/' + myImage.category);
+
                 var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '_full.png';
 
                 utilities.download(myImage.image, myImgPath, function () {
                     var myMinImgPath = myImgPath.slice(0, myImgPath.length - 9) + '.jpeg';
 
-                    utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350);
+                    utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350, myImage.id + '.jpeg');
                 });
             });
-
-            console.log('Images downloaded and cropped.');
 
             res.json({successful: true});
         });
