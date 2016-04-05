@@ -36,7 +36,7 @@ module.exports = {
                 gm(myImgPath)
                     .crop(posX, posY, cropwidth, cropheight)
                     .write(myMinImgPath, function (err) {
-                        if (!err) console.log('done');
+                        if (!err) console.log('Done cropping images to bounds.');
                         if (err) console.log(err);
                     });
             });
