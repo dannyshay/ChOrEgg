@@ -1,20 +1,6 @@
 var Item = require('./item');
-
 var utilities = require("./server_utilities");
-
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
-
-var handleErrors = function (res, err) {
-    if (err)
-        res.send(err);
-}
-
-var handleErrorsAndItems = function (err, items, res) {
-    handleErrors(res, err);
-
-    res.json(items);
-}
 
 module.exports = {
     //Global functions
@@ -22,40 +8,40 @@ module.exports = {
     //getAll - Use this to get all items in the entire database regardless of category
     getAll: function (res) {
         Item.find(function (err, items) {
-            handleErrorsAndItems(err, items, res);
+            utilities.handleErrorsAndItems(err, items, res);
         });
     },
 
     //getCategories - Use this to get the distinct categories in the entire database
     getCategories: function (res) {
         Item.find().distinct('category', function (err, items) {
-            handleErrorsAndItems(err, items, res);
+            utilities.handleErrorsAndItems(err, items, res);
         });
     },
 
     //getDistinctImages - Use this to get all image URLs in the entire database
     getDistinctImages: function (res) {
         Item.find().distinct('image', function (err, items) {
-            handleErrorsAndItems(err, items, res);
+            utilities.handleErrorsAndItems(err, items, res);
         });
     },
 
     //getCountByCategory - Use this to get the total count of all items within a particular category
     getCountByCategory: function (req, res) {
         Item.count({category: req.params.category}, function (err, items) {
-            handleErrorsAndItems(err, items, res);
+            utilities.handleErrorsAndItems(err, items, res);
         });
     },
 
     getByCategory: function (req, res) {
         Item.find(function (err, items) {
-            handleErrorsAndItems(err, items, res);
+            utilities.handleErrorsAndItems(err, items, res);
         }).where({category: req.params.category});
     },
 
     getByCategoryAndID: function (req, res) {
         Item.find(function (err, items) {
-            handleErrorsAndItems(err, items, res);
+            utilities.handleErrorsAndItems(err, items, res);
         }).where({category: req.params.category, _id: mongoose.Types.ObjectId(req.params.id)});
     },
 
@@ -79,10 +65,10 @@ module.exports = {
         }
 
         Item.find(function (err, items) {
-            handleErrors(res, err);
+            utilities.handleErrors(res, err);
 
             Item.count({category: req.query.category}, function (err2, count) {
-                handleErrors(res, err2);
+                utilities.handleErrors(res, err2);
 
                 var numItems = parseInt(count);
 
@@ -104,7 +90,7 @@ module.exports = {
 
     downloadAndFormatImages: function (res) {
         Item.find(function (err, items) {
-            handleErrors(res, err);
+            utilities.handleErrors(res, err);
 
             items.forEach(function (myImage) {
                 var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '.png';
