@@ -7,9 +7,9 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
     var categories = $cookies.get('categories');
     if (categories == undefined) {
-        $http.get('/api/items/categories').success(function(data) {
-           categories = data;
-           $cookies.put('categories', JSON.stringify(data));
+        $http.get('/api/items/categories').success(function (data) {
+            categories = data;
+            $cookies.put('categories', JSON.stringify(data));
 
             $scope.categories = categories;
 
@@ -40,18 +40,26 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         if (!$scope.currentCategory) {
             $scope.currentCategory = categories[0];
         }
-        $http.get('/api/items/getTwoItems?category=' + $scope.currentCategory + '&timeSpan=15').success(function (data) {
+
+        var apiString = '/api/items/getTwoItemsInTimespan?category=' + $scope.currentCategory + '&timeSpan=15';
+
+        if ($scope.Items) {
+            apiString += '&oldID1=' + $scope.Items[0].id + '&oldID2=' + $scope.Items[1].id;
+        }
+
+        $http.get(apiString).success(function (data) {
             $scope.Items = data;
+            $cookies.put('loadingItems', false);
         });
     }
 
     $scope.ClearCookies = function () {
         $cookies.put('imagesLoaded', '');
-        $cookies.put('categories','');
+        $cookies.put('categories', '');
         alert('Cookies cleared!');
     }
 
-    $scope.categoryChange = function(category) {
+    $scope.categoryChange = function (category) {
         $scope.currentCategory = category;
         loadItems();
     }
@@ -109,8 +117,7 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         scope: {
             'myFlip': '=',
             'afterFlip': '&',
-            'afterFlop': '&',
-            index: '='
+            'afterFlop': '&'
         },
         link: function (scope, element) {
             scope.$watch("myFlip", function (flip, OldFlipped) {
