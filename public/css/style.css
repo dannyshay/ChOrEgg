@@ -135,6 +135,16 @@ body {
     margin-top:60px;
 }
 
+@media screen and (min-width : 1280px) {
+    .label {
+        font-size: 36px;
+    }
+
+    .label-important {
+        font-size: 36px;
+    }
+}
+
 /*Mobile*/
 /*iPhone6+*/
 @media screen and (max-width : 800px) {
