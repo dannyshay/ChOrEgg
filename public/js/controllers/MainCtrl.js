@@ -44,7 +44,7 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         var apiString = '/api/items/getTwoItemsInTimespan?category=' + $scope.currentCategory + '&timeSpan=15';
 
         if ($scope.Items) {
-            apiString += '&oldID1=' + $scope.Items[0].id + '&oldID2=' + $scope.Items[1].id;
+            apiString += '&oldID1=' + $scope.Items[0]._id + '&oldID2=' + $scope.Items[1]._id;
         }
 
         $http.get(apiString).success(function (data) {
