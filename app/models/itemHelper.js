@@ -1,6 +1,7 @@
 var Item = require('./item');
 var utilities = require("./server_utilities");
 var mongoose = require('mongoose');
+var fs = require('fs');
 
 module.exports = {
     //Global functions
@@ -93,16 +94,16 @@ module.exports = {
             utilities.handleErrors(res, err);
 
             items.forEach(function (myImage) {
-                var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '.png';
+                var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '_full.png';
 
-                utilties.download(myImage.image, myImgPath, function () {
-                    console.log('Downloaded ' + myImage.image + ' to ' + myImgPath);
-
-                    var myMinImgPath = myImgPath.slice(0, myImgPath.length - 4) + '-min.png';
+                utilities.download(myImage.image, myImgPath, function () {
+                    var myMinImgPath = myImgPath.slice(0, myImgPath.length - 9) + '.jpeg';
 
                     utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350);
                 });
             });
+
+            console.log('Images downloaded and cropped.');
 
             res.json({successful: true});
         });

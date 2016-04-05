@@ -1,12 +1,6 @@
 //Includes
 var itemHelper = require('./models/itemHelper')
-
 var genAPIHelper = require('./models/genAPIHelper')
-
-var fs = require('fs')
-    , gm = require('gm');
-
-var request = require('request');
 
 //API Calls
 module.exports = function(app) {
