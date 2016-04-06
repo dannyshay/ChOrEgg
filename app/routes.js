@@ -18,6 +18,10 @@ module.exports = function(app) {
         genAPIHelper.getAll(res);
     });
 
+    app.get('/api/getImage', function(req, res) {
+       genAPIHelper.getImage(req, res);
+    });
+
     //Item Functions
     app.get('/api/items', function(req, res) {
         itemHelper.getAll(res);

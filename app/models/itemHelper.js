@@ -50,9 +50,6 @@ module.exports = {
         var category = req.query.category;
         var timeSpan = req.query.timeSpan;
 
-        var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
-        var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
-
         if (!category) {
             res.send({Error: "Must specify a category."});
             return;
@@ -64,6 +61,9 @@ module.exports = {
         } else {
             timeSpan = parseInt(timeSpan);
         }
+
+        var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
+        var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
 
         Item.find(function (err, items) {
             utilities.handleErrors(res, err);
