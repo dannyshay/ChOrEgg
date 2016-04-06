@@ -4,6 +4,7 @@
   "main": "server.js",
   "dependencies": {
     "angulartics": "^1.0.3",
+    "async": "^2.0.0-rc.2",
     "body-parser": "latest",
     "bower": "latest",
     "connect-mongo": "latest",
