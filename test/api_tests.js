@@ -2,6 +2,8 @@ var myApp = require('../server.js');
 var request = require('supertest')(myApp);
 
 describe("API", function() {
+    this.timeout(5000);
+
     it("GET /api/items - should return some items.", function (done) {
         request
             .get('/api/items')

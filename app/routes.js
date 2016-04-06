@@ -1,12 +1,6 @@
 //Includes
 var itemHelper = require('./models/itemHelper')
-
 var genAPIHelper = require('./models/genAPIHelper')
-
-var fs = require('fs')
-    , gm = require('gm');
-
-var request = require('request');
 
 //API Calls
 module.exports = function(app) {
@@ -22,6 +16,10 @@ module.exports = function(app) {
 
     app.get('/api/difficulties', function(req, res) {
         genAPIHelper.getAll(res);
+    });
+
+    app.get('/api/getImage', function(req, res) {
+       genAPIHelper.getImage(req, res);
     });
 
     //Item Functions
