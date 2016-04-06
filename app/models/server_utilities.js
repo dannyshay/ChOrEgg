@@ -104,7 +104,6 @@ module.exports = {
                             item2.imageData = base642;
                             callback();
                         }
-
                     })
                 } else {
                     if (res) {
@@ -115,7 +114,6 @@ module.exports = {
                         item1.imageData = base64;
                         callback();
                     }
-
                 }
             });
         });

@@ -129,11 +129,12 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
     $scope.afterFlip = function () {
         $timeout(function () {
             resetItems()
+            loadItems();
         }, 2000);
     };
 
     $scope.afterFlop = function () {
-        loadItems();
+        //loadItems();
     };
 }).directive('myFlip', function ($animate) {
     return {
