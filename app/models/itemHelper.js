@@ -1,7 +1,40 @@
 var Item = require('./item');
 var utilities = require("./server_utilities");
+var genAPIHelper = require('./genAPIHelper');
 var mongoose = require('mongoose');
 var fs = require('fs');
+var request = require('request');
+
+var setVerbs = function (category, items) {
+    var verb = ""
+    switch (category) {
+        case "People":
+            verb = "born"
+            break;
+        default:
+            verb = "made"
+            break;
+    }
+    items.forEach(function (item) {
+        item.verb = verb
+    });
+}
+
+var getRandomItem = function (items) {
+    return items[utilities.getRandomInt(0, items.length - 1)];
+}
+
+var checkRequiredVariables = function (req, res) {
+    if (!req.query.category) {
+        res.send({Error: "Must specify a category."});
+        return;
+    }
+
+    if (!req.query.timeSpan) {
+        res.send({Error: "Must specify a timeSpan."});
+        return;
+    }
+}
 
 module.exports = {
     //Global functions
@@ -47,20 +80,10 @@ module.exports = {
     },
 
     getTwoItemsInTimespan: function (req, res) {
+        checkRequiredVariables(req, res);
+
         var category = req.query.category;
-        var timeSpan = req.query.timeSpan;
-
-        if (!category) {
-            res.send({Error: "Must specify a category."});
-            return;
-        }
-
-        if (!timeSpan) {
-            res.send({Error: "Must specify a timeSpan."});
-            return;
-        } else {
-            timeSpan = parseInt(timeSpan);
-        }
+        var timeSpan = parseInt(req.query.timeSpan);
 
         var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
         var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
@@ -68,25 +91,25 @@ module.exports = {
         Item.find(function (err, items) {
             utilities.handleErrors(res, err);
 
-            Item.count({category: req.query.category}, function (err2, count) {
-                utilities.handleErrors(res, err2);
+            var item1 = getRandomItem(items);
+            var item2 = getRandomItem(items);
 
-                var numItems = parseInt(count);
+            //Search until we find two items that don't match and meet a few other criteria
+            while (
+            item2.id == item1.id || // Don't match
+            Math.abs(item2.date - item1.date) > timeSpan || // Within timespan
+            item1.date == item2.date || // Not the same year
+            (oldItem1ID != 0 && (item1.id == oldItem1ID || item2.id == oldItem1ID)) || //Not an item we had before (top)
+            (oldItem2ID != 0 && (item1.id == oldItem2ID || item2.id == oldItem2ID))) { //Not an item we had before (bottom)
+                item1 = getRandomItem(items);
+                item2 = getRandomItem(items);
+            }
 
-                var item1 = items[utilities.getRandomInt(0, numItems - 1)];
-                var item2 = items[utilities.getRandomInt(0, numItems - 1)];
+            //Set the verbs to be displayed in the HTML
+            setVerbs(category, [item1, item2]);
 
-                while (item2.id == item1.id ||
-                Math.abs(item2.date - item1.date) > timeSpan ||
-                item1.date == item2.date ||
-                (oldItem1ID != 0 && (item1.id == oldItem1ID || item2.id == oldItem1ID)) ||
-                (oldItem2ID != 0 && (item1.id == oldItem2ID || item2.id == oldItem2ID))) {
-                    item1 = items[utilities.getRandomInt(0, numItems - 1)];
-                    item2 = items[utilities.getRandomInt(0, numItems - 1)];
-                }
-                res.json([item1, item2]);
-            });
-        }).where({category: req.query.category})
+            res.json([item1, item2]);
+        }).where({category: category})
     },
 
     downloadAndFormatImages: function (res) {

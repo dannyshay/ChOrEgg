@@ -19,7 +19,7 @@ module.exports = {
     },
 
     cropImageToBounds: function (myImgPath, myMinImgPath, width, height, imgName) {
-        var myFunction = function(anImgName, aMinImgPath, aGfs) {
+        var myFunction = function (anImgName, aMinImgPath, aGfs) {
             var writestream = aGfs.createWriteStream({
                 filename: anImgName
             });
@@ -45,7 +45,7 @@ module.exports = {
 
                     gfs.exist({filename: imgName}, function (err, found) {
                         if (found) {
-                            gfs.remove({filename: imgName}, function(err) {
+                            gfs.remove({filename: imgName}, function (err) {
                                 if (err) return err;
 
                                 myFunction(imgName, myMinImgPath, gfs);
@@ -62,6 +62,45 @@ module.exports = {
         if (!fs.existsSync(directory)) {
             fs.mkdirSync(directory);
         }
+    },
+
+    getImageBase64: function (id1, id2, res) {
+        var filename = id1 + '.jpeg'
+        var filename2 = (id2 ? id2 + '.jpeg' : "");
+
+        var conn = mongoose.createConnection(db.url);
+        conn.once('open', function () {
+            var gfs = Grid(conn.db, mongoose.mongo);
+
+            var readStream = gfs.createReadStream({filename: filename});
+
+            var readStream2 = (filename2 != "" ? gfs.createReadStream({filename: filename2}) : "");
+
+            var bufs = [];
+            var bufs2 = [];
+
+            readStream.on('data', function (chunk) {
+                bufs.push(chunk);
+            }).on('end', function () {
+                var fbuf = Buffer.concat(bufs);
+
+                var base64 = (fbuf.toString('base64'));
+
+                if (readStream2 != "") {
+                    readStream2.on('data', function (chunk) {
+                        bufs2.push(chunk);
+                    }).on('end', function () {
+                        fbuf = Buffer.concat(bufs2);
+
+                        var base642 = (fbuf.toString('base64'));
+
+                        res.send([base64, base642]);
+                    })
+                } else {
+                    res.send(base64)
+                }
+            });
+        });
     },
 
     handleErrors: function (res, err) {
