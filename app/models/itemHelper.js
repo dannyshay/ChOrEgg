@@ -4,8 +4,13 @@ var genAPIHelper = require('./genAPIHelper');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var request = require('request');
+var Grid = require('gridfs-stream');
+var db = require('../../config/db');
+Grid.mongo = mongoose.mongo;
 
-var setVerbs = function (category, items) {
+var async = require('async');
+
+var setVerbs = function (category, items, callback) {
     var verb = ""
     switch (category) {
         case "People":
@@ -18,6 +23,8 @@ var setVerbs = function (category, items) {
     items.forEach(function (item) {
         item.verb = verb
     });
+
+    callback();
 }
 
 var getRandomItem = function (items) {
@@ -34,6 +41,57 @@ var checkRequiredVariables = function (req, res) {
         res.send({Error: "Must specify a timeSpan."});
         return;
     }
+}
+
+var getImages = function(item1, item2, res) {
+    var id1 = item1._id;
+    var id2 = (item2 ? item2._id : "");
+
+    var filename = id1 + '.jpeg'
+    var filename2 = (id2 ? id2 + '.jpeg' : "");
+
+    utilities.getImageBase64(id1, id2, res);
+
+    //var conn = mongoose.createConnection(db.url);
+    //conn.once('open', function () {
+    //    var gfs = Grid(conn.db, mongoose.mongo);
+    //
+    //    var readStream = gfs.createReadStream({filename: filename});
+    //
+    //    var readStream2 = (filename2 != "" ? gfs.createReadStream({filename: filename2}) : "");
+    //
+    //    var bufs = [];
+    //    var bufs2 = [];
+    //
+    //    readStream.on('data', function (chunk) {
+    //        bufs.push(chunk);
+    //    }).on('end', function () {
+    //        var fbuf = Buffer.concat(bufs);
+    //
+    //        var base64 = (fbuf.toString('base64'));
+    //
+    //        if (readStream2 != "") {
+    //            readStream2.on('data', function (chunk) {
+    //                bufs2.push(chunk);
+    //            }).on('end', function () {
+    //                fbuf = Buffer.concat(bufs2);
+    //
+    //                var base642 = (fbuf.toString('base64'));
+    //
+    //                item1.ImageData = base64;
+    //                item2.ImageData = base642;
+    //
+    //
+    //
+    //                res.json([item1, item2]);
+    //            })
+    //        } else {
+    //            item1.ImageData = base64;
+    //
+    //            res.json([item1, item2]);
+    //        }
+    //    });
+    //});
 }
 
 module.exports = {
@@ -105,10 +163,10 @@ module.exports = {
                 item2 = getRandomItem(items);
             }
 
-            //Set the verbs to be displayed in the HTML
-            setVerbs(category, [item1, item2]);
-
-            res.json([item1, item2]);
+            async.parallel([
+                function(callback) {setVerbs(category, [item1, item2], callback)},
+                function(callback) {utilities.getImageBase64(item1, item2, null, callback)}
+            ], function(err) {res.send([item1, item2])});
         }).where({category: category})
     },
 

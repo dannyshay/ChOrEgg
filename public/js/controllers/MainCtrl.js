@@ -59,12 +59,6 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
         $http.get(apiString).success(function (data) {
             $scope.Items = data;
-
-            //Set Images
-            $http.get('/api/getImage?id1=' + $scope.Items[0]._id + '&id2=' + $scope.Items[1]._id).success(function(data) {
-                $scope.Items[0].ImageData = data[0];
-                $scope.Items[1].ImageData = data[1];
-            });
         });
     }
 
