@@ -64,9 +64,9 @@ module.exports = {
         }
     },
 
-    getImageBase64: function (id1, id2, res) {
-        var filename = id1 + '.jpeg'
-        var filename2 = (id2 ? id2 + '.jpeg' : "");
+    getImageBase64: function (item1, item2, res, callback) {
+        var filename = item1._id + '.jpeg'
+        var filename2 = (item2 ? item2._id + '.jpeg' : "");
 
         var conn = mongoose.createConnection(db.url);
         conn.once('open', function () {
@@ -93,11 +93,29 @@ module.exports = {
                         fbuf = Buffer.concat(bufs2);
 
                         var base642 = (fbuf.toString('base64'));
+                        var retVal = [base64, base642];
 
-                        res.send([base64, base642]);
+                        if (res) {
+                            res.send(retVal);
+                            return;
+                        } else {
+
+                            item1.imageData = base64;
+                            item2.imageData = base642;
+                            callback();
+                        }
+
                     })
                 } else {
-                    res.send(base64)
+                    if (res) {
+                        res.send(base64)
+                        return;
+                    } else {
+
+                        item1.imageData = base64;
+                        callback();
+                    }
+
                 }
             });
         });
