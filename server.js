@@ -28,7 +28,6 @@ var mode = process.env['mode'] || 'DEV';
 console.log('Current environment: ' + mode);
 
 // connect to our mongoDB database
-// (uncomment after we setup mongoDB)
 mongoose.connect(db.url);
 
 app.use(session({

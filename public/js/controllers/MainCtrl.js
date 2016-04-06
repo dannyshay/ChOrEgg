@@ -6,7 +6,7 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
     }
 
     var categories = $cookies.get('categories');
-    if (categories == undefined) {
+    if (!categories || categories == undefined) {
         $http.get('/api/items/categories').success(function (data) {
             categories = data;
             $cookies.put('categories', JSON.stringify(data));
@@ -25,14 +25,13 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
     function loadPage() {
         var difficulties = $cookies.get('difficulties');
-        if(difficulties == undefined) {
+        if(!difficulties || difficulties == undefined) {
             $http.get('/api/difficulties').success(function(data) {
                 difficulties = data;
                 $cookies.put('difficulties', JSON.stringify(data));
 
                 $scope.difficulties = difficulties;
 
-                loadImages();
                 loadItems();
             });
         } else {
@@ -40,19 +39,7 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
 
             $scope.difficulties = difficulties;
 
-            loadImages();
             loadItems();
-        }
-    }
-
-    function loadImages() {
-        if (!$cookies.get('imagesLoaded')) {
-            $http.get('/api/items/images').success(function (data) {
-                data.forEach(function (k) {
-                    preload(k);
-                });
-            });
-            $cookies.put('imagesLoaded', true);
         }
     }
 
@@ -66,7 +53,6 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         }
 
         var apiString = '/api/items/getTwoItemsInTimespan?category=' + $scope.currentCategory + '&timeSpan=' + $scope.currentDifficulty.timeSpan;
-
         if ($scope.Items) {
             apiString += '&oldID1=' + $scope.Items[0]._id + '&oldID2=' + $scope.Items[1]._id;
         }
@@ -74,24 +60,18 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
         $http.get(apiString).success(function (data) {
             $scope.Items = data;
 
-            $scope.Items.forEach(function(element) {
-               switch (element.category) {
-                   case "People":
-                       element.verb = "born";
-                       break;
-                   default:
-                       element.verb = "made";
-                       break;
-               }
+            //Set Images
+            $http.get('/api/getImage?id1=' + $scope.Items[0]._id + '&id2=' + $scope.Items[1]._id).success(function(data) {
+                $scope.Items[0].ImageData = data[0];
+                $scope.Items[1].ImageData = data[1];
             });
-
-            $cookies.put('loadingItems', false);
         });
     }
 
     $scope.ClearCookies = function () {
         $cookies.put('imagesLoaded', '');
         $cookies.put('categories', '');
+        $cookies.put('difficulties', '');
         alert('Cookies cleared!');
     }
 
