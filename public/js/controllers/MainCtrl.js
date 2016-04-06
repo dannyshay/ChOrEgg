@@ -115,6 +115,7 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
                     $analytics.eventTrack('User choice - Wrong');
                     $scope.score = 0;
                 }
+                loadItems();
             }
         }
     };
@@ -129,7 +130,7 @@ angular.module('MainCtrl', []).controller('MainController', function ($scope, $h
     $scope.afterFlip = function () {
         $timeout(function () {
             resetItems()
-            loadItems();
+            //loadItems();
         }, 2000);
     };
 
