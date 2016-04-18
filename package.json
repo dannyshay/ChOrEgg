@@ -1,28 +1,46 @@
 {
-  "name": "ChOrEgg",
-  "version": "0.0.1",
+  "name": "choregg",
+  "version": "1.0.0",
+  "description": "Chicken...or the Egg??",
   "main": "server.js",
-  "dependencies": {
-    "angulartics": "^1.0.3",
-    "async": "^2.0.0-rc.2",
-    "body-parser": "latest",
-    "bower": "latest",
-    "connect-mongo": "latest",
-    "express": "latest",
-    "express-session": "^1.13.0",
-    "gm": "latest",
-    "gridfs-stream": "^1.1.1",
-    "method-override": "latest",
-    "mongoose": "latest",
-    "request": "latest"
+  "directories": {
+    "test": "test"
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "start": "node server.js"
   },
-  "devDependencies": {
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dannyshay/ChOrEgg-Web.git"
+  },
+  "keywords": [
+    "chicken",
+    "egg",
+    "game",
+    "choregg"
+  ],
+  "author": "Danny Shay <danny624@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dannyshay/ChOrEgg-Web/issues"
+  },
+  "homepage": "https://github.com/dannyshay/ChOrEgg-Web#readme",
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "body-parser": "^1.15.0",
+    "bower": "^1.7.9",
+    "connect-mongo": "^1.1.0",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "gm": "^1.22.0",
+    "gridfs-stream": "^1.1.1",
+    "method-override": "^2.3.5",
     "mocha": "^2.4.5",
-    "should": "^8.3.0",
+    "mongoose": "^4.4.12",
+    "request": "^2.72.0",
+    "should": "^8.3.1",
     "supertest": "^1.2.0"
   }
 }

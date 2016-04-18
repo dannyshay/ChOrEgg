@@ -175,10 +175,10 @@ module.exports = {
             utilities.handleErrors(res, err);
 
             items.forEach(function (myImage) {
-                utilities.createDirectoryIfDoesntExist('./public/img/ConvertedImages/');
-                utilities.createDirectoryIfDoesntExist('./public/img/ConvertedImages/' + myImage.category);
+                utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/');
+                utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/' + myImage.category);
 
-                var myImgPath = './public/img/ConvertedImages/' + myImage.category + '/' + myImage.id + '_full.png';
+                var myImgPath = './public/assets/ConvertedImages/' + myImage.category + '/' + myImage.id + '_full.png';
 
                 utilities.download(myImage.image, myImgPath, function () {
                     var myMinImgPath = myImgPath.slice(0, myImgPath.length - 9) + '.jpeg';
