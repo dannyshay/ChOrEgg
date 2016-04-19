@@ -19,7 +19,7 @@ describe("API", function() {
             .get('/api/difficulties')
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.length > 0)) throw new Error("GET /api/difficulties - No difficulties returned.")
+                if(!(res.body.Difficulties.length > 0)) throw new Error("GET /api/difficulties - No difficulties returned.")
             })
             .end(done);
     });
@@ -29,7 +29,7 @@ describe("API", function() {
             .get('/api/items/categories')
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.length > 0)) throw new Error("GET /api/items/categories - No items returned.")
+                if(!(res.body.Categories.length > 0)) throw new Error("GET /api/items/categories - No items returned.")
             })
             .end(done);
     });
@@ -52,9 +52,9 @@ describe("API", function() {
            .get('/api/items/getTwoItemsInTimespan?category=' + category + '&timeSpan=' + timespan)
            .expect(200)
            .expect(function(res) {
-               if(!(res.body.length == 2)) throw new Error("GET /api/items/getTwoItemsInTimespan - Items weren't returned.");
-               var item1 = res.body[0];
-               var item2 = res.body[1];
+               if(!(res.body.Items.length == 2)) throw new Error("GET /api/items/getTwoItemsInTimespan - Items weren't returned.");
+               var item1 = res.body.Items[0];
+               var item2 = res.body.Items[1];
 
                if(!(Math.abs(item1.date - item2.date) <= timespan)) throw new Error("GET /api/items/getTwoItemsInTimespan - Items weren't in timespan specified.");
            }).end(done);

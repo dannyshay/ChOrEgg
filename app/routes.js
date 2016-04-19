@@ -1,6 +1,6 @@
 //Includes
-var itemHelper = require('./models/itemHelper')
-var genAPIHelper = require('./models/genAPIHelper')
+var itemHelper = require('./api/itemHelper')
+var genAPIHelper = require('./api/genAPIHelper')
 
 //API Calls
 module.exports = function(app) {
@@ -15,7 +15,7 @@ module.exports = function(app) {
     });
 
     app.get('/api/difficulties', function(req, res) {
-        genAPIHelper.getAll(res);
+        genAPIHelper.getDifficulties(res);
     });
 
     app.get('/api/getImage', function(req, res) {
