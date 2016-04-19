@@ -56,9 +56,7 @@ module.exports = {
     //getCategories - Use this to get the distinct categories in the entire database
     getCategories: function (res) {
         Item.find().distinct('category', function (err, items) {
-            utilities.handleErrors(res, err);
-
-            res.send({Categories: items});
+            utilities.handleErrorsAndItems(err, {Categories: items}, res);
         });
     },
 
