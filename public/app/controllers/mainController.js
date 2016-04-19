@@ -156,8 +156,7 @@ angular
 
         //--EXECUTED SCRIPT
 
-        loadDifficulties();
-        loadCategories().then(function(){getTwoItems()});
+        loadDifficulties().then(function(){loadCategories().then(function(){getTwoItems()})});
 
         //loadCategories().then(loadDifficulties()).then(getTwoItems());
     }])
