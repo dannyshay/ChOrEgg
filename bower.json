@@ -1,19 +1,36 @@
 {
-  "name": "ChOrEgg",
-  "version": "0.0.1",
+  "name": "choregg",
+  "description": "Chicken...or the Egg??",
+  "main": "server.js",
+  "authors": [
+    "Danny Shay <danny624@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "choregg",
+    "chicken",
+    "egg",
+    "game"
+  ],
+  "homepage": "choregg.herokuapp.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/scripts",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "bootstrap": "latest",
-    "font-awesome": "latest",
-    "animate.css": "latest",
-    "angular": "latest",
-    "angular-route": "latest",
-    "angular-resource": "latest",
-    "angular-cookies": "latest",
+    "angular": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "angular-resource": "^1.5.5",
+    "angular-cookies": "^1.5.5",
+    "bootstrap": "^3.3.6",
+    "jQuery": "^2.2.3",
+    "ngstorage": "^0.3.10",
     "angulartics-google-analytics": "^0.1.4",
-    "angular-animate": "^1.5.3",
+    "angular-animate": "^1.5.5",
     "angular-timer": "^1.3.3"
-  },
-  "resolutions": {
-    "angular": "1.5.2"
   }
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ChOrEgg-Web.iml" filepath="$PROJECT_DIR$/.idea/ChOrEgg-Web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../choregg/.idea/choregg.iml" filepath="$PROJECT_DIR$/../choregg/.idea/choregg.iml" />
     </modules>
   </component>
 </project>
