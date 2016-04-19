@@ -52,6 +52,10 @@ angular
 
         //Get Two Random Items
         function getTwoItems() {
+            if(!$scope.score) {
+                $scope.score = 0;
+            }
+
             if (!$scope.currentCategory) {
                 $scope.currentCategory = $scope.categories[0];
             }
@@ -156,7 +160,11 @@ angular
 
         //--EXECUTED SCRIPT
 
-        loadDifficulties().then(function(){loadCategories().then(function(){getTwoItems()})});
+        loadDifficulties().then(function(){
+            loadCategories().then(function(){
+                getTwoItems()
+            })
+        });
 
         //loadCategories().then(loadDifficulties()).then(getTwoItems());
     }])
