@@ -156,7 +156,10 @@ angular
 
         //--EXECUTED SCRIPT
 
-        loadCategories().then(loadDifficulties().then(getTwoItems()));
+        loadDifficulties();
+        loadCategories().then(function(){getTwoItems()});
+
+        //loadCategories().then(loadDifficulties()).then(getTwoItems());
     }])
     .directive('myFlip', function ($animate) {
         return {
