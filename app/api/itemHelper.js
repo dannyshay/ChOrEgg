@@ -1,4 +1,5 @@
-var Item = require('./item');
+var Item = require('./../models/item');
+var async = require('async');
 var utilities = require("./server_utilities");
 var genAPIHelper = require('./genAPIHelper');
 var mongoose = require('mongoose');
@@ -8,7 +9,6 @@ var Grid = require('gridfs-stream');
 var db = require('../../config/db');
 Grid.mongo = mongoose.mongo;
 
-var async = require('async');
 
 var setVerbs = function (category, items, callback) {
     var verb = ""
@@ -41,58 +41,7 @@ var checkRequiredVariables = function (req, res) {
         res.send({Error: "Must specify a timeSpan."});
         return;
     }
-}
-
-var getImages = function(item1, item2, res) {
-    var id1 = item1._id;
-    var id2 = (item2 ? item2._id : "");
-
-    var filename = id1 + '.jpeg'
-    var filename2 = (id2 ? id2 + '.jpeg' : "");
-
-    utilities.getImageBase64(id1, id2, res);
-
-    //var conn = mongoose.createConnection(db.url);
-    //conn.once('open', function () {
-    //    var gfs = Grid(conn.db, mongoose.mongo);
-    //
-    //    var readStream = gfs.createReadStream({filename: filename});
-    //
-    //    var readStream2 = (filename2 != "" ? gfs.createReadStream({filename: filename2}) : "");
-    //
-    //    var bufs = [];
-    //    var bufs2 = [];
-    //
-    //    readStream.on('data', function (chunk) {
-    //        bufs.push(chunk);
-    //    }).on('end', function () {
-    //        var fbuf = Buffer.concat(bufs);
-    //
-    //        var base64 = (fbuf.toString('base64'));
-    //
-    //        if (readStream2 != "") {
-    //            readStream2.on('data', function (chunk) {
-    //                bufs2.push(chunk);
-    //            }).on('end', function () {
-    //                fbuf = Buffer.concat(bufs2);
-    //
-    //                var base642 = (fbuf.toString('base64'));
-    //
-    //                item1.ImageData = base64;
-    //                item2.ImageData = base642;
-    //
-    //
-    //
-    //                res.json([item1, item2]);
-    //            })
-    //        } else {
-    //            item1.ImageData = base64;
-    //
-    //            res.json([item1, item2]);
-    //        }
-    //    });
-    //});
-}
+};
 
 module.exports = {
     //Global functions
@@ -107,7 +56,9 @@ module.exports = {
     //getCategories - Use this to get the distinct categories in the entire database
     getCategories: function (res) {
         Item.find().distinct('category', function (err, items) {
-            utilities.handleErrorsAndItems(err, items, res);
+            utilities.handleErrors(res, err);
+
+            res.send({Categories: items});
         });
     },
 
@@ -166,7 +117,7 @@ module.exports = {
             async.parallel([
                 function(callback) {setVerbs(category, [item1, item2], callback)},
                 function(callback) {utilities.getImageBase64(item1, item2, null, callback)}
-            ], function(err) {res.send([item1, item2])});
+            ], function(err) {res.send({Items:[item1, item2]})});
         }).where({category: category})
     },
 
@@ -174,7 +125,7 @@ module.exports = {
         Item.find(function (err, items) {
             utilities.handleErrors(res, err);
 
-            items.forEach(function (myImage) {
+            async.forEachOf(items, function(myImage, key, callback) {
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/');
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/' + myImage.category);
 
@@ -185,9 +136,11 @@ module.exports = {
 
                     utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350, myImage.id + '.jpeg');
                 });
-            });
 
-            res.json({successful: true});
+                callback();
+            }, function() {
+                res.json({successful: true});
+            });
         });
     }
 }

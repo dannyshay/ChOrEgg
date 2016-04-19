@@ -58,6 +58,7 @@ module.exports = {
                 });
             });
     },
+
     createDirectoryIfDoesntExist: function (directory) {
         if (!fs.existsSync(directory)) {
             fs.mkdirSync(directory);

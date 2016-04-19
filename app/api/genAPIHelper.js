@@ -7,17 +7,19 @@ var db = require('../../config/db');
 Grid.mongo = mongoose.mongo;
 
 module.exports = {
-    getAll : function (res) {
-        var items = [
-            {name: "Easy", timeSpan: 50},
-            {name: "Medium", timeSpan: 20},
-            {name: "Hard", timeSpan: 10}
-        ];
+    getDifficulties: function (res) {
+        var items = {
+            Difficulties: [
+                {name: "Easy", timeSpan: 50},
+                {name: "Medium", timeSpan: 20},
+                {name: "Hard", timeSpan: 10}
+            ]
+        };
 
         utilities.handleErrorsAndItems("", items, res);
     },
 
-    getImage : function(req, res) {
+    getImage: function (req, res) {
         var id1 = req.query.id1;
         var id2 = req.query.id2;
 
