@@ -150,12 +150,12 @@ angular
         $scope.afterFlip = function () {
             $timeout(function () {
                 resetItems();
-                getTwoItems();
             }, 500);
         };
 
         //Called when card flipped from 'back' to 'front'
         $scope.afterFlop = function () {
+            getTwoItems();
         };
 
         //--EXECUTED SCRIPT
