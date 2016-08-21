@@ -4,6 +4,6 @@ angular
         return {
             Categories: $resource('/api/items/categories'),
             Difficulties: $resource('/api/difficulties'),
-            TwoRandomItems: $resource('/api/items/getTwoItemsInTimespan')
+            GetItemsInTimespan: $resource('/api/items/getItemsInTimespan')
         };
     }]);
