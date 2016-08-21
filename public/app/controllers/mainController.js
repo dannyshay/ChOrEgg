@@ -9,7 +9,6 @@ angular
                     var categories = $cookies.get('categories');
                     if (!categories || categories == undefined) {
                         choreggAPI.Categories.get(function (data) {
-                            console.log(data);
                             categories = data.Categories;
                             $cookies.put('categories', JSON.stringify(categories));
 
@@ -51,7 +50,7 @@ angular
         }
 
         //Get Two Random Items
-        function getTwoItems() {
+        function getItems() {
             if(!$scope.score) {
                 $scope.score = 0;
             }
@@ -64,25 +63,25 @@ angular
                 $scope.currentDifficulty = $scope.difficulties[0];
             }
 
-            var args = {
-                category: $scope.currentCategory,
-                timeSpan: $scope.currentDifficulty.timeSpan
-            };
-
-            if ($scope.Items) {
-                args.oldID1 =  $scope.Items[0]._id;
-                args.oldID2 = $scope.Items[1]._id;
+            if($scope.Items) {
+                if ($scope.Items.length <= 2) {
+                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:5}, function(data) {
+                        data.Items.forEach(function(item) {
+                            $scope.Items.push(item);
+                        });
+                    });
+                }
+            } else {
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:5}, function(data) {
+                   $scope.Items = data.Items;
+                });
             }
-
-            choreggAPI.TwoRandomItems.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan}, function(data) {
-                $scope.Items = data.Items;
-            });
         }
 
         //Flip images back to the 'front' side of the cards
         var resetItems = function () {
             $scope.imageFlipped = false;
-            $scope.Items.forEach(function (element) {
+            $scope.Items[0].itemSet.forEach(function (element) {
                 element.flipped = false;
             });
         };
@@ -106,12 +105,14 @@ angular
 
         $scope.difficultyChange = function (difficulty) {
             $scope.currentDifficulty = difficulty;
-            getTwoItems();
+            $scope.Items = null;
+            getItems();
         }
 
         $scope.categoryChange = function (category) {
             $scope.currentCategory = category;
-            getTwoItems();
+            $scope.Items = null;
+            getItems();
         }
 
         $scope.imgClick = function ($index) {
@@ -123,11 +124,11 @@ angular
                 var otherItem;
                 var needsNewItems = false;
 
-                $scope.Items[0].correct = ($scope.Items[0].date < $scope.Items[1].date);
-                $scope.Items[1].correct = ($scope.Items[0].date >= $scope.Items[1].date);
+                $scope.Items[0].itemSet[0].correct = ($scope.Items[0].itemSet[0].date < $scope.Items[0].itemSet[1].date);
+                $scope.Items[0].itemSet[1].correct = ($scope.Items[0].itemSet[0].date >= $scope.Items[0].itemSet[1].date);
 
-                clickedItem = $scope.Items[$index];
-                otherItem = $scope.Items[($index == 0 ? 1 : 0)];
+                clickedItem = $scope.Items[0].itemSet[$index];
+                otherItem = $scope.Items[0].itemSet[($index == 0 ? 1 : 0)];
 
                 clickedItem.flipped = !clickedItem.flipped;
 
@@ -155,14 +156,15 @@ angular
 
         //Called when card flipped from 'back' to 'front'
         $scope.afterFlop = function () {
-            getTwoItems();
+            $scope.Items.shift();
+            getItems();
         };
 
         //--EXECUTED SCRIPT
 
         loadDifficulties().then(function(){
             loadCategories().then(function(){
-                getTwoItems()
+                getItems()
             })
         });
 

@@ -35,8 +35,8 @@ module.exports = function(app) {
         itemHelper.getCategories(res);
     });
 
-    app.get('/api/items/getTwoItemsInTimespan', function(req, res) {
-        itemHelper.getTwoItemsInTimespan(req, res);
+    app.get('/api/items/getItemsInTimespan', function(req, res) {
+       itemHelper.getItemsInTimespan(req, res);
     });
 
     app.get('/api/items/:category/count', function(req, res){
