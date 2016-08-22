@@ -14,12 +14,17 @@ angular
 
                             $scope.categories = categories;
 
+                            $scope.currentCategory = categories[0];
+
                             resolve();
                         });
                     } else {
                         categories = JSON.parse(categories);
 
                         $scope.categories = categories;
+
+                        $scope.currentCategory = categories[0];
+
                         resolve();
                     }
                 }
@@ -37,6 +42,8 @@ angular
 
                         $scope.difficulties = difficulties;
 
+                        $scope.currentDifficulty = difficulties[0];
+
                         resolve();
                     });
                 } else {
@@ -44,10 +51,27 @@ angular
 
                     $scope.difficulties = difficulties;
 
+                    $scope.currentDifficulty = difficulties[0];
+
                     resolve();
                 }
             })
-        }
+        };
+
+        var loadItems = function() {
+            return $q(function(resolve) {
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
+                    $scope.loading = false;
+                    $scope.Items = data.Items;
+                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:5}, function(data2) {
+                        data2.Items.forEach(function(item) {
+                            $scope.Items.push(item);
+                            resolve();
+                        });
+                    });
+                });
+            });
+        };
 
         //Get Two Random Items
         function getItems() {
@@ -176,11 +200,9 @@ angular
 
         loadDifficulties().then(function(){
             loadCategories().then(function(){
-                getItems()
+                loadItems();
             })
         });
-
-        //loadCategories().then(loadDifficulties()).then(getTwoItems());
     }])
     .directive('myFlip', function ($animate) {
         return {
