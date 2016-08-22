@@ -64,15 +64,23 @@ angular
             }
 
             if($scope.Items) {
+                var numPairs = 0;
+                if ($scope.Items.length == 0) { $scope.loading = true; }
+
                 if ($scope.Items.length <= 2) {
-                    if ($scope.Items.length == 0) { $scope.loading = true; }
-                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:15}, function(data) {
-                        $scope.loading = false;
-                        data.Items.forEach(function(item) {
-                            $scope.Items.push(item);
-                        });
-                    });
+                    numPairs = 3;
+                } else if ($scope.Items.length <= 5) {
+                    numPairs = 5;
+                } else if ($scope.Items.length <= 10) {
+                    numPairs = 10;
                 }
+
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:numPairs}, function(data) {
+                    $scope.loading = false;
+                    data.Items.forEach(function(item) {
+                        $scope.Items.push(item);
+                    });
+                });
             } else {
                 $scope.loading = true;
                 choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
