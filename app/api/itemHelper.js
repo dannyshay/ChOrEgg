@@ -58,6 +58,7 @@ var getItemsInTimespan = function (req, res) {
     var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
 
     var retItems = [];
+    var retDict = {};
     var indicies = [];
 
     for (var i = 0; i < numPairs; i++) {
@@ -72,15 +73,18 @@ var getItemsInTimespan = function (req, res) {
             var item2 = getRandomItem(items);
 
             //Search until we find two items that don't match and meet a few other criteria
-            while (
+            while (retDict[item1.id] != null || retDict[item2.id] != null ||
                 item2.id == item1.id || // Don't match
-                Math.abs(item2.date - item1.date) > timeSpan || // Within timespan
-                item1.date == item2.date || // Not the same year
-                (oldItem1ID != 0 && (item1.id == oldItem1ID || item2.id == oldItem1ID)) || //Not an item we had before (top)
-                (oldItem2ID != 0 && (item1.id == oldItem2ID || item2.id == oldItem2ID))) { //Not an item we had before (bottom)
+                Math.abs(item2.date - item1.date) >= timeSpan || // Within timespan
+                item1.date == item2.date) // Not the same year
+            {
                     item1 = getRandomItem(items);
                     item2 = getRandomItem(items);
             }
+
+            //Add the items to the id dictionary so we can look them up later
+            retDict[item1.id] = item1.id;
+            retDict[item2.id] = item2.id;
 
             async.parallel([
                 function(callback) {setVerbs(category, [item1, item2], callback)},
