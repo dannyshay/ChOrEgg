@@ -60,6 +60,8 @@ angular
 
         var loadItems = function() {
             return $q(function(resolve) {
+                $scope.score = 0;
+
                 choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
                     $scope.loading = false;
                     $scope.Items = data.Items;
