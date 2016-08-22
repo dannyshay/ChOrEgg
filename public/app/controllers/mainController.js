@@ -63,7 +63,7 @@ angular
                 choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
                     $scope.loading = false;
                     $scope.Items = data.Items;
-                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:5}, function(data2) {
+                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:2}, function(data2) {
                         data2.Items.forEach(function(item) {
                             $scope.Items.push(item);
                             resolve();
