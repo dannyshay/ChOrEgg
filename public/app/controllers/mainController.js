@@ -144,13 +144,13 @@ angular
         $scope.difficultyChange = function (difficulty) {
             $scope.currentDifficulty = difficulty;
             $scope.Items = null;
-            getItems();
+            loadItems();
         }
 
         $scope.categoryChange = function (category) {
             $scope.currentCategory = category;
             $scope.Items = null;
-            getItems();
+            loadItems();
         }
 
         $scope.imgClick = function ($index) {
