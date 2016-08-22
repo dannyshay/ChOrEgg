@@ -65,14 +65,18 @@ angular
 
             if($scope.Items) {
                 if ($scope.Items.length <= 2) {
-                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:5}, function(data) {
+                    if ($scope.Items.length == 0) { $scope.loading = true; }
+                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:15}, function(data) {
+                        $scope.loading = false;
                         data.Items.forEach(function(item) {
                             $scope.Items.push(item);
                         });
                     });
                 }
             } else {
-                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:5}, function(data) {
+                $scope.loading = true;
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
+                   $scope.loading = false;
                    $scope.Items = data.Items;
                 });
             }
