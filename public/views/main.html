@@ -76,5 +76,8 @@
         <div class="row">
             <span class="label">Score: {{score}}</span>
         </div>
+        <div class="row">
+            <span class="label">Strikes: </span><span ng-repeat="i in getNumber(strikes) track by $index" class="label" style="color:red;">X</span>
+        </div>
     </div>
 </div>
