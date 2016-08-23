@@ -9,7 +9,6 @@ angular
                     var categories = $cookies.get('categories');
                     if (!categories || categories == undefined) {
                         choreggAPI.Categories.get(function (data) {
-                            console.log(data);
                             categories = data.Categories;
                             $cookies.put('categories', JSON.stringify(categories));
 
@@ -21,6 +20,7 @@ angular
                         categories = JSON.parse(categories);
 
                         $scope.categories = categories;
+
                         resolve();
                     }
                 }
@@ -48,41 +48,63 @@ angular
                     resolve();
                 }
             })
-        }
+        };
+
+        var loadItems = function() {
+            return $q(function(resolve) {
+                $scope.score = 0;
+
+                if (!$scope.currentDifficulty) {$scope.currentDifficulty = $scope.difficulties[0];}
+                if (!$scope.currentCategory ) {$scope.currentCategory = $scope.categories[0];}
+
+                $scope.strikes = 0;
+
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
+                    $scope.loading = false;
+                    $scope.Items = data.Items;
+                    choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:2}, function(data2) {
+                        data2.Items.forEach(function(item) {
+                            $scope.Items.push(item);
+                            resolve();
+                        });
+                    });
+                });
+            });
+        };
 
         //Get Two Random Items
-        function getTwoItems() {
-            if(!$scope.score) {
-                $scope.score = 0;
+        function getItems() {
+            if($scope.Items) {
+                var numPairs = 0;
+                if ($scope.Items.length == 0) { $scope.loading = true; }
+
+                if ($scope.Items.length <= 2) {
+                    numPairs = 3;
+                } else if ($scope.Items.length <= 5) {
+                    numPairs = 5;
+                } else if ($scope.Items.length <= 10) {
+                    numPairs = 10;
+                }
+
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:numPairs}, function(data) {
+                    $scope.loading = false;
+                    data.Items.forEach(function(item) {
+                        $scope.Items.push(item);
+                    });
+                });
+            } else {
+                $scope.loading = true;
+                choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
+                   $scope.loading = false;
+                   $scope.Items = data.Items;
+                });
             }
-
-            if (!$scope.currentCategory) {
-                $scope.currentCategory = $scope.categories[0];
-            }
-
-            if (!$scope.currentDifficulty) {
-                $scope.currentDifficulty = $scope.difficulties[0];
-            }
-
-            var args = {
-                category: $scope.currentCategory,
-                timeSpan: $scope.currentDifficulty.timeSpan
-            };
-
-            if ($scope.Items) {
-                args.oldID1 =  $scope.Items[0]._id;
-                args.oldID2 = $scope.Items[1]._id;
-            }
-
-            choreggAPI.TwoRandomItems.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan}, function(data) {
-                $scope.Items = data.Items;
-            });
         }
 
         //Flip images back to the 'front' side of the cards
         var resetItems = function () {
             $scope.imageFlipped = false;
-            $scope.Items.forEach(function (element) {
+            $scope.Items[0].itemSet.forEach(function (element) {
                 element.flipped = false;
             });
         };
@@ -106,15 +128,23 @@ angular
 
         $scope.difficultyChange = function (difficulty) {
             $scope.currentDifficulty = difficulty;
-            getTwoItems();
+            $scope.Items = null;
+            loadItems();
         }
 
         $scope.categoryChange = function (category) {
             $scope.currentCategory = category;
-            getTwoItems();
+            $scope.Items = null;
+            loadItems();
+        }
+
+        $scope.getNumber = function(number) {
+            console.log("number = " + number);
+            return new Array(number);
         }
 
         $scope.imgClick = function ($index) {
+            console.log($scope.strikes);
             if (!$scope.imageFlipped) {
                 $scope.imageFlipped = true;
                 $analytics.eventTrack('Image ' + $index + ' Clicked');
@@ -123,11 +153,11 @@ angular
                 var otherItem;
                 var needsNewItems = false;
 
-                $scope.Items[0].correct = ($scope.Items[0].date < $scope.Items[1].date);
-                $scope.Items[1].correct = ($scope.Items[0].date >= $scope.Items[1].date);
+                $scope.Items[0].itemSet[0].correct = ($scope.Items[0].itemSet[0].date < $scope.Items[0].itemSet[1].date);
+                $scope.Items[0].itemSet[1].correct = ($scope.Items[0].itemSet[0].date >= $scope.Items[0].itemSet[1].date);
 
-                clickedItem = $scope.Items[$index];
-                otherItem = $scope.Items[($index == 0 ? 1 : 0)];
+                clickedItem = $scope.Items[0].itemSet[$index];
+                otherItem = $scope.Items[0].itemSet[($index == 0 ? 1 : 0)];
 
                 clickedItem.flipped = !clickedItem.flipped;
 
@@ -138,10 +168,17 @@ angular
                     if (clickedItem.date < otherItem.date) {
                         $analytics.eventTrack('User choice - Correct');
                         $scope.score = parseInt($scope.score) + 1;
+                        $scope.strikes = 0;
                     } else {
                         $analytics.eventTrack('User choice - Wrong');
                         $scope.score = 0;
+                        $scope.strikes += 1;
                     }
+                }
+
+                if ($scope.strikes >= 5) {
+                    alert('GAME OVER!!');
+                    $scope.strikes = 0;
                 }
             }
         };
@@ -150,23 +187,22 @@ angular
         $scope.afterFlip = function () {
             $timeout(function () {
                 resetItems();
-                getTwoItems();
             }, 500);
         };
 
         //Called when card flipped from 'back' to 'front'
         $scope.afterFlop = function () {
+            $scope.Items.shift();
+            getItems();
         };
 
         //--EXECUTED SCRIPT
 
         loadDifficulties().then(function(){
             loadCategories().then(function(){
-                getTwoItems()
+                loadItems();
             })
         });
-
-        //loadCategories().then(loadDifficulties()).then(getTwoItems());
     }])
     .directive('myFlip', function ($animate) {
         return {

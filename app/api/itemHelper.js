@@ -9,7 +9,6 @@ var Grid = require('gridfs-stream');
 var db = require('../../config/db');
 Grid.mongo = mongoose.mongo;
 
-
 var setVerbs = function (category, items, callback) {
     var verb = ""
     switch (category) {
@@ -41,6 +40,63 @@ var checkRequiredVariables = function (req, res) {
         res.send({Error: "Must specify a timeSpan."});
         return;
     }
+
+    if (!req.query.numPairs) {
+        res.send({Error: "Must specify numPairs."});
+        return;
+    }
+};
+
+var getItemsInTimespan = function (req, res) {
+    checkRequiredVariables(req, res);
+
+    var category = req.query.category;
+    var timeSpan = parseInt(req.query.timeSpan);
+    var numPairs = parseInt(req.query.numPairs);
+
+    var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
+    var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
+
+    var retItems = [];
+    var retDict = {};
+    var indicies = [];
+
+    for (var i = 0; i < numPairs; i++) {
+        indicies.push(i);
+    }
+
+    async.forEachOf(indicies, function(myIndex, key, callback2) {
+        Item.find(function (err, items) {
+            utilities.handleErrors(res, err);
+
+            var item1 = getRandomItem(items);
+            var item2 = getRandomItem(items);
+
+            //Search until we find two items that don't match and meet a few other criteria
+            while (retDict[item1.id] != null || retDict[item2.id] != null ||
+                item2.id == item1.id || // Don't match
+                Math.abs(item2.date - item1.date) >= timeSpan || // Within timespan
+                item1.date == item2.date) // Not the same year
+            {
+                    item1 = getRandomItem(items);
+                    item2 = getRandomItem(items);
+            }
+
+            //Add the items to the id dictionary so we can look them up later
+            retDict[item1.id] = item1.id;
+            retDict[item2.id] = item2.id;
+
+            async.parallel([
+                function(callback) {setVerbs(category, [item1, item2], callback)},
+                function(callback) {utilities.getImageBase64(item1, item2, null, callback)}
+            ], function(err) {
+                retItems.push({itemSet:[item1, item2]});
+                callback2();
+            });
+        }).where({category: category})
+    }, function(err) {
+        res.send({Items:retItems});
+    });
 };
 
 module.exports = {
@@ -86,37 +142,8 @@ module.exports = {
         }).where({category: req.params.category, _id: mongoose.Types.ObjectId(req.params.id)});
     },
 
-    getTwoItemsInTimespan: function (req, res) {
-        checkRequiredVariables(req, res);
-
-        var category = req.query.category;
-        var timeSpan = parseInt(req.query.timeSpan);
-
-        var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
-        var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
-
-        Item.find(function (err, items) {
-            utilities.handleErrors(res, err);
-
-            var item1 = getRandomItem(items);
-            var item2 = getRandomItem(items);
-
-            //Search until we find two items that don't match and meet a few other criteria
-            while (
-            item2.id == item1.id || // Don't match
-            Math.abs(item2.date - item1.date) > timeSpan || // Within timespan
-            item1.date == item2.date || // Not the same year
-            (oldItem1ID != 0 && (item1.id == oldItem1ID || item2.id == oldItem1ID)) || //Not an item we had before (top)
-            (oldItem2ID != 0 && (item1.id == oldItem2ID || item2.id == oldItem2ID))) { //Not an item we had before (bottom)
-                item1 = getRandomItem(items);
-                item2 = getRandomItem(items);
-            }
-
-            async.parallel([
-                function(callback) {setVerbs(category, [item1, item2], callback)},
-                function(callback) {utilities.getImageBase64(item1, item2, null, callback)}
-            ], function(err) {res.send({Items:[item1, item2]})});
-        }).where({category: category})
+    getItemsInTimespan: function(req, res) {
+        getItemsInTimespan(req, res);
     },
 
     downloadAndFormatImages: function (res) {
