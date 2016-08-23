@@ -53,8 +53,10 @@ angular
         var loadItems = function() {
             return $q(function(resolve) {
                 $scope.score = 0;
-                $scope.currentCategory = $scope.categories[0];
-                $scope.currentDifficulty = $scope.difficulties[0];
+
+                if (!$scope.currentDifficulty) {$scope.currentDifficulty = $scope.difficulties[0];}
+                if (!$scope.currentCategory ) {$scope.currentCategory = $scope.categories[0];}
+
                 $scope.strikes = 0;
 
                 choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
