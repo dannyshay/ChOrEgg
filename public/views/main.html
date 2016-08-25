@@ -87,10 +87,12 @@
             </div>
         </div>
         <div class="row">
-            <span class="label">Score: {{score}}</span>
-        </div>
-        <div class="row">
-            <span class="label">Strikes: </span><span ng-repeat="i in getNumber(strikes) track by $index" class="label" style="color:red;">X</span>
+            <div class="col-lg-6" style="padding-top: 15px">
+                <span class="label">Score: {{score}}</span>
+            </div>
+            <div class="col-lg-6" style="padding-top: 15px">
+                <img src="../assets/Images/Red_X.png" ng-repeat="i in getNumber(strikes) track by $index" style="height:32px;width:32px;" />
+            </div>
         </div>
     </div>
 </div>
