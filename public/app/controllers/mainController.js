@@ -27,6 +27,40 @@ angular
             );
         };
 
+        $scope.timeRemaining = 90;
+        var mytimeout = null; // the current timeoutID
+        // actual timer method, counts down every second, stops on zero
+        $scope.onTimeout = function() {
+            if($scope.timeRemaining ===  0) {
+                $scope.$broadcast('timer-stopped', 0);
+                $timeout.cancel(mytimeout);
+                return;
+            }
+            $scope.timeRemaining--;
+            mytimeout = $timeout($scope.onTimeout, 1000);
+        };
+
+        var startTimer = function() {
+            mytimeout = $timeout($scope.onTimeout, 1000);
+        };
+        // stops and resets the current timer
+        var stopTimer = function() {
+            $scope.$broadcast('timer-stopped', $scope.timeRemaining);
+            //$scope.timeRemaining = 10;
+            $timeout.cancel(mytimeout);
+        };
+
+        var resetTimer = function() {
+            $scope.timeRemaining = 10;
+            startTimer();
+        };
+        // triggered, when the timer stops, you can do something here, maybe show a visual indicator or vibrate the device
+        $scope.$on('timer-stopped', function(event, remaining) {
+            if(remaining === 0) {
+                console.log('your time ran out!');
+            }
+        });
+
         //Load Difficulties either from cookies or from API
         var loadDifficulties = function() {
             return $q(function(resolve) {
@@ -63,6 +97,8 @@ angular
                 choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
                     $scope.loading = false;
                     $scope.Items = data.Items;
+                    $scope.timeRemaining = 10;
+                    startTimer();
                     choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:2}, function(data2) {
                         data2.Items.forEach(function(item) {
                             $scope.Items.push(item);
@@ -144,6 +180,7 @@ angular
         }
 
         $scope.imgClick = function ($index) {
+            stopTimer();
             if (!$scope.imageFlipped) {
                 $scope.imageFlipped = true;
                 $analytics.eventTrack('Image ' + $index + ' Clicked');
@@ -192,6 +229,7 @@ angular
         $scope.afterFlop = function () {
             $scope.Items.shift();
             getItems();
+            resetTimer();
         };
 
         //--EXECUTED SCRIPT
