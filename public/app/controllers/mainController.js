@@ -140,12 +140,10 @@ angular
         }
 
         $scope.getNumber = function(number) {
-            console.log("number = " + number);
             return new Array(number);
         }
 
         $scope.imgClick = function ($index) {
-            console.log($scope.strikes);
             if (!$scope.imageFlipped) {
                 $scope.imageFlipped = true;
                 $analytics.eventTrack('Image ' + $index + ' Clicked');
