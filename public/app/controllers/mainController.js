@@ -167,7 +167,6 @@ angular
                     if (clickedItem.date < otherItem.date) {
                         $analytics.eventTrack('User choice - Correct');
                         $scope.score = parseInt($scope.score) + 1;
-                        $scope.strikes = 0;
                     } else {
                         $analytics.eventTrack('User choice - Wrong');
                         $scope.score = 0;
