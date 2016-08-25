@@ -35,8 +35,21 @@
             </div>
         </div>
     </nav>
+    <!--Loader-->
+    <div class="loader centered" ng-show="loading">
+        <div class="loader-inner ball-spin-fade-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div></div>
+    </div>
     <!--Items-->
-    <div class="container-fluid text-center topPadding">
+    <div class="container-fluid text-center topPadding" ng-hide="loading">
         <div class="row">
             <!--Item 1-->
             <div class="col-sm-6 padded" ng-repeat="item in Items[0].itemSet track by $index">

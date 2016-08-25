@@ -52,6 +52,7 @@ angular
 
         var loadItems = function() {
             return $q(function(resolve) {
+                $scope.loading = true;
                 $scope.score = 0;
 
                 if (!$scope.currentDifficulty) {$scope.currentDifficulty = $scope.difficulties[0];}
@@ -197,7 +198,6 @@ angular
         };
 
         //--EXECUTED SCRIPT
-
         loadDifficulties().then(function(){
             loadCategories().then(function(){
                 loadItems();
