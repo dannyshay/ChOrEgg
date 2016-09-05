@@ -30,6 +30,7 @@ angular
 
         $scope.timeOut = function() {
             $scope.Items.shift();
+            getItems();
             $scope.strikes += 1;
 
             if ($scope.strikes >= 5) {
