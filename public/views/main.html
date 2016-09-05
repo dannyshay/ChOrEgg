@@ -87,11 +87,16 @@
             </div>
         </div>
         <div class="row">
+            <h3> Time Remaining: {{timeRemaining}}</h3>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                     aria-valuemin="0" aria-valuemax="100" style="width:{{timeRemaining*10}}%"></div>
+                <timer interval="1000" countdown="timeRemaining" finish-callback="timeOut()">{{}}</timer>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-4" style="padding-top: 15px">
                 <span class="label">Score: {{score}}</span>
-            </div>
-            <div class="col-lg-4" style="padding-top: 15px">
-                <span class="label">Time: {{timeRemaining}}</span>
             </div>
             <div class="col-lg-4" style="padding-top: 15px">
                 <img src="../assets/Images/Red_X.png" ng-repeat="i in getNumber(strikes) track by $index" style="height:32px;width:32px;" />
