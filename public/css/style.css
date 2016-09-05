@@ -167,7 +167,7 @@ body {
 /*iPhone6+*/
 @media screen and (max-width : 800px) {
     .item {
-        height: 200px;
+        height: 180px;
     }
 
     .label {

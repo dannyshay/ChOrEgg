@@ -19,29 +19,17 @@ angular
         };
 
         $scope.$on('timer-tick', function(event, value) {
-            $scope.timeRemaining = (Math.floor(value.millis / 1000)) % 10;
+            $scope.timeRemaining = (Math.ceil(value.millis / 1000)) % 10;
 
             if ($scope.timeRemaining == 0) { $scope.timeRemaining = 10; }
 
             if(!$scope.$$phase) {
                 $scope.$apply();
-                //$digest or $apply
             }
-            console.log('tick! - ' + $scope.timeRemaining);
-        });
-
-        $scope.$on('timer-stop', function(event, value) {
-           console.log('Timer stopped.');
-            $scope.timeRemaining = 10;
-            startTimer();
-            //alert("Time's Up!!");
-            //$scope.timeRemaining = 10;
-            //startTimer();
         });
 
         $scope.timeOut = function() {
-            alert("Time's up!!");
-            resetItems();
+            $scope.Items.shift();
             $scope.strikes += 1;
 
             if ($scope.strikes >= 5) {
@@ -50,7 +38,6 @@ angular
             }
 
             $scope.$broadcast('timer-add-cd-seconds', 10);
-            //startTimer();
         }
 
         //Load Categories either from cookies or from API
@@ -188,6 +175,7 @@ angular
             $scope.currentCategory = category;
             $scope.Items = null;
             loadItems();
+            restartTimer();
         }
 
         $scope.getNumber = function(number) {
