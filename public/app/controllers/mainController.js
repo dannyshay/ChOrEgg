@@ -170,6 +170,7 @@ angular
             $scope.currentDifficulty = difficulty;
             $scope.Items = null;
             loadItems();
+            restartTimer();
         }
 
         $scope.categoryChange = function (category) {
