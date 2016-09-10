@@ -43,6 +43,7 @@ angular
             if ($scope.strikes >= 5) {
                 alert('GAME OVER!!');
                 $scope.strikes = 0;
+                $scope.score = 0;
             }
 
             $scope.$broadcast('timer-add-cd-seconds', 10);
@@ -218,7 +219,6 @@ angular
                         $scope.score = parseInt($scope.score) + 1;
                     } else {
                         $analytics.eventTrack('User choice - Wrong');
-                        $scope.score = 0;
                         $scope.strikes += 1;
                     }
                 }
@@ -226,6 +226,7 @@ angular
                 if ($scope.strikes >= 5) {
                     alert('GAME OVER!!');
                     $scope.strikes = 0;
+                    $scope.score = 0;
                 }
             }
         };
