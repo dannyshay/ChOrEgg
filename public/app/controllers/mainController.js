@@ -1,8 +1,15 @@
+//Boostrap mobile dropdown fix
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
+        $(this).collapse('hide');
+    }
+});
+
 angular
     .module('choregg')
     .controller('MainController', ['$scope', '$http', '$cookies', '$analytics', '$timeout', 'choreggAPI', '$q', function ($scope, $http, $cookies, $analytics, $timeout, choreggAPI, $q) {
         //--PAGE Functions
-        //----
+        //---
 
         $scope.timeRemaining = 10;
 
