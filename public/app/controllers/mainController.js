@@ -1,8 +1,15 @@
+//Boostrap mobile dropdown fix
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
+        $(this).collapse('hide');
+    }
+});
+
 angular
     .module('choregg')
     .controller('MainController', ['$scope', '$http', '$cookies', '$analytics', '$timeout', 'choreggAPI', '$q', function ($scope, $http, $cookies, $analytics, $timeout, choreggAPI, $q) {
         //--PAGE Functions
-        //----
+        //---
 
         $scope.timeRemaining = 10;
 
@@ -36,6 +43,7 @@ angular
             if ($scope.strikes >= 5) {
                 alert('GAME OVER!!');
                 $scope.strikes = 0;
+                $scope.score = 0;
             }
 
             $scope.$broadcast('timer-add-cd-seconds', 10);
@@ -211,7 +219,6 @@ angular
                         $scope.score = parseInt($scope.score) + 1;
                     } else {
                         $analytics.eventTrack('User choice - Wrong');
-                        $scope.score = 0;
                         $scope.strikes += 1;
                     }
                 }
@@ -219,6 +226,7 @@ angular
                 if ($scope.strikes >= 5) {
                     alert('GAME OVER!!');
                     $scope.strikes = 0;
+                    $scope.score = 0;
                 }
             }
         };
