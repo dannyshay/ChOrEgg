@@ -1,7 +1,53 @@
+//Boostrap mobile dropdown fix
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
+        $(this).collapse('hide');
+    }
+});
+
 angular
     .module('choregg')
     .controller('MainController', ['$scope', '$http', '$cookies', '$analytics', '$timeout', 'choreggAPI', '$q', function ($scope, $http, $cookies, $analytics, $timeout, choreggAPI, $q) {
         //--PAGE Functions
+        //---
+
+        $scope.timeRemaining = 10;
+
+        var startTimer = function() {
+            $scope.$broadcast('timer-start');
+        };
+
+        var stopTimer = function () {
+            $scope.$broadcast('timer-stop');
+        };
+
+        var restartTimer = function() {
+            $scope.$broadcast('timer-add-cd-seconds', 11 - $scope.timeRemaining);
+        };
+
+        $scope.$on('timer-tick', function(event, value) {
+            $scope.timeRemaining = (Math.ceil(value.millis / 1000)) % 10;
+
+            if ($scope.timeRemaining == 0) { $scope.timeRemaining = 10; }
+
+            if(!$scope.$$phase) {
+                $scope.$apply();
+            }
+        });
+
+        $scope.timeOut = function() {
+            $scope.Items.shift();
+            getItems();
+            $scope.strikes += 1;
+
+            if ($scope.strikes >= 5) {
+                alert('GAME OVER!!');
+                $scope.strikes = 0;
+                $scope.score = 0;
+            }
+
+            $scope.$broadcast('timer-add-cd-seconds', 10);
+        }
 
         //Load Categories either from cookies or from API
         var loadCategories = function () {
@@ -63,6 +109,7 @@ angular
                 choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:1}, function(data) {
                     $scope.loading = false;
                     $scope.Items = data.Items;
+                    $scope.timeRemaining = 10;
                     choreggAPI.GetItemsInTimespan.get({category:$scope.currentCategory, timeSpan:$scope.currentDifficulty.timeSpan, numPairs:2}, function(data2) {
                         data2.Items.forEach(function(item) {
                             $scope.Items.push(item);
@@ -131,12 +178,14 @@ angular
             $scope.currentDifficulty = difficulty;
             $scope.Items = null;
             loadItems();
+            restartTimer();
         }
 
         $scope.categoryChange = function (category) {
             $scope.currentCategory = category;
             $scope.Items = null;
             loadItems();
+            restartTimer();
         }
 
         $scope.getNumber = function(number) {
@@ -144,6 +193,7 @@ angular
         }
 
         $scope.imgClick = function ($index) {
+            stopTimer();
             if (!$scope.imageFlipped) {
                 $scope.imageFlipped = true;
                 $analytics.eventTrack('Image ' + $index + ' Clicked');
@@ -167,10 +217,8 @@ angular
                     if (clickedItem.date < otherItem.date) {
                         $analytics.eventTrack('User choice - Correct');
                         $scope.score = parseInt($scope.score) + 1;
-                        $scope.strikes = 0;
                     } else {
                         $analytics.eventTrack('User choice - Wrong');
-                        $scope.score = 0;
                         $scope.strikes += 1;
                     }
                 }
@@ -178,6 +226,7 @@ angular
                 if ($scope.strikes >= 5) {
                     alert('GAME OVER!!');
                     $scope.strikes = 0;
+                    $scope.score = 0;
                 }
             }
         };
@@ -186,6 +235,7 @@ angular
         $scope.afterFlip = function () {
             $timeout(function () {
                 resetItems();
+                restartTimer();
             }, 500);
         };
 
@@ -193,6 +243,7 @@ angular
         $scope.afterFlop = function () {
             $scope.Items.shift();
             getItems();
+            startTimer();
         };
 
         //--EXECUTED SCRIPT

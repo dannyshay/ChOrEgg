@@ -18,3 +18,5 @@ Thumbs.db
 
 node_modules/
 public/scripts/
+
+.idea/workspace.xml

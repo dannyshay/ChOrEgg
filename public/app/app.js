@@ -1,4 +1,4 @@
-var deps = ['ngRoute', 'appRoutes','ngCookies','angulartics','ngAnimate','ngResource'];
+var deps = ['ngRoute', 'appRoutes','ngCookies','angulartics','ngAnimate','ngResource','timer'];
 
 try {
     angular.module("angulartics.google.analytics"); // this throws if GA script is not loaded

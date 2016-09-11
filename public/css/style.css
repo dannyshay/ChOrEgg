@@ -167,7 +167,7 @@ body {
 /*iPhone6+*/
 @media screen and (max-width : 800px) {
     .item {
-        height: 220px;
+        height: 180px;
     }
 
     .label {
@@ -180,7 +180,7 @@ body {
 
     @media screen and (max-width : 400px) {
         .item {
-            height: 180px;
+            height: 160px;
         }
     }
 
@@ -188,7 +188,7 @@ body {
     @media screen and (max-width : 320px) {
         @media screen and (max-height: 600px) {
             .item {
-                height: 150px;
+                height: 130px;
             }
 
             .correctHeader {
@@ -203,7 +203,7 @@ body {
         /*iPhone4*/
         @media screen and (max-height: 500px){
             .item {
-                height: 100px;
+                height: 80px;
             }
 
             .correctHeader {
