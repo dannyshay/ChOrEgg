@@ -6,6 +6,11 @@ angular
             function (aScore) { $scope.currentScore = aScore; }
         );
 
+        // Watch the loading indicator
+        $scope.$watch(function() { return LoadingService.getLoading();},
+            function(aLoading) { if(aLoading != null && aLoading != $scope.isLoading) { $scope.isLoading = aLoading; }; }
+        );
+
         // Watch the strikes
         $scope.$watch(function () { return HUDService.getNumStrikes(); },
             function (aNumStrikes) {
