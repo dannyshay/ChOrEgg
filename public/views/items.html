@@ -1,28 +1,30 @@
-<!--Item 1-->
-<div class="col-sm-6 padded" ng-repeat="item in Items[0].itemSet track by $index">
-    <!--Name-->
-    <span class="label-important">{{ item.name }}</span>
-    <!--Flipper - Item-->
-    <div class="item">
-        <div class="flip">
-            <!--Card-->
-            <div class="card" my-flip="item.flipped" after-Flip="afterFlip()" after-Flop="afterFlop()" ng-click="imgClick($index)">
-                <!--Front of the Card-->
-                <div class="face front">
-                    <!--Actual Image-->
-                    <img class="image img-responsive img-thumbnail" ng-src="data:image/jpeg;base64,{{ item.imageData }}" />
-                </div>
-                <!--Back of the Card-->
-                <div class="face back">
-                    <div ng-class="{'correct':item.correct, 'incorrect':!item.correct}">
-                        <div class="vertical-center">
-                            <!--Needed for Vertical-Center CSS-->
-                            <div class="container">
-                                <div class="row padded">
-                                    <span class="correctHeader">{{(item.correct ? "Correct!" : "Incorrect...")}}</span>
-                                </div>
-                                <div class="row" >
-                                    <span class="correctMessage">{{item.name}} ({{item.date}}) was {{item.verb}} {{(item.correct ? "before" : "after")}} {{(Items[0].itemSet[0] == item ? Items[0].itemSet[1].name + " (" + Items[0].itemSet[1].date + ")" : Items[0].itemSet[0].name + " (" + Items[0].itemSet[0].date + ")")}}</span>
+<div ng-controller="ItemController as itemCtrl">
+    <!--Item 1-->
+    <div class="col-sm-6 padded" ng-repeat="item in CurrentItems.itemSet track by $index">
+        <!--Name-->
+        <span class="label-important">{{ item.name }}</span>
+        <!--Flipper - Item-->
+        <div class="item">
+            <div class="flip">
+                <!--Card-->
+                <div class="card" my-flip="item.flipped" after-Flip="afterFlip()" after-Flop="afterFlop()" ng-click="imgClick($index)">
+                    <!--Front of the Card-->
+                    <div class="face front">
+                        <!--Actual Image-->
+                        <img class="image img-responsive img-thumbnail" ng-src="data:image/jpeg;base64,{{ item.imageData }}" />
+                    </div>
+                    <!--Back of the Card-->
+                    <div class="face back">
+                        <div ng-class="{'correct':item.correct, 'incorrect':!item.correct}">
+                            <div class="vertical-center">
+                                <!--Needed for Vertical-Center CSS-->
+                                <div class="container">
+                                    <div class="row padded">
+                                        <span class="correctHeader">{{(item.correct ? "Correct!" : "Incorrect...")}}</span>
+                                    </div>
+                                    <div class="row" >
+                                        <span class="correctMessage">{{item.name}} ({{item.date}}) was {{item.verb}} {{(item.correct ? "before" : "after")}} {{(Items[0].itemSet[0] == item ? Items[0].itemSet[1].name + " (" + Items[0].itemSet[1].date + ")" : Items[0].itemSet[0].name + " (" + Items[0].itemSet[0].date + ")")}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

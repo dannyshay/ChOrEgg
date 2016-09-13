@@ -1,8 +1,8 @@
 <div ng-controller="HudController as hud">
     <div class="col-lg-6 col-xs-6">
-        <span class="label" style="font-size:25px; line-height:1.5em;">Score: {{score}}</span>
+        <span class="label" style="font-size:25px; line-height:1.5em;">Score: {{currentScore}}</span>
     </div>
     <div class="col-lg-6 col-xs-6" style="padding-top: 5px">
-        <img src="../assets/Images/Red_X.png" ng-repeat="i in getNumber(strikes) track by $index" style="height:32px;width:32px;" />
+        <img src="../assets/Images/Red_X.png" ng-repeat="i in getNumber(numStrikes) track by $index" style="height:32px;width:32px;" />
     </div>
 </div>
