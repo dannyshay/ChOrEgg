@@ -27,16 +27,20 @@ angular
                             myDifficulties = data.Difficulties;
                             // Save the results to a cookie
                             $cookies.put('difficulties', JSON.stringify(myDifficulties));
+
+                            difficulties = myDifficulties;
+                            currentDifficulty = difficulties[0];
+                            resolve(difficulties);
                         });
                     } else {
                         // Parse the difficulties from the cookie
                         myDifficulties = JSON.parse(myDifficulties);
+
+                        difficulties = myDifficulties;
+                        currentDifficulty = difficulties[0];
+                        resolve(difficulties);
                     }
 
-                    // Set the values and return the difficulties in the Promise
-                    difficulties = myDifficulties;
-                    currentDifficulty = difficulties[0];
-                    resolve(difficulties);
                 })
             }
         }

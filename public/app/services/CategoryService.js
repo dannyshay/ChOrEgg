@@ -27,16 +27,24 @@ angular
                                 myCategories = data.Categories;
                                 // Save the categories to a cookie
                                 $cookies.put('categories', JSON.stringify(myCategories));
+
+                                categories = myCategories;
+                                currentCategory = categories[0];
+                                resolve(categories);
                             });
                         } else {
                             // Parse the caetegories from the cookie
                             myCategories = JSON.parse(myCategories);
+
+                            categories = myCategories;
+                            currentCategory = categories[0];
+                            resolve(categories);
                         }
 
+                        console.log('myCategories = ' + myCategories);
+
                         // Set the values and return the current categories in the Promise
-                        categories = myCategories;
-                        currentCategory = categories[0];
-                        resolve(categories);
+
                     }
                 );
             }
