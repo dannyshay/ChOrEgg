@@ -49,7 +49,7 @@ angular
         );
 
         $scope.$watch(function() {return ItemService.getCurrentItems();},
-            function(aCurrentItems) { $scope.CurrentItems = aCurrentItems; }
+            function(aCurrentItems) { $scope.CurrentItems = aCurrentItems;  }
         );
 
         $scope.$watch(function() {return CategoryService.getCurrentCategory(); },
@@ -82,9 +82,10 @@ angular
         // - If you are wishing to just get more items with the existing category / difficulty - use 'getMoreItems()' below
         function getInitialItems() {
             return $q(function(resolve) {
+                //console.log('in resolve');
                 ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     LoadingService.setLoading(false);
-                    TimerService.startTimer();
+                    TimerService.restartTimer().then(function() { TimerService.startTimer();});
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
@@ -171,10 +172,9 @@ angular
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
             ItemService.shiftItems().then(function() {
+                TimerService.startTimer();
                 // Then get some more items using the current settings
                 getMoreItems().then(function() {
-                    // Then start the timer and let the user click again
-                    TimerService.startTimer();
                     $scope.imageFlipping = false;
                 })
             });

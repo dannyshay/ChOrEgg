@@ -7,14 +7,14 @@ angular
                 if(aLoading != null && aLoading != $scope.isLoading) {
                     $scope.isLoading = aLoading;
 
-                    if ($scope.isLoading) {
+                    if ($scope.isLoading && (TimerService.getIsRunning())) {
                         TimerService.stopTimer();
-                    } else {
+                    } else if ($scope.isLoading == false && (!TimerService.getIsRunning())) {
                         TimerService.startTimer();
                     }
                 }
             }
-        )
+        );
 
         // Get the time remaining in the shared data service (we want to keep this in sync with our scope variable)
         $scope.$watch(function() { return TimerService.getTimeRemaining();},

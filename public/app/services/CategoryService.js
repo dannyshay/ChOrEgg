@@ -41,10 +41,6 @@ angular
                             resolve(categories);
                         }
 
-                        console.log('myCategories = ' + myCategories);
-
-                        // Set the values and return the current categories in the Promise
-
                     }
                 );
             }

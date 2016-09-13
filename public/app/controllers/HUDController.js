@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('HudController', ['$scope', 'HUDService', function($scope, HUDService) {
+    .controller('HudController', ['$scope', 'HUDService', 'LoadingService', function($scope, HUDService, LoadingService) {
         // Watch the score
         $scope.$watch(function () { return HUDService.getCurrentScore(); },
             function (aScore) { $scope.currentScore = aScore; }
