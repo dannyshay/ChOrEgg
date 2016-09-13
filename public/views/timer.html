@@ -1,4 +1,4 @@
-<div ng-controller="TimerController as timeCtrl">
+<div ng-controller="TimerController as timeCtrl" ng-hide="isLoading">
     <h4>Time Remaining: {{timeRemaining}}</h4>
     <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="70"

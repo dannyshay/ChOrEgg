@@ -1,7 +1,20 @@
 angular
     .module('choregg')
-    .controller('TimerController', ['$scope', 'TimerService', 'ItemService', 'HUDService', 'DifficultyService', 'CategoryService', function($scope, TimerService, ItemService, HUDService, DifficultyService, CategoryService) {
-        //NOTE - the timer that is first stared is stared automatically by the <timer> directive in timer.html
+    .controller('TimerController', ['$scope', 'TimerService', 'ItemService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', function($scope, TimerService, ItemService, HUDService, DifficultyService, CategoryService, LoadingService) {
+        //NOTE - the timer that is first stared is stared automatically by the <timer> directive in timer.htm
+        $scope.$watch(function() { return LoadingService.getLoading();},
+            function(aLoading) {
+                if(aLoading != null && aLoading != $scope.isLoading) {
+                    $scope.isLoading = aLoading;
+
+                    if ($scope.isLoading) {
+                        TimerService.stopTimer();
+                    } else {
+                        TimerService.startTimer();
+                    }
+                }
+            }
+        )
 
         // Get the time remaining in the shared data service (we want to keep this in sync with our scope variable)
         $scope.$watch(function() { return TimerService.getTimeRemaining();},
