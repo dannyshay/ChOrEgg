@@ -27,7 +27,6 @@ angular
                     TimerService.restartTimer();
                     resolve();
                 });
-
             },
             getItemsInTimespan: function (aCategory, aTimespan, aNumPairs, aClearItems) {
                 return $q(function (resolve) {
