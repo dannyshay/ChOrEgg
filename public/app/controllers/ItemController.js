@@ -132,6 +132,7 @@ angular
 
         // This event is called when the user clicks one of the cards (and we're not already in the process of an evaluation)
         $scope.imgClick = function ($index) {
+            console.log('ImageFlipping = ' + $scope.imageFlipping);
             if (!$scope.imageFlipping) {
                 // This flag makes it so the user can't click over and over and over again on the iamges to mess with the timer
                 $scope.imageFlipping = true;
