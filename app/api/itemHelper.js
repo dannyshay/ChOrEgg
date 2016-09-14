@@ -1,13 +1,7 @@
 var Item = require('./../models/item');
-var async = require('async');
 var utilities = require("./server_utilities");
-var genAPIHelper = require('./genAPIHelper');
+var async = require('async');
 var mongoose = require('mongoose');
-var fs = require('fs');
-var request = require('request');
-var Grid = require('gridfs-stream');
-var db = require('../../config/db');
-Grid.mongo = mongoose.mongo;
 
 var setVerbs = function (category, items, callback) {
     var verb = ""
@@ -106,13 +100,6 @@ module.exports = {
     getAll: function (res) {
         Item.find(function (err, items) {
             utilities.handleErrorsAndItems(err, items, res);
-        });
-    },
-
-    //getCategories - Use this to get the distinct categories in the entire database
-    getCategories: function (res) {
-        Item.find().distinct('category', function (err, items) {
-            utilities.handleErrorsAndItems(err, {Categories: items}, res);
         });
     },
 
