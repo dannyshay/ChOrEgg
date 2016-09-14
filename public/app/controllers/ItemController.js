@@ -24,6 +24,8 @@ angular
                 $scope.currentDifficulty = $scope.difficulties[0];
                 $scope.currentCategory = $scope.categories[0];
 
+                $scope.imageFlipping = false;
+
                 getInitialItems();
             });
         });
