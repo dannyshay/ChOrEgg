@@ -175,11 +175,10 @@ angular
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
             ItemService.shiftItems().then(function() {
+                $scope.imageFlipping = false;
                 TimerService.startTimer();
                 // Then get some more items using the current settings
-                getMoreItems().then(function() {
-                    $scope.imageFlipping = false;
-                })
+                getMoreItems()
             });
         };
 
