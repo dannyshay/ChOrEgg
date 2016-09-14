@@ -34,5 +34,8 @@
     "angular-timer": "^1.3.4",
     "loaders.css": "^0.1.2",
     "angular-preload-image": "*"
+  },
+  "resolutions": {
+    "angular": ">=1.0.8"
   }
 }
