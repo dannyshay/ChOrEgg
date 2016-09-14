@@ -109,8 +109,11 @@ angular
                     $scope.Items = [];
                 }
                 else {
+
                     // This logic is customized to cache items according to the rate the user can flip the cards
-                    if ($scope.Items.length <= 2) {
+                    if ($scope.Items.length <= 1) {
+                        numPairs = 1;
+                    } else if ($scope.Items.length <= 2) {
                         numPairs = 3;
                     } else if ($scope.Items.length <= 5) {
                         numPairs = 5;
