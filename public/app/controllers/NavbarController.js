@@ -1,13 +1,6 @@
 angular
     .module('choregg')
     .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService) {
-        // DifficultyService.loadDifficulties().then(function(){
-        //     CategoryService.loadCategories().then(function(){
-        //         $scope.categories = CategoryService.getCategories();;
-        //         $scope.difficulties = DifficultyService.getDifficulties();
-        //     });
-        // });
-
         $scope.$watch(function() {return CategoryService.getCategories();},
             function(aCategories) { $scope.categories = aCategories; }
         );
@@ -37,6 +30,16 @@ angular
             HUDService.initialize();
             CategoryService.setCurrentCategory(aCategory);
 
+        };
+
+        $scope.pause = function() {
+            $scope.paused = true;
+            TimerService.stopTimer();
+        };
+
+        $scope.resume = function() {
+            $scope.paused = false;
+            TimerService.startTimer();
         };
 
         $scope.isActiveCategory = function (category) {
