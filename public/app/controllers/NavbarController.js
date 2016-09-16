@@ -39,16 +39,16 @@ angular
         );
 
         $scope.difficultyChange = function(aDifficulty) {
-            TimerService.restartTimer();
             HUDService.initialize();
             DifficultyService.setCurrentDifficulty(aDifficulty);
+            TimerService.restartTimer();
 
         };
 
         $scope.categoryChange = function(aCategory) {
-            TimerService.restartTimer();
             HUDService.initialize();
             CategoryService.setCurrentCategory(aCategory);
+            TimerService.restartTimer();
 
         };
 
