@@ -27,6 +27,11 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li class="dropdown-header">Account {{(username != "" && username != null ? " - " + username : "")}}</li>
+                            <li><a href="#" ng-click="login()" ng-hide="signedIn">Login</a></li>
+                            <li><a href="#" ng-click="logout()" ng-hide="!signedIn">Logout</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Options</li>
                             <li><a href="#" ng-click="pause()" ng-hide="paused">Pause</a></li>
                             <li><a href="#" ng-click="resume()" ng-hide="!paused">Resume</a></li>
                         </ul>

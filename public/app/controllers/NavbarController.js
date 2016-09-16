@@ -1,6 +1,11 @@
 angular
     .module('choregg')
-    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService) {
+    .config(['GoogleSigninProvider', function(GoogleSigninProvider) {
+        GoogleSigninProvider.init({
+            client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com',
+        });
+    }])
+    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService) {
         $scope.$watch(function() {return CategoryService.getCategories();},
             function(aCategories) { $scope.categories = aCategories; }
         );
@@ -15,7 +20,22 @@ angular
 
         $scope.$watch(function() {return DifficultyService.getCurrentDifficulty();},
             function(aDifficulty) { if(aDifficulty) {$scope.currentDifficulty = aDifficulty; }}
+        );
 
+        $scope.$watch(function() {return AuthenticationService.getUser();},
+            function(aUser) { $scope.user = aUser; }
+        );
+
+        $scope.$watch(function() {return AuthenticationService.getUsername();},
+            function(aUsername) { $scope.username = aUsername; }
+        );
+
+        $scope.$watch(function() {return AuthenticationService.getSignedIn();},
+            function(aSignedIn) {
+                if(aSignedIn != null && aSignedIn != $scope.signedIn) {
+                    $scope.signedIn = aSignedIn;
+                }
+            }
         );
 
         $scope.difficultyChange = function(aDifficulty) {
@@ -31,6 +51,19 @@ angular
             CategoryService.setCurrentCategory(aCategory);
 
         };
+
+        $scope.login = function () {
+            GoogleSignin.signIn().then(function (user) {
+                AuthenticationService.signInUser(GoogleSignin.getUser());
+            }, function (err) {
+                AuthenticationService.signOut();
+            });
+        };
+
+        $scope.logout = function() {
+            GoogleSignin.disconnect();
+            AuthenticationService.signOut();
+        }
 
         $scope.pause = function() {
             $scope.paused = true;
