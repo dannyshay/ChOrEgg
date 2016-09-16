@@ -1,8 +1,9 @@
 //Includes
-var itemHelper = require('./api/itemHelper')
-var genAPIHelper = require('./api/genAPIHelper')
-var difficultyHelper = require('./api/difficultyHelper')
-var categoryHelper = require('./api/categoryHelper')
+var itemHelper = require('./api/itemHelper');
+var genAPIHelper = require('./api/genAPIHelper');
+var difficultyHelper = require('./api/difficultyHelper');
+var categoryHelper = require('./api/categoryHelper');
+var userHelper = require('./api/userHelper');
 
 //API Calls
 module.exports = function(app) {
@@ -12,12 +13,12 @@ module.exports = function(app) {
     });
 
     //User Functions
-    app.get('/api/user/getScore', function(req, res) {
-       res.json((req.session.score == undefined ? 0 : parseInt(req.session.score)));
+    app.get('/api/users', function(req, res) {
+       userHelper.getUsers(res);
     });
 
     app.get('/api/difficulties', function(req, res) {
-        difficultyHelper.getDifficulties(res);
+        difficultyHelper.getAll(res);
     });
 
     app.get('/api/getImage', function(req, res) {

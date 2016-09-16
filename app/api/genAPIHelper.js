@@ -1,9 +1,6 @@
 var utilities = require("./server_utilities");
-var fs = require('fs');
-
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
-var db = require('../../config/db');
 Grid.mongo = mongoose.mongo;
 
 module.exports = {
