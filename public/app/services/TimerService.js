@@ -47,6 +47,7 @@ angular
                     if (!isRunning) {
                         $rootScope.$broadcast('timer-start');
                         isRunning = true;
+                        isPaused = false;
                     }
 
                     timeRemaining = 10;
