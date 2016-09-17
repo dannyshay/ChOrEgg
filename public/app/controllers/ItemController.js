@@ -38,6 +38,12 @@ angular
             function (aLoading) { $scope.loading = aLoading; }
         );
 
+        $scope.$watch(function() { return TimerService.getIsPaused();},
+            function(aIsPaused) {
+                if(aIsPaused != null && aIsPaused != $scope.isPaused) { $scope.isPaused = aIsPaused; }
+            }
+        )
+
         $scope.$watch(function() { return ItemService.getItems(); },
             function(anItemList) { $scope.Items = anItemList;}
         );
@@ -133,7 +139,7 @@ angular
 
         // This event is called when the user clicks one of the cards (and we're not already in the process of an evaluation)
         $scope.imgClick = function ($index) {
-            if (!$scope.imageFlipping) {
+            if (!$scope.imageFlipping && !$scope.isPaused) {
                 // This flag makes it so the user can't click over and over and over again on the iamges to mess with the timer
                 $scope.imageFlipping = true;
 

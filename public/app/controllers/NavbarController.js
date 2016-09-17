@@ -30,6 +30,12 @@ angular
             function(aUsername) { $scope.username = aUsername; }
         );
 
+        $scope.$watch(function() {return TimerService.getIsPaused();},
+            function(aIsPaused) {
+                if(aIsPaused != null && aIsPaused != $scope.paused) { $scope.paused = aIsPaused; }
+            }
+        )
+
         $scope.$watch(function() {return AuthenticationService.getSignedIn();},
             function(aSignedIn) {
                 if(aSignedIn != null && aSignedIn != $scope.signedIn) {
@@ -66,13 +72,11 @@ angular
         };
 
         $scope.pause = function() {
-            $scope.paused = true;
-            TimerService.stopTimer();
+            TimerService.pause();
         };
 
         $scope.resume = function() {
-            $scope.paused = false;
-            TimerService.startTimer();
+            TimerService.resume();
         };
 
         $scope.isActiveCategory = function (category) {
