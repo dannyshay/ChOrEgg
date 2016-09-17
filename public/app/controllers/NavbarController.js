@@ -5,7 +5,7 @@ angular
             client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com',
         });
     }])
-    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService) {
+    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService) {
         $scope.$watch(function() {return CategoryService.getCategories();},
             function(aCategories) { $scope.categories = aCategories; }
         );
@@ -34,7 +34,13 @@ angular
             function(aIsPaused) {
                 if(aIsPaused != null && aIsPaused != $scope.paused) { $scope.paused = aIsPaused; }
             }
-        )
+        );
+
+        $scope.$watch(function() {return StateService.getCurrentState();},
+            function(aCurrentState) {
+                if(aCurrentState != null && aCurrentState != $scope.currentState) { $scope.currentState = aCurrentState; }
+            }
+        );
 
         $scope.$watch(function() {return AuthenticationService.getSignedIn();},
             function(aSignedIn) {
@@ -43,6 +49,14 @@ angular
                 }
             }
         );
+
+        $scope.viewProfile = function() {
+            StateService.setCurrentState('viewProfile');
+        };
+
+        $scope.viewMain = function() {
+            StateService.setCurrentState('mainGame');
+        }
 
         $scope.difficultyChange = function(aDifficulty) {
             HUDService.initialize();

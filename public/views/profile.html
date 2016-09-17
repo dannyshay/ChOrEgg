@@ -1,0 +1,35 @@
+<div ng-controller="ProfileController as profile" class="topPadding">
+    <h1 class="page-header text-center">Profile Information</h1>
+    <div class="row">
+        <!--Account Information-->
+        <div class="col-lg-6 col-xs-6">
+            <h3 class="fa-header">Account Information</h3>
+            <ul>
+                <li>
+                    <strong>Username:</strong>
+                    <span>{{user.username}}</span>
+                </li>
+                <li>
+                    <strong>Account Created:</strong>
+                    <span>{{user.createdDate}}</span>
+                </li>
+                <li>
+                    <strong>Last Sign In:</strong>
+                    <span>{{user.lastSignInDate}}</span>
+                </li>
+            </ul>
+        </div>
+        <!--Stats-->
+        <div class="col-lg-6 col-xs-6">
+            <h3 class="fa-header">Stats</h3>
+            <ul>
+                <li>
+                    <strong>High Score:</strong>
+                    <span>{{user.highScore}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
