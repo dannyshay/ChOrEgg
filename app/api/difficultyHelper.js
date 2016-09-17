@@ -7,4 +7,4 @@ module.exports = {
             utilities.handleErrorsAndItems(err, {Difficulties:difficulties}, res);
         });
     }
-}
+};

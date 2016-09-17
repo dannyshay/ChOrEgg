@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('HudController', ['$scope', 'HUDService', 'LoadingService', function($scope, HUDService, LoadingService) {
+    .controller('HudController', ['$scope', 'HUDService', 'LoadingService', 'UserService', 'AuthenticationService', function($scope, HUDService, LoadingService, UserService, AuthenticationService) {
         // Watch the score
         $scope.$watch(function () { return HUDService.getCurrentScore(); },
             function (aScore) { $scope.currentScore = aScore; }
@@ -8,7 +8,19 @@ angular
 
         // Watch the loading indicator
         $scope.$watch(function() { return LoadingService.getLoading();},
-            function(aLoading) { if(aLoading != null && aLoading != $scope.isLoading) { $scope.isLoading = aLoading; }; }
+            function (aLoading) {
+                if (aLoading != null && aLoading != $scope.isLoading) {
+                    $scope.isLoading = aLoading;
+                }
+            }
+        );
+
+        $scope.$watch(function() {return AuthenticationService.getSignedIn();},
+            function(aSignedIn) {
+                if(aSignedIn != null && aSignedIn != $scope.signedIn) {
+                    $scope.signedIn = aSignedIn
+                }
+            }
         );
 
         // Watch the strikes

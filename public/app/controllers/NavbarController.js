@@ -5,7 +5,7 @@ angular
             client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com',
         });
     }])
-    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService) {
+    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService) {
         $scope.$watch(function() {return CategoryService.getCategories();},
             function(aCategories) { $scope.categories = aCategories; }
         );
@@ -22,11 +22,11 @@ angular
             function(aDifficulty) { if(aDifficulty) {$scope.currentDifficulty = aDifficulty; }}
         );
 
-        $scope.$watch(function() {return AuthenticationService.getUser();},
+        $scope.$watch(function() {return UserService.getUser();},
             function(aUser) { $scope.user = aUser; }
         );
 
-        $scope.$watch(function() {return AuthenticationService.getUsername();},
+        $scope.$watch(function() {return UserService.getUsername();},
             function(aUsername) { $scope.username = aUsername; }
         );
 
@@ -63,7 +63,7 @@ angular
         $scope.logout = function() {
             GoogleSignin.disconnect();
             AuthenticationService.signOut();
-        }
+        };
 
         $scope.pause = function() {
             $scope.paused = true;

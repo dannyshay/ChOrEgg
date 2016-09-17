@@ -16,7 +16,7 @@ angular
                     $scope.isRunning = aIsRunning;
                 }
             }
-        )
+        );
 
         $scope.$watch(function() { return TimerService.getIsPaused();},
             function(aIsPaused) {
@@ -24,7 +24,7 @@ angular
                     $scope.isPaused = aIsPaused;
                 }
             }
-        )
+        );
 
         // Get the time remaining in the shared data service (we want to keep this in sync with our scope variable)
         $scope.$watch(function() { return TimerService.getTimeRemaining();},
@@ -52,8 +52,7 @@ angular
         // Every time the ticker ticks (once per second)
         $scope.$on('timer-tick', function(event, value) {
             // Subtract a second from our 'time remaining'
-            TimerService.tickDown();;
-
+            TimerService.tickDown();
             //Re-draw the timer if necessary
             if(!$scope.$$phase) {
                 $scope.$apply();

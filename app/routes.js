@@ -14,7 +14,23 @@ module.exports = function(app) {
 
     //User Functions
     app.get('/api/users', function(req, res) {
-       userHelper.getUsers(res);
+       userHelper.getAll(res);
+    });
+
+    app.post('/api/users', function(req, res) {
+        userHelper.addUser(req, res);
+    });
+
+    app.put('/api/users', function(req, res) {
+        userHelper.updateUser(req, res);
+    });
+
+    app.delete('/api/users/:username', function(req, res) {
+        userHelper.deleteUser(req, res);
+    });
+
+    app.get('/api/users/:username', function(req, res) {
+        userHelper.getUser(req, res);
     });
 
     app.get('/api/difficulties', function(req, res) {

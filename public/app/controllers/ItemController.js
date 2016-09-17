@@ -7,7 +7,7 @@ $(document).on('click','.navbar-collapse.in',function(e) {
 
 angular
     .module('choregg')
-    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout', 'choreggAPI', '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', function ($scope, $http, $cookies, $analytics, $timeout, choreggAPI, $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService) {
+    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService) {
         //-------------------------------------- EXECUTED SCRIPT --------------------------------------
         // - This is the script that is executed when the page first loads
         // - We load the categories / difficulties and then set the local variables
@@ -60,7 +60,7 @@ angular
                     LoadingService.setLoading(true);
                     $scope.currentCategory = aCurrentCategory;
                     getInitialItems();
-                };
+                }
             }
         );
 
@@ -68,9 +68,9 @@ angular
             function(aCurrentDifficulty) {
                 if($scope.currentDifficulty && $scope.currentDifficulty != aCurrentDifficulty) {
                     LoadingService.setLoading(true);
-                    $scope.currentDifficulty = aCurrentDifficulty
+                    $scope.currentDifficulty = aCurrentDifficulty;
                     getInitialItems();
-                };
+                }
             }
         );
 
@@ -95,8 +95,7 @@ angular
                     });
                 });
             });
-        };
-
+        }
         // Gets more items with the current category / difficulty
         // - This method will use amount of items currently in the item cache ($scope.Items) to determine how many (if any) new items to pull from the API
         function getMoreItems() {
@@ -127,8 +126,7 @@ angular
                     resolve();
                 });
             });
-        };
-
+        }
         //-------------------------------------- SCOPE METHODS --------------------------------------
         // - These are methods used by Angular in the view (item.html)
         //-------------------------------------------------------------------------------------------
@@ -158,7 +156,7 @@ angular
                     $analytics.eventTrack('User choice - Wrong');
                     HUDService.addStrike();
                 }
-            };
+            }
         };
 
         // This event is called when card flipped from 'front' to 'back'

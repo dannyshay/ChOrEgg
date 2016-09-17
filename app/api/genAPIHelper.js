@@ -9,10 +9,10 @@ module.exports = {
         var id2 = req.query.id2;
 
         if (!id1) {
-            res.send({Error: "Must specify a file id."});
+            res.status(400).send({Error: "Must specify a file id."});
             return;
         }
 
         utilities.getImageBase64(id1, id2, res);
     }
-}
+};
