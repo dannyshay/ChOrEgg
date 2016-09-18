@@ -1,8 +1,20 @@
+//Boostrap mobile dropdown fix
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
+        $(this).collapse('hide');
+    }
+});
+
+//Same fix for the main button
+$(document).on('click', '.navbar-brand', function(e) {
+   $('.navbar-collapse').collapse('hide');
+});
+
 angular
     .module('choregg')
     .config(['GoogleSigninProvider', function(GoogleSigninProvider) {
         GoogleSigninProvider.init({
-            client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com',
+            client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com'
         });
     }])
     .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService) {
@@ -51,18 +63,25 @@ angular
         );
 
         $scope.viewProfile = function() {
-            StateService.setCurrentState('viewProfile');
+            StateService.setCurrentState('profile');
         };
 
         $scope.viewMain = function() {
-            StateService.setCurrentState('mainGame');
-        }
+            StateService.setCurrentState('game');
+        };
+
+        $scope.viewLeaderboard = function() {
+            StateService.setCurrentState('leaderboard');
+        };
+
+        $scope.viewSplash = function() {
+            StateService.setCurrentState('splash');
+        };
 
         $scope.difficultyChange = function(aDifficulty) {
             HUDService.initialize();
             DifficultyService.setCurrentDifficulty(aDifficulty);
             TimerService.restartTimer();
-
         };
 
         $scope.categoryChange = function(aCategory) {

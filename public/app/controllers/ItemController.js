@@ -1,10 +1,3 @@
-//Boostrap mobile dropdown fix
-$(document).on('click','.navbar-collapse.in',function(e) {
-    if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
-        $(this).collapse('hide');
-    }
-});
-
 angular
     .module('choregg')
     .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService, UserService) {
@@ -93,7 +86,9 @@ angular
                 //console.log('in resolve');
                 ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     LoadingService.setLoading(false);
-                    TimerService.restartTimer();
+                    if ($scope.currentState == 'game') {
+                        TimerService.restartTimer();
+                    }
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 2, false).then(function() {

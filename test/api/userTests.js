@@ -54,6 +54,21 @@ describe("Users", function() {
             });
     });
 
+    // Get the list of users in the database (at least we'll have our test user)
+    it("GET /api/users/getUsersByHighScore - should return some users in order and no more than specified.", function(done) {
+        var numUsers = 5;
+
+        request
+            .get('/api/users/getUsersByHighScore?numUsers=' + numUsers)
+            .expect(200)
+            .expect(function(res) {
+                if(!(res.body.users.length > 0)) throw new Error("GET /api/users - No users returned.");
+
+                if(res.body.users.length > numUsers) throw new Error("GET /api/users - No users returned.");
+            })
+            .end(done);
+    });
+
     // Gets the test user and confirms they exist
     it("GET /api/users/:aUsername - should return a user.", function(done) {
         var aUsername = myTestUser.username;

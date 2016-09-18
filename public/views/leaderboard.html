@@ -1,0 +1,21 @@
+<div ng-controller="LeaderboardController as leaderboard" class="topPadding">
+    <h1 class="page-header text-center">High Scores</h1>
+    <div class="row text-center">
+        <div class="col-lg-6 col-xs-6">
+            <strong>Username:</strong><br/>
+        </div>
+        <div class="col-lg-6 col-xs-6">
+            <strong>High Score:</strong><br/>
+        </div>
+    </div>
+    <div class="row text-center" ng-repeat="user in users track by $index">
+        <div class="col-lg-6 col-xs-6">
+            <span style="padding-left:10px;">{{user.username}}</span>
+        </div>
+        <div class="col-lg-6 col-xs-6">
+            <span style="padding-left:10px;">{{user.highScore}}</span>
+        </div>
+    </div>
+</div>
+
+

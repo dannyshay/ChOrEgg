@@ -42,6 +42,7 @@ angular
                 isPaused = false;
             },
             restartTimer: function() {
+                console.log('Timer restarted');
                 return $q(function(resolve) {
                     $rootScope.$broadcast('timer-set-countdown', 10);
                     if (!isRunning) {
