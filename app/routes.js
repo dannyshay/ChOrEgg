@@ -1,6 +1,9 @@
 //Includes
-var itemHelper = require('./api/itemHelper')
-var genAPIHelper = require('./api/genAPIHelper')
+var itemHelper = require('./api/itemHelper');
+var genAPIHelper = require('./api/genAPIHelper');
+var difficultyHelper = require('./api/difficultyHelper');
+var categoryHelper = require('./api/categoryHelper');
+var userHelper = require('./api/userHelper');
 
 //API Calls
 module.exports = function(app) {
@@ -10,12 +13,28 @@ module.exports = function(app) {
     });
 
     //User Functions
-    app.get('/api/user/getScore', function(req, res) {
-       res.json((req.session.score == undefined ? 0 : parseInt(req.session.score)));
+    app.get('/api/users', function(req, res) {
+       userHelper.getAll(res);
+    });
+
+    app.post('/api/users', function(req, res) {
+        userHelper.addUser(req, res);
+    });
+
+    app.put('/api/users', function(req, res) {
+        userHelper.updateUser(req, res);
+    });
+
+    app.delete('/api/users/:username', function(req, res) {
+        userHelper.deleteUser(req, res);
+    });
+
+    app.get('/api/users/:username', function(req, res) {
+        userHelper.getUser(req, res);
     });
 
     app.get('/api/difficulties', function(req, res) {
-        genAPIHelper.getDifficulties(res);
+        difficultyHelper.getAll(res);
     });
 
     app.get('/api/getImage', function(req, res) {
@@ -32,7 +51,7 @@ module.exports = function(app) {
     });
 
     app.get('/api/items/categories', function(req, res) {
-        itemHelper.getCategories(res);
+        categoryHelper.getCategories(res);
     });
 
     app.get('/api/items/getItemsInTimespan', function(req, res) {

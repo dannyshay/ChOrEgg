@@ -6,12 +6,22 @@ angular
             function(aLoading) {
                 if(aLoading != null && aLoading != $scope.isLoading) {
                     $scope.isLoading = aLoading;
+                }
+            }
+        );
 
-                    if ($scope.isLoading && (TimerService.getIsRunning())) {
-                        TimerService.stopTimer();
-                    } else if ($scope.isLoading == false && (!TimerService.getIsRunning())) {
-                        TimerService.startTimer();
-                    }
+        $scope.$watch(function() { return TimerService.getIsRunning();},
+            function(aIsRunning) {
+                if(aIsRunning != null && aIsRunning != $scope.isRunning) {
+                    $scope.isRunning = aIsRunning;
+                }
+            }
+        );
+
+        $scope.$watch(function() { return TimerService.getIsPaused();},
+            function(aIsPaused) {
+                if(aIsPaused != null && aIsPaused != $scope.isPaused) {
+                    $scope.isPaused = aIsPaused;
                 }
             }
         );
@@ -42,8 +52,7 @@ angular
         // Every time the ticker ticks (once per second)
         $scope.$on('timer-tick', function(event, value) {
             // Subtract a second from our 'time remaining'
-            TimerService.tickDown();;
-
+            TimerService.tickDown();
             //Re-draw the timer if necessary
             if(!$scope.$$phase) {
                 $scope.$apply();

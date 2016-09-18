@@ -23,12 +23,12 @@ module.exports = {
             var writestream = aGfs.createWriteStream({
                 filename: anImgName
             });
-            var stream = fs.createReadStream(aMinImgPath)
+            var stream = fs.createReadStream(aMinImgPath);
             stream.pipe(writestream);
             stream.on('close', function () {
                 fs.unlink(aMinImgPath);
             });
-        }
+        };
 
         gm(myImgPath)
             .resize(width, height, '^')
@@ -66,7 +66,7 @@ module.exports = {
     },
 
     getImageBase64: function (item1, item2, res, callback) {
-        var filename = item1._id + '.jpeg'
+        var filename = item1._id + '.jpeg';
         var filename2 = (item2 ? item2._id + '.jpeg' : "");
 
         var conn = mongoose.createConnection(db.url);
@@ -98,7 +98,7 @@ module.exports = {
 
                         if (res) {
                             res.send(retVal);
-                            return;
+
                         } else {
 
                             item1.imageData = base64;
@@ -108,8 +108,8 @@ module.exports = {
                     })
                 } else {
                     if (res) {
-                        res.send(base64)
-                        return;
+                        res.send(base64);
+
                     } else {
 
                         item1.imageData = base64;
@@ -122,12 +122,12 @@ module.exports = {
 
     handleErrors: function (res, err) {
         if (err)
-            res.send(err);
+            res.status(400).send(err);
     },
 
     handleErrorsAndItems: function (err, items, res) {
         if (err)
-            res.send(err);
+            res.status(400).send(err);
 
         res.json(items);
     }
