@@ -1,3 +1,15 @@
+//Boostrap mobile dropdown fix
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
+        $(this).collapse('hide');
+    }
+});
+
+//Same fix for the main button
+$(document).on('click', '.navbar-brand', function(e) {
+   $('.navbar-collapse').collapse('hide');
+});
+
 angular
     .module('choregg')
     .config(['GoogleSigninProvider', function(GoogleSigninProvider) {
