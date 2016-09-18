@@ -37,6 +37,7 @@ angular
                     TimerService.restartTimer();
                     ItemService.shiftItems();
                     HUDService.addStrike();
+                    UserService.addRoundPlayed();
 
                     // Get some more items (up to 10 based on currenct amount in item cache) to keep going
                     ItemService.getItemsInTimespan(CategoryService.getCurrentCategory(), DifficultyService.getCurrentDifficulty().timeSpan, 10 - ItemService.getItems().length);
