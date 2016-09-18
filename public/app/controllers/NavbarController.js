@@ -2,7 +2,7 @@ angular
     .module('choregg')
     .config(['GoogleSigninProvider', function(GoogleSigninProvider) {
         GoogleSigninProvider.init({
-            client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com',
+            client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com'
         });
     }])
     .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService) {

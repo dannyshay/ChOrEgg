@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('TimerController', ['$scope', 'TimerService', 'ItemService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', function($scope, TimerService, ItemService, HUDService, DifficultyService, CategoryService, LoadingService) {
+    .controller('TimerController', ['$scope', 'TimerService', 'ItemService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', function($scope, TimerService, ItemService, HUDService, DifficultyService, CategoryService, LoadingService, UserService) {
         //NOTE - the timer that is first stared is stared automatically by the <timer> directive in timer.htm
         $scope.$watch(function() { return LoadingService.getLoading();},
             function(aLoading) {
