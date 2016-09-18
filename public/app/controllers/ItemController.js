@@ -86,7 +86,9 @@ angular
                 //console.log('in resolve');
                 ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     LoadingService.setLoading(false);
-                    TimerService.restartTimer();
+                    if ($scope.currentState == 'game') {
+                        TimerService.restartTimer();
+                    }
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 2, false).then(function() {

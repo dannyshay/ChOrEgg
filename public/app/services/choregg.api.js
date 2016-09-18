@@ -10,6 +10,7 @@ angular
             User: $resource('/api/users/:aUsername', null,
                 {
                     'update' : {method: 'PUT'},
-                })
+                }),
+            GetUsersByHighScore: $resource('/api/users/getUsersByHighScore')
         };
     }]);

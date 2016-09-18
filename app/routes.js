@@ -25,6 +25,10 @@ module.exports = function(app) {
         userHelper.updateUser(req, res);
     });
 
+    app.get('/api/users/getUsersByHighScore', function(req, res) {
+       userHelper.getUsersByHighScore(req, res);
+    });
+
     app.delete('/api/users/:username', function(req, res) {
         userHelper.deleteUser(req, res);
     });

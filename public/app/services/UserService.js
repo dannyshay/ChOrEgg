@@ -3,12 +3,30 @@ angular
     .factory('UserService', ['$localStorage', 'choreggAPI','$q', function($localStorage, choreggAPI, $q) {
         var user = null;
         var username = null;
+        var users = null;
 
         if ($localStorage.user)
             user = $localStorage.user;
 
         if ($localStorage.username)
             username = $localStorage.username;
+
+        if ($localStorage.users)
+            users = $localStorage.users;
+
+        var updateUsers = function() {
+            return $q(function(resolve) {
+                choreggAPI.GetUsersByHighScore.get({numUsers: 20}, function(data) {
+                    if(data != null && data.users != null && data.users != users) {
+                        users = data.users;
+                        $localStorage.users = users;
+                    }
+                    resolve(users);
+                });
+            });
+        };
+
+        updateUsers();
 
         return {
             getUser: function() {
@@ -46,11 +64,11 @@ angular
             getCurrentUser: function() {
                 return user;
             },
-            getCurrentUserHighScore: function() {
-                if (user)
-                    return user.highScore;
-                else
-                    return null;
+            getUsers: function() {
+                return users;
+            },
+            updateUsers: function() {
+                return updateUsers();
             },
             signInUser: function(aUsername) {
                 return $q(function(resolve) {
@@ -81,7 +99,7 @@ angular
                            var myUser = {
                                username: aUsername,
                                createdDate: myFoundUser.createdDate,
-                               lastSignInDate: myFoundUser.lastSignInDate,
+                               lastSignInDate: myFormattedTodayDate,
                                highScore: myFoundUser.highScore,
                                totalRoundsPlayed: myFoundUser.totalRoundsPlayed
                            };

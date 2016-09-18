@@ -36,21 +36,25 @@ angular
                         currentItems = null;
                     }
 
-                    // Call the API to get some more items as specified by the input params
-                    choreggAPI.GetItemsInTimespan.get({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs},
-                        function (data) {
-                            //Add the items to the array since we didn't necessarily clear it
-                            data.Items.forEach(function(item) {
-                               items.push(item);
-                            });
+                    if (aCategory != 'random') {
+                        // Call the API to get some more items as specified by the input params
+                        choreggAPI.GetItemsInTimespan.get({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs},
+                            function (data) {
+                                //Add the items to the array since we didn't necessarily clear it
+                                data.Items.forEach(function(item) {
+                                    items.push(item);
+                                });
 
-                            if (!currentItems)
-                                currentItems = items[0];
+                                if (!currentItems)
+                                    currentItems = items[0];
 
-                            //Return the promise
-                            resolve();
-                        }
-                    );
+                                //Return the promise
+                                resolve();
+                            }
+                        );
+                    } else {
+
+                    }
                 });
             }
         }
