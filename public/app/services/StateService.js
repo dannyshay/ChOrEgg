@@ -1,7 +1,7 @@
 angular
     .module('choregg')
     .factory('StateService', ['TimerService', 'UserService', function(TimerService, UserService) {
-        var currentState = "game";
+        var currentState = "splash";
 
         return {
             getCurrentState: function() {
@@ -22,6 +22,9 @@ angular
                         break;
                     case 'leaderboard':
                         UserService.updateUsers();
+                        TimerService.stopTimer();
+                        break;
+                    case 'splash':
                         TimerService.stopTimer();
                         break;
                 }

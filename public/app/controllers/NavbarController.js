@@ -71,14 +71,17 @@ angular
         };
 
         $scope.viewLeaderboard = function() {
-            StateService.setCurrentState(('leaderboard'));
+            StateService.setCurrentState('leaderboard');
+        };
+
+        $scope.viewSplash = function() {
+            StateService.setCurrentState('splash');
         };
 
         $scope.difficultyChange = function(aDifficulty) {
             HUDService.initialize();
             DifficultyService.setCurrentDifficulty(aDifficulty);
             TimerService.restartTimer();
-
         };
 
         $scope.categoryChange = function(aCategory) {
