@@ -23,10 +23,8 @@ angular
             signInUser: function(aUser) {
                 signedIn = true;
                 $localStorage.signedIn = signedIn;
-
-                var aUsername = aUser.w3.U3;
-
-                UserService.signInUser(aUsername);
+                
+                UserService.signInUser(aUser.w3.U3);
             }
         }
     }]);
