@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('HUDService', [function() {
+    .factory('HUDService', ['UserService', function(UserService) {
         var currentScore = 0;
         var numStrikes = 0;
 
@@ -23,6 +23,9 @@ angular
             },
             addPoints: function(numPoints) {
                 currentScore += numPoints;
+
+                UserService.checkUpdateHighScore(currentScore);
+
                 return currentScore;
             },
             initialize: function() {

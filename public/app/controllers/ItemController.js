@@ -7,7 +7,7 @@ $(document).on('click','.navbar-collapse.in',function(e) {
 
 angular
     .module('choregg')
-    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout', 'choreggAPI', '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', function ($scope, $http, $cookies, $analytics, $timeout, choreggAPI, $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService) {
+    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService, UserService) {
         //-------------------------------------- EXECUTED SCRIPT --------------------------------------
         // - This is the script that is executed when the page first loads
         // - We load the categories / difficulties and then set the local variables
@@ -38,6 +38,12 @@ angular
             function (aLoading) { $scope.loading = aLoading; }
         );
 
+        $scope.$watch(function() { return TimerService.getIsPaused();},
+            function(aIsPaused) {
+                if(aIsPaused != null && aIsPaused != $scope.isPaused) { $scope.isPaused = aIsPaused; }
+            }
+        )
+
         $scope.$watch(function() { return ItemService.getItems(); },
             function(anItemList) { $scope.Items = anItemList;}
         );
@@ -60,7 +66,7 @@ angular
                     LoadingService.setLoading(true);
                     $scope.currentCategory = aCurrentCategory;
                     getInitialItems();
-                };
+                }
             }
         );
 
@@ -68,9 +74,9 @@ angular
             function(aCurrentDifficulty) {
                 if($scope.currentDifficulty && $scope.currentDifficulty != aCurrentDifficulty) {
                     LoadingService.setLoading(true);
-                    $scope.currentDifficulty = aCurrentDifficulty
+                    $scope.currentDifficulty = aCurrentDifficulty;
                     getInitialItems();
-                };
+                }
             }
         );
 
@@ -87,7 +93,7 @@ angular
                 //console.log('in resolve');
                 ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     LoadingService.setLoading(false);
-                    TimerService.restartTimer().then(function() { TimerService.startTimer();});
+                    TimerService.restartTimer();
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
@@ -95,8 +101,7 @@ angular
                     });
                 });
             });
-        };
-
+        }
         // Gets more items with the current category / difficulty
         // - This method will use amount of items currently in the item cache ($scope.Items) to determine how many (if any) new items to pull from the API
         function getMoreItems() {
@@ -122,20 +127,21 @@ angular
                     }
                 }
 
+                UserService.addRoundPlayed();
+
                 ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
                     LoadingService.setLoading(false);
                     resolve();
                 });
             });
-        };
-
+        }
         //-------------------------------------- SCOPE METHODS --------------------------------------
         // - These are methods used by Angular in the view (item.html)
         //-------------------------------------------------------------------------------------------
 
         // This event is called when the user clicks one of the cards (and we're not already in the process of an evaluation)
         $scope.imgClick = function ($index) {
-            if (!$scope.imageFlipping) {
+            if (!$scope.imageFlipping && !$scope.isPaused) {
                 // This flag makes it so the user can't click over and over and over again on the iamges to mess with the timer
                 $scope.imageFlipping = true;
 
@@ -158,7 +164,7 @@ angular
                     $analytics.eventTrack('User choice - Wrong');
                     HUDService.addStrike();
                 }
-            };
+            }
         };
 
         // This event is called when card flipped from 'front' to 'back'

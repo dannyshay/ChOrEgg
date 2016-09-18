@@ -5,6 +5,11 @@ angular
         return {
             Categories: $resource('/api/items/categories'),
             Difficulties: $resource('/api/difficulties'),
-            GetItemsInTimespan: $resource('/api/items/getItemsInTimespan')
+            GetItemsInTimespan: $resource('/api/items/getItemsInTimespan'),
+            Users: $resource('/api/users'),
+            User: $resource('/api/users/:aUsername', null,
+                {
+                    'update' : {method: 'PUT'},
+                })
         };
     }]);

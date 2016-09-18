@@ -8,26 +8,36 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">ChOrEgg</a>
+                <a class="navbar-brand" href="#" ng-click="viewMain()">ChOrEgg</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" data-toggle="collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
+                    <li class="dropdown" ng-hide="currentState != 'mainGame'">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li class="dropdown-header">Select One</li>
                             <li ng-class="{'active':isActiveCategory(category)}" ng-repeat="category in categories track by $index"><a href="#" ng-click="categoryChange(category)">{{category}}</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" ng-hide="currentState != 'mainGame'">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Difficulty <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li class="dropdown-header">Select One</li>
                             <li ng-class="{'active':isActiveDifficulty(difficulty)}" ng-repeat="difficulty in difficulties track by $index"><a href="#" ng-click="difficultyChange(difficulty)">{{difficulty.name}}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">None</a></li>
+                            <li class="dropdown-header">{{(username != "" && username != null ? username : "Account")}}</li>
+                            <li ng-hide="(!signedIn || currentState =='viewProfile')"><a href="#" ng-click="viewProfile()"><span class="glyphicon glyphicon-user" /> Profile</a></li>
+                            <li ng-hide="(currentState == 'mainGame')"><a href="#" ng-click="viewMain()"><span class="glyphicon glyphicon-play-circle" /> Play</a></li>
+                            <li ng-hide="signedIn"><a href="#" ng-click="login()"><span class="glyphicon glyphicon-log-in" /> Login</a></li>
+                            <li ng-hide="!signedIn"><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" /> Logout</a></li>
+                            <li ng-hide="currentState == 'viewProfile'" class="divider"></li>
+                            <li ng-hide="currentState == 'viewProfile'" class="dropdown-header">Options</li>
+                            <li ng-hide="(paused || currentState == 'viewProfile')"><a href="#" ng-click="pause()"><span class="glyphicon glyphicon-pause"/> Pause</a></li>
+                            <li ng-hide="(!paused || currentState == 'viewProfile')"><a href="#" ng-click="resume()"><span class="glyphicon glyphicon-play"/> Resume </a></li>
                         </ul>
                     </li>
                 </ul>

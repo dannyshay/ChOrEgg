@@ -1,22 +1,16 @@
 var Item = require('./../models/item');
-var async = require('async');
 var utilities = require("./server_utilities");
-var genAPIHelper = require('./genAPIHelper');
+var async = require('async');
 var mongoose = require('mongoose');
-var fs = require('fs');
-var request = require('request');
-var Grid = require('gridfs-stream');
-var db = require('../../config/db');
-Grid.mongo = mongoose.mongo;
 
 var setVerbs = function (category, items, callback) {
-    var verb = ""
+    var verb = "";
     switch (category) {
         case "People":
-            verb = "born"
+            verb = "born";
             break;
         default:
-            verb = "made"
+            verb = "made";
             break;
     }
     items.forEach(function (item) {
@@ -24,26 +18,26 @@ var setVerbs = function (category, items, callback) {
     });
 
     callback();
-}
+};
 
 var getRandomItem = function (items) {
     return items[utilities.getRandomInt(0, items.length - 1)];
-}
+};
 
 var checkRequiredVariables = function (req, res) {
     if (!req.query.category) {
-        res.send({Error: "Must specify a category."});
+        res.status(400).send({Error: "Must specify a category."});
         return;
     }
 
     if (!req.query.timeSpan) {
-        res.send({Error: "Must specify a timeSpan."});
+        res.status(400).send({Error: "Must specify a timeSpan."});
         return;
     }
 
     if (!req.query.numPairs) {
-        res.send({Error: "Must specify numPairs."});
-        return;
+        res.status(400).send({Error: "Must specify numPairs."});
+
     }
 };
 
@@ -53,9 +47,6 @@ var getItemsInTimespan = function (req, res) {
     var category = req.query.category;
     var timeSpan = parseInt(req.query.timeSpan);
     var numPairs = parseInt(req.query.numPairs);
-
-    var oldItem1ID = (req.query.oldID1 ? req.query.oldID1 : 0);
-    var oldItem2ID = (req.query.oldID2 ? req.query.oldID2 : 0);
 
     var retItems = [];
     var retDict = {};
@@ -100,19 +91,10 @@ var getItemsInTimespan = function (req, res) {
 };
 
 module.exports = {
-    //Global functions
-
     //getAll - Use this to get all items in the entire database regardless of category
     getAll: function (res) {
         Item.find(function (err, items) {
             utilities.handleErrorsAndItems(err, items, res);
-        });
-    },
-
-    //getCategories - Use this to get the distinct categories in the entire database
-    getCategories: function (res) {
-        Item.find().distinct('category', function (err, items) {
-            utilities.handleErrorsAndItems(err, {Categories: items}, res);
         });
     },
 
@@ -168,4 +150,4 @@ module.exports = {
             });
         });
     }
-}
+};
