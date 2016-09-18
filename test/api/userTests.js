@@ -22,7 +22,8 @@ describe("Users", function() {
         username: "mochaTestUser",
         createdDate: "01012016",
         lastSignInDate: "06012016",
-        highScore: 20
+        highScore: 20,
+        totalRoundsPlayed: 200
     };
 
     // Create the test user that we'll delete later
@@ -62,7 +63,7 @@ describe("Users", function() {
             .expect(200)
             .expect(function(res) {
                 if (res.body.code != 0) { throw new Error(res.body.message); }
-                if(res.body.user.username != myTestUser.username || res.body.user.createdDate != myTestUser.createdDate || res.body.user.lastSignInDate != myTestUser.lastSignInDate || res.body.user.highScore != myTestUser.highScore) {
+                if(res.body.user.username != myTestUser.username || res.body.user.createdDate != myTestUser.createdDate || res.body.user.lastSignInDate != myTestUser.lastSignInDate || res.body.user.highScore != myTestUser.highScore || res.body.user.totalRoundsPlayed != myTestUser.totalRoundsPlayed) {
                     throw new Error("GET /api/users/:aUsername - invalid user returned: " + JSON.stringify(res.body));
                 }
                 //  if(!(res.body.username.length > 0) || res.body.username != aUsername) throw new Error("GET /api/user/aUsername - No users returned.");

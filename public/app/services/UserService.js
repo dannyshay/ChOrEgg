@@ -34,6 +34,15 @@ angular
                     }
                 });
             },
+            addRoundPlayed: function() {
+                return $q(function(resolve) {
+                    if(user) {
+                        user.totalRoundsPlayed += 1;
+                        choreggAPI.User.update({username: username}, user);
+                        resolve(user);
+                    }
+                });
+            },
             getCurrentUser: function() {
                 return user;
             },
@@ -54,7 +63,8 @@ angular
                                username: aUsername,
                                createdDate: myFormattedTodayDate,
                                lastSignInDate: myFormattedTodayDate,
-                               highScore: 0
+                               highScore: 0,
+                               totalRoundsPlayed: 0
                            };
 
                            user = myUser;
@@ -72,7 +82,8 @@ angular
                                username: aUsername,
                                createdDate: myFoundUser.createdDate,
                                lastSignInDate: myFoundUser.lastSignInDate,
-                               highScore: myFoundUser.highScore
+                               highScore: myFoundUser.highScore,
+                               totalRoundsPlayed: myFoundUser.totalRoundsPlayed
                            };
 
                            user = myUser;

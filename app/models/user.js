@@ -4,7 +4,8 @@ var userSchema = new mongoose.Schema({
    username: String,
    createdDate: String,
    highScore: Number,
-   lastSignInDate: String
+   lastSignInDate: String,
+   totalRoundsPlayed: Number
 });
 
 module.exports = mongoose.model('user', userSchema);

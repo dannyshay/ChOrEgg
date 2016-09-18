@@ -6,7 +6,7 @@ var deferred = require('deferred');
 var updateUserInMongo = function(aUser) {
     var myDeferred = deferred();
 
-    User.findOneAndUpdate({username:aUser.username}, {$set: {highScore: aUser.highScore, createdDate: aUser.createdDate, lastSignInDate: aUser.lastSignInDate}}, {new:true}, function(err, doc) {
+    User.findOneAndUpdate({username:aUser.username}, {$set: {highScore: aUser.highScore, createdDate: aUser.createdDate, lastSignInDate: aUser.lastSignInDate, totalRoundsPlayed: aUser.totalRoundsPlayed}}, {new:true}, function(err, doc) {
         myDeferred.resolve(aUser);
     });
 
@@ -21,6 +21,7 @@ var addUserToMongo = function(aFoundUser) {
     myUser.createdDate = aFoundUser.createdDate;
     myUser.lastSignInDate = aFoundUser.lastSignInDate;
     myUser.highScore = aFoundUser.highScore;
+    myUser.totalRoundsPlay = aFoundUser.totalRoundsPlayed;
 
     myUser.save();
 
@@ -77,7 +78,7 @@ module.exports = {
         findSpecificUser(aUsername).then(function(aFoundUser) {
             // We did not find an existing user - create a new one
             if(aFoundUser == null) {
-                addUserToMongo({username: aUsername, createdDate: req.body.createdDate, lastSignInDate: req.body.lastSignInDate, highScore: req.body.highScore}).then(function(anAddedUser) {
+                addUserToMongo({username: aUsername, createdDate: req.body.createdDate, lastSignInDate: req.body.lastSignInDate, highScore: req.body.highScore, totalRoundsPlay: req.body.totalRoundsPlay}).then(function(anAddedUser) {
                     res.status(201).send({code: 0, message: "User added successfully.", user: anAddedUser});
                 });
 
@@ -98,7 +99,8 @@ module.exports = {
                     username: req.body.username,
                     createdDate: req.body.createdDate,
                     lastSignInDate: req.body.lastSignInDate,
-                    highScore: req.body.highScore
+                    highScore: req.body.highScore,
+                    totalRoundsPlayed: req.body.totalRoundsPlayed
                 };
                 updateUserInMongo(myRequestUser).then(function(anUpdatedUser) {
                    res.status(200).send({code:0, message: "User updated successfully", user:anUpdatedUser});

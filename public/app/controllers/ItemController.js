@@ -7,7 +7,7 @@ $(document).on('click','.navbar-collapse.in',function(e) {
 
 angular
     .module('choregg')
-    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService) {
+    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService, UserService) {
         //-------------------------------------- EXECUTED SCRIPT --------------------------------------
         // - This is the script that is executed when the page first loads
         // - We load the categories / difficulties and then set the local variables
@@ -126,6 +126,8 @@ angular
                         numPairs = 10;
                     }
                 }
+
+                UserService.addRoundPlayed();
 
                 ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
                     LoadingService.setLoading(false);
