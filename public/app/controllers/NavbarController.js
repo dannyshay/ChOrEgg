@@ -63,12 +63,16 @@ angular
         );
 
         $scope.viewProfile = function() {
-            StateService.setCurrentState('viewProfile');
+            StateService.setCurrentState('profile');
         };
 
         $scope.viewMain = function() {
-            StateService.setCurrentState('mainGame');
-        }
+            StateService.setCurrentState('game');
+        };
+
+        $scope.viewLeaderboard = function() {
+            StateService.setCurrentState(('leaderboard'));
+        };
 
         $scope.difficultyChange = function(aDifficulty) {
             HUDService.initialize();

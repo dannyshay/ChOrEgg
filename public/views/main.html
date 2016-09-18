@@ -4,7 +4,7 @@
     <!--Loader-->
     <div ng-include="'views/loader.html'"></div>
     <!--Items-->
-    <div class="container-fluid text-center topPadding" ng-hide="loading || (currentState != 'mainGame')">
+    <div class="container-fluid text-center topPadding" ng-hide="loading || (currentState != 'game')">
         <div class="row">
             <div ng-include="'views/items.html'"></div>
         </div>
@@ -15,7 +15,10 @@
             <div ng-include="'/views/hud.html'"></div>
         </div>
     </div>
-    <div class="container-fluid" ng-hide="loading || (currentState != 'viewProfile')">
+    <div class="container-fluid" ng-hide="loading || (currentState != 'profile')">
         <div ng-include="'views/profile.html'"></div>
+    </div>
+    <div class="container-fluid" ng-hide="loading || (currentState != 'leaderboard')">
+        <div ng-include="'views/leaderboard.html'"></div>
     </div>
 </div>

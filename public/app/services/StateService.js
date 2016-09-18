@@ -1,7 +1,7 @@
 angular
     .module('choregg')
-    .factory('StateService', ['TimerService', function(TimerService) {
-        var currentState = "mainGame";
+    .factory('StateService', ['TimerService', 'UserService', function(TimerService, UserService) {
+        var currentState = "game";
 
         return {
             getCurrentState: function() {
@@ -14,13 +14,16 @@ angular
                 currentState = aState;
 
                 switch (aState) {
-                    case 'mainGame':
+                    case 'game':
                         TimerService.restartTimer();
                         break;
-                    case 'viewProfile':
+                    case 'profile':
                         TimerService.stopTimer();
                         break;
-
+                    case 'leaderboard':
+                        UserService.updateUsers();
+                        TimerService.stopTimer();
+                        break;
                 }
             }
         }
