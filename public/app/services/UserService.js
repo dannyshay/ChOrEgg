@@ -81,7 +81,7 @@ angular
                            var myUser = {
                                username: aUsername,
                                createdDate: myFoundUser.createdDate,
-                               lastSignInDate: myFoundUser.lastSignInDate,
+                               lastSignInDate: myFormattedTodayDate,
                                highScore: myFoundUser.highScore,
                                totalRoundsPlayed: myFoundUser.totalRoundsPlayed
                            };
