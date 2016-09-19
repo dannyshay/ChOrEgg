@@ -20,7 +20,6 @@
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Select One</li>
                             <li ng-class="{'active':isActiveCategory(category)}" ng-repeat="category in categories track by $index"><a href="#" ng-click="categoryChange(category)">{{category}}</a></li>
-                            <li ng-class="{'active':isActiveCategory('random')}"><a href="#" ng-click="categoryChange('random')">Random</a></li>
                         </ul>
                     </li>
                     <li class="dropdown" ng-hide="currentState != 'game'">
