@@ -47,7 +47,7 @@ module.exports = {
                         gfs.remove({filename: imgName}, function (err) {
                             if (err) return err;
                             myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
-                        })
+                        });
                     } else {
                         myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
                     }

@@ -131,9 +131,10 @@ module.exports = {
 
     downloadAndFormatImages: function (res) {
         Item.find(function (err, items) {
+            var startTime = new Date();
             utilities.handleErrors(res, err);
 
-            async.forEachOfLimit(items, 100, function(myImage, key, callback) {
+            async.forEachOf(items, function(myImage, key, callback) {
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/');
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/' + myImage.category);
 
@@ -146,7 +147,9 @@ module.exports = {
                 });
             }, function() {
                 rmdir('./public/assets/ConvertedImages');
-                console.log('Finished retrieving items');
+                var endTime = new Date();
+                var totalTime = (endTime - startTime) / 1000;
+                console.log('Finished retrieving items - total time: ' + totalTime + ' seconds.');
             });
 
             res.json({successful: true});
