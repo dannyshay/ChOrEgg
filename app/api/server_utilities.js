@@ -18,8 +18,8 @@ module.exports = {
         });
     },
 
-    cropImageToBounds: function (myImgPath, myMinImgPath, width, height, imgName) {
-        var myFunction = function (anImgName, aMinImgPath, aGfs) {
+    cropImageToBounds: function (myImgPath, myMinImgPath, width, height, imgName, anAsyncCallback) {
+        var myFunction = function (anImgName, aMinImgPath, aGfs, aCallBack) {
             var writestream = aGfs.createWriteStream({
                 filename: anImgName
             });
@@ -27,6 +27,7 @@ module.exports = {
             stream.pipe(writestream);
             stream.on('close', function () {
                 fs.unlink(aMinImgPath);
+                aCallBack();
             });
         };
 
@@ -39,22 +40,18 @@ module.exports = {
                 if (err) console.log(err);
                 fs.unlink(myImgPath);
 
-                var conn = mongoose.createConnection(db.url);
-                conn.once('open', function () {
-                    var gfs = Grid(conn.db, mongoose.mongo);
+                var gfs = Grid(mongoose.connection.db, mongoose.mongo);
 
-                    gfs.exist({filename: imgName}, function (err, found) {
-                        if (found) {
-                            gfs.remove({filename: imgName}, function (err) {
-                                if (err) return err;
+                gfs.exist({filename: imgName}, function (err, found) {
+                    if (found) {
+                        gfs.remove({filename: imgName}, function (err) {
+                            if (err) return err;
+                            myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
+                        })
+                    } else {
+                        myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
+                    }
 
-                                myFunction(imgName, myMinImgPath, gfs);
-                            })
-                        } else {
-                            myFunction(imgName, myMinImgPath, gfs);
-                        }
-
-                    });
                 });
             });
     },

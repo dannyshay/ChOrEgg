@@ -2,6 +2,7 @@ var Item = require('./../models/item');
 var utilities = require("./server_utilities");
 var async = require('async');
 var mongoose = require('mongoose');
+var rmdir = require('rmdir');
 
 var setVerbs = function (category, items, callback) {
     var verb = "";
@@ -132,7 +133,7 @@ module.exports = {
         Item.find(function (err, items) {
             utilities.handleErrors(res, err);
 
-            async.forEachOf(items, function(myImage, key, callback) {
+            async.forEachOfLimit(items, 100, function(myImage, key, callback) {
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/');
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/' + myImage.category);
 
@@ -141,13 +142,14 @@ module.exports = {
                 utilities.download(myImage.image, myImgPath, function () {
                     var myMinImgPath = myImgPath.slice(0, myImgPath.length - 9) + '.jpeg';
 
-                    utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350, myImage.id + '.jpeg');
+                    utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350, myImage.id + '.jpeg', callback);
                 });
-
-                callback();
             }, function() {
-                res.json({successful: true});
+                rmdir('./public/assets/ConvertedImages');
+                console.log('Finished retrieving items');
             });
+
+            res.json({successful: true});
         });
     }
 };
