@@ -62,9 +62,9 @@ describe("Users", function() {
             .get('/api/users/getUsersByHighScore?numUsers=' + numUsers)
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.users.length > 0)) throw new Error("GET /api/users - No users returned.");
+                if(!(res.body.length > 0)) throw new Error("GET /api/users - No users returned.");
 
-                if(res.body.users.length > numUsers) throw new Error("GET /api/users - No users returned.");
+                if(res.body.length > numUsers) throw new Error("GET /api/users - No users returned.");
             })
             .end(done);
     });
@@ -77,8 +77,7 @@ describe("Users", function() {
             .get('/api/users/' + aUsername)
             .expect(200)
             .expect(function(res) {
-                if (res.body.code != 0) { throw new Error(res.body.message); }
-                if(res.body.user.username != myTestUser.username || res.body.user.createdDate != myTestUser.createdDate || res.body.user.lastSignInDate != myTestUser.lastSignInDate || res.body.user.highScore != myTestUser.highScore || res.body.user.totalRoundsPlayed != myTestUser.totalRoundsPlayed) {
+                if(res.body.username != myTestUser.username || res.body.createdDate != myTestUser.createdDate || res.body.lastSignInDate != myTestUser.lastSignInDate || res.body.highScore != myTestUser.highScore || res.body.totalRoundsPlayed != myTestUser.totalRoundsPlayed) {
                     throw new Error("GET /api/users/:aUsername - invalid user returned: " + JSON.stringify(res.body));
                 }
                 //  if(!(res.body.username.length > 0) || res.body.username != aUsername) throw new Error("GET /api/user/aUsername - No users returned.");
@@ -94,7 +93,7 @@ describe("Users", function() {
             .get('/api/users')
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.users.length > 0)) throw new Error("GET /api/users - No users returned.");
+                if(!(res.body.length > 0)) throw new Error("GET /api/users - No users returned.");
             })
             .end(done);
     });

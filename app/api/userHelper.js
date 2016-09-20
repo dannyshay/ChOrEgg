@@ -47,14 +47,29 @@ var findSpecificUser = function(aUsername) {
     return myDeferred.promise();
 };
 
+var processUsersForResponse = function(aListOfUsers) {
+    var retVal = [];
+
+    if (!aListOfUsers || aListOfUsers == undefined) { return retVal; }
+
+    aListOfUsers.forEach(function(aUser) {
+        var myUser = {
+            username: aUser.username,
+            createdDate: aUser.createdDate,
+            lastSignInDate: aUser.lastSignInDate,
+            highScore: aUser.highScore,
+            totalRoundsPlayed: aUser.totalRoundsPlayed
+        }
+        retVal.push(myUser);
+    });
+
+    return retVal;
+};
+
 module.exports = {
     getAll: function (res) {
         User.find(function (err, users) {
-            if (!users) {
-                res.status(500).send({Error: 'No response from user database.'});
-            } else{
-                res.status(200).send({code:0,message:"successful",users:users})
-            }
+            res.status(200).send(processUsersForResponse(users));
         });
     },
     getUser: function(req, res) {
@@ -62,10 +77,10 @@ module.exports = {
             res.status(400).send({Error: 'Must specify a username'});
         } else {
             findSpecificUser(req.params.username).then(function(aFoundUser) {
-                if(!aFoundUser || aFoundUser.username != req.params.username) {
-                    res.status(200).send({code: 1, message: 'No user found with username: ' + req.params.username});
+                if (aFoundUser == undefined) {
+                    res.status(200).send([]);
                 } else {
-                    res.status(200).send({code:0,message:"successful",user:aFoundUser});
+                    res.status(200).send(processUsersForResponse([aFoundUser])[0]);
                 }
             });
         }
@@ -79,9 +94,8 @@ module.exports = {
             // We did not find an existing user - create a new one
             if(aFoundUser == null) {
                 addUserToMongo({username: aUsername, createdDate: req.body.createdDate, lastSignInDate: req.body.lastSignInDate, highScore: req.body.highScore, totalRoundsPlay: req.body.totalRoundsPlay}).then(function(anAddedUser) {
-                    res.status(201).send({code: 0, message: "User added successfully.", user: anAddedUser});
+                    res.status(201).send(processUsersForResponse([anAddedUser])[0]);
                 });
-
             } else {
                 // We found an existing user and want to send a message back
                 res.status(409).send({Error: 'User already exists. To update an existing user - try this request as PUT instead of POST'});
@@ -103,7 +117,7 @@ module.exports = {
                     totalRoundsPlayed: req.body.totalRoundsPlayed
                 };
                 updateUserInMongo(myRequestUser).then(function(anUpdatedUser) {
-                   res.status(200).send({code:0, message: "User updated successfully", user:anUpdatedUser});
+                   res.status(200).send(processUsersForResponse([anUpdatedUser])[0]);
                 });
             } else {
                 res.status(404).send({Error: "No user found to update with username = " + aUsername});
@@ -118,7 +132,7 @@ module.exports = {
         findSpecificUser(aUsername).then(function(aFoundUser) {
            if(aFoundUser != null && aFoundUser.username == aUsername) {
                 deleteUserFromMongo(aFoundUser).then(function() {
-                    res.status(200).send({code:0, message:"User deleted successfully."});
+                    res.status(200).send();
                 });
            }  else {
                res.status(404).send({Error: 'No user found to delete with a username = ' + aUsername});
@@ -135,7 +149,7 @@ module.exports = {
                 if(err)
                     res.status(400).send({Error: err});
 
-                res.status(200).send({code:0, message:"Users retrieved successfully", users:users});
+                res.status(200).send(processUsersForResponse(users));
             })
             .sort({highScore:-1})
             .limit(parseInt(numUsers));

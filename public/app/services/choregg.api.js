@@ -6,11 +6,17 @@ angular
             Categories: $resource('/api/items/categories'),
             Difficulties: $resource('/api/difficulties'),
             GetItemsInTimespan: $resource('/api/items/getItemsInTimespan'),
-            Users: $resource('/api/users'),
+            Users: $resource('/api/users', null,
+                {
+                    'query' : {method: 'GET', isArray:true }
+                }),
             User: $resource('/api/users/:aUsername', null,
                 {
                     'update' : {method: 'PUT'},
                 }),
-            GetUsersByHighScore: $resource('/api/users/getUsersByHighScore')
+            GetUsersByHighScore: $resource('/api/users/getUsersByHighScore', null,
+                {
+                    'query' : {method: 'GET', isArray:true}
+                })
         };
     }]);

@@ -16,7 +16,7 @@ angular
 
         var updateUsers = function() {
             return $q(function(resolve) {
-                choreggAPI.GetUsersByHighScore.get({numUsers: 20}, function(data) {
+                choreggAPI.GetUsersByHighScore.query({numUsers: 20}, function(data) {
                     if(data != null && data.users != null && data.users != users) {
                         users = data.users;
                         $localStorage.users = users;
@@ -75,8 +75,8 @@ angular
                     var today = new Date();
                     var myFormattedTodayDate = (("00" + (today.getMonth() + 1)).slice(-2)) + '/' + (("00" + (today.getDate())).slice(-2)) + '/' + today.getFullYear();
 
-                    choreggAPI.User.get({username: aUsername}, function(data) {
-                       if (data == null || data.users == null || data.users.length == 0 || data.users[0].username != aUsername) {
+                    choreggAPI.User.query({username: aUsername}, function(data) {
+                       if (data == null || data == null || data.length == 0 || data[0].username != aUsername) {
                            var myUser = {
                                username: aUsername,
                                createdDate: myFormattedTodayDate,
@@ -94,7 +94,7 @@ angular
                            choreggAPI.User.save(aUsername, myUser);
                            resolve(myUser);
                        }  else {
-                           var myFoundUser = data.users[0];
+                           var myFoundUser = data[0];
 
                            var myUser = {
                                username: aUsername,
