@@ -135,7 +135,7 @@ module.exports = {
                     res.status(200).send();
                 });
            }  else {
-               res.status(404).send({Error: 'No user found to delete with a username = ' + aUsername});
+               res.status(400).send({Error: 'No user found to delete with a username = ' + aUsername});
            }
         });
     },

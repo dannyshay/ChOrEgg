@@ -1,0 +1,101 @@
+swagger: '2.0'
+info:
+  version: 0.1.0
+  title: ChOrEgg
+  description: |
+    **This document describes the ChOrEgg API and its operations**
+
+    You can try all HTTP operation described in this Swagger spec.
+    
+    Find source code of this API [here](https://github.com/dannyshay/ChOrEgg-Web)
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+  - text/xml
+produces:
+  - application/json
+  - text/html
+paths:
+  /api/users/:
+    get:
+      responses:
+        200:
+          description:  List all users
+          schema:
+            title: Users
+            type: array
+            items:
+              $ref: '#/definitions/User'
+    post:
+      parameters:
+        - name: User
+          in: body
+          description: The User JSON you want to post
+          schema:
+            $ref: '#/definitions/User'
+          required: true
+      responses:
+        200:
+          description: Make a new User
+    put:
+      parameters:
+        - name: User
+          in: body
+          description: The User JSON you want to post
+          schema:
+            $ref: '#/definitions/User'
+          required: true
+      responses:
+        200:
+          description: Updates the User
+    
+  /api/users/{username}:
+    get:
+      parameters:
+        - name: username
+          in: path
+          type: string
+          description: Username of the User to be retrieved
+          required: true
+      responses:
+        200:
+          description: Gets a specific user by ID
+          schema:
+            $ref: "#/definitions/User"
+    delete:
+      summary: Deletes a User"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: username
+          description: User ID to delete
+          required: true
+          type: string
+      responses:
+        200:
+          description: User deleted successfully
+        404:
+          description: User not found
+definitions:
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+      createdDate:
+        type: string
+      lastSignInDate:
+        type: string
+      totalRoundsPlayed:
+        type: integer
+        format: Int32
+      highScore:
+        type: integer
+        format: Int32
+        
+
