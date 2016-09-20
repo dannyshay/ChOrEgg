@@ -11,7 +11,7 @@ describe("Difficulties", function() {
             .get('/api/difficulties')
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.Difficulties.length > 0)) throw new Error("GET /api/difficulties - No difficulties returned.")
+                if(!(res.body.length > 0)) throw new Error("GET /api/difficulties - No difficulties returned.")
             })
             .end(done);
     });

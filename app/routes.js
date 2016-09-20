@@ -54,7 +54,7 @@ module.exports = function(app) {
         itemHelper.getDistinctImages(res);
     });
 
-    app.get('/api/items/categories', function(req, res) {
+    app.get('/api/categories', function(req, res) {
         categoryHelper.getCategories(res);
     });
 

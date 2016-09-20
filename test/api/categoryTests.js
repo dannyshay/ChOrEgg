@@ -8,10 +8,10 @@ describe("Categories", function() {
     // -------------------------CATEGORIES------------------------
     it("GET /api/categories - should return some categories.", function(done) {
         request
-            .get('/api/items/categories')
+            .get('/api/categories')
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.Categories.length > 0)) throw new Error("GET /api/items/categories - No items returned.")
+                if(!(res.body.length > 0)) throw new Error("GET /api/categories - No categories returned.")
             })
             .end(done);
     });

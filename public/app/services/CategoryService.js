@@ -23,7 +23,7 @@ angular
                         var myCategories = $cookies.get('categories');
                         if (!myCategories || myCategories == undefined) {
                             // If we don't find anything there - call the API
-                            choreggAPI.Categories.get(function (data) {
+                            choreggAPI.Categories.query(function (data) {
                                 myCategories = data.Categories;
                                 // Save the categories to a cookie
                                 $cookies.put('categories', JSON.stringify(myCategories));
