@@ -11,7 +11,10 @@ angular
                 {
                     'query' : {method: 'GET', isArray:true}
                 }),
-            GetItemsInTimespan: $resource('/api/items/getItemsInTimespan'),
+            GetItemsInTimespan: $resource('/api/items/getItemsInTimespan', null,
+                {
+                    'query': {method: 'GET', isArray:true}
+                }),
             Users: $resource('/api/users', null,
                 {
                     'query' : {method: 'GET', isArray:true}

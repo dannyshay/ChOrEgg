@@ -50,28 +50,12 @@ module.exports = function(app) {
         itemHelper.getAll(res);
     });
 
-    app.get('/api/items/images', function(req, res) {
-        itemHelper.getDistinctImages(res);
-    });
-
     app.get('/api/categories', function(req, res) {
         categoryHelper.getCategories(res);
     });
 
     app.get('/api/items/getItemsInTimespan', function(req, res) {
        itemHelper.getItemsInTimespan(req, res);
-    });
-
-    app.get('/api/items/:category/count', function(req, res){
-        itemHelper.getCountByCategory(req, res);
-    });
-
-    app.get('/api/items/:category', function(req, res) {
-        itemHelper.getByCategory(req, res);
-    });
-
-    app.get('/api/items/:category/:id', function(req, res) {
-       itemHelper.getByCategoryAndID(req, res);
     });
 
     // frontend routes ============================================

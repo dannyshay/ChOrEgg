@@ -25,31 +25,11 @@ describe("Items", function() {
             .get('/api/items/getItemsInTimespan?category=' + category + '&timeSpan=' + timespan + '&numPairs=' + numPairs)
             .expect(200)
             .expect(function(res) {
-                if(!(res.body.Items.length == numPairs)) throw new Error("GET /api/items/getItemsInTimespan - Incorrect # of items returned. Expected: " + numPairs + ", received: " + res.body.Items.length);
-                var item1 = res.body.Items[0].itemSet[0];
-                var item2 = res.body.Items[0].itemSet[1];
+                if(!(res.body.length == numPairs)) throw new Error("GET /api/items/getItemsInTimespan - Incorrect # of items returned. Expected: " + numPairs + ", received: " + res.body.Items.length);
+                var item1 = res.body[0].itemSet[0];
+                var item2 = res.body[0].itemSet[1];
 
                 if(!(Math.abs(item1.date - item2.date) <= timespan)) throw new Error("GET /api/items/getItemsInTimespan - Items weren't in timespan specified.");
             }).end(done);
-    });
-
-    it("GET /api/items/images - should return some image URLs.", function(done) {
-        request
-            .get('/api/items/images')
-            .expect(200)
-            .expect(function(res) {
-                if(!res.body.length > 0) throw new Error("GET /api/items/images - No urls returned.")
-            })
-            .end(done);
-    });
-
-    it("GET /api/items/:category - should return some items.", function(done) {
-        request
-            .get('/api/items/People/')
-            .expect(200)
-            .expect(function(res) {
-                if(!res.body.length > 0) throw new Error("GET /api/items/:category - No items returned.")
-            })
-            .end(done);
     });
 });

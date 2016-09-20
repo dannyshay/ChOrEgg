@@ -17,8 +17,8 @@ angular
         var updateUsers = function() {
             return $q(function(resolve) {
                 choreggAPI.GetUsersByHighScore.query({numUsers: 20}, function(data) {
-                    if(data != null && data.users != null && data.users != users) {
-                        users = data.users;
+                    if(data != null && data != null && data != users) {
+                        users = data;
                         $localStorage.users = users;
                     }
                     resolve(users);
