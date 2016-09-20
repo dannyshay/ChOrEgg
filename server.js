@@ -8,6 +8,7 @@ var methodOverride  = require('method-override');
 var session       = require('express-session');
 var MongoStore    = require('connect-mongo')(session);
 var mongoose        = require('mongoose');
+var cors            = require('cors');
 var fs = require('fs')
     , gm = require('gm');
 
@@ -29,6 +30,9 @@ console.log('Current environment: ' + mode);
 
 // connect to our mongoDB database
 mongoose.connect(db.url);
+
+// Add CORS support for swagger.io
+app.use(cors());
 
 app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
@@ -54,6 +58,8 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public'));
+
+
 
 // routes ========================================================
 require('./app/routes')(app);
