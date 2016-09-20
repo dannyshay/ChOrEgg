@@ -2,7 +2,7 @@ angular
     .module('choregg')
     .factory('CategoryService', ['$cookies','choreggAPI', '$q', function($cookies, choreggAPI, $q) {
         var categories = [];
-        var currentCategory = '';
+        var currentCategory = null;
 
         return {
             getCategories: function() {
@@ -24,7 +24,7 @@ angular
                         if (!myCategories || myCategories == undefined) {
                             // If we don't find anything there - call the API
                             choreggAPI.Categories.query(function (data) {
-                                myCategories = data.Categories;
+                                myCategories = data;
                                 // Save the categories to a cookie
                                 $cookies.put('categories', JSON.stringify(myCategories));
 

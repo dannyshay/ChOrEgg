@@ -23,7 +23,7 @@ angular
                     var myDifficulties = $cookies.get('difficulties');
                     if (!myDifficulties || myDifficulties == undefined) {
                         // If we can't find anything - grab them from the API
-                        choreggAPI.Difficulties.get(function (data) {
+                        choreggAPI.Difficulties.query(function (data) {
                             myDifficulties = data;
                             // Save the results to a cookie
                             $cookies.put('difficulties', JSON.stringify(myDifficulties));

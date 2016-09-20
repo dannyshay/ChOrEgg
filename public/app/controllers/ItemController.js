@@ -83,15 +83,14 @@ angular
         // - If you are wishing to just get more items with the existing category / difficulty - use 'getMoreItems()' below
         function getInitialItems() {
             return $q(function(resolve) {
-                //console.log('in resolve');
-                ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
+                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     LoadingService.setLoading(false);
                     if ($scope.currentState == 'game') {
                         TimerService.restartTimer();
                     }
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
-                    ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
+                    ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
                         resolve();
                     });
                 });
@@ -124,7 +123,7 @@ angular
 
                 UserService.addRoundPlayed();
 
-                ItemService.getItemsInTimespan($scope.currentCategory, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
+                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
                     LoadingService.setLoading(false);
                     resolve();
                 });

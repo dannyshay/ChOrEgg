@@ -40,7 +40,7 @@ angular
                     UserService.addRoundPlayed();
 
                     // Get some more items (up to 10 based on currenct amount in item cache) to keep going
-                    ItemService.getItemsInTimespan(CategoryService.getCurrentCategory(), DifficultyService.getCurrentDifficulty().timeSpan, 10 - ItemService.getItems().length);
+                    ItemService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 10 - ItemService.getItems().length);
                 }
 
                 // Update the timer if necessary (this is ugly but must be done :( )
