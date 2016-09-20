@@ -38,7 +38,7 @@ var checkRequiredVariables = function (req, res) {
 
     if (!req.query.numPairs) {
         res.status(400).send({Error: "Must specify numPairs."});
-
+        return;
     }
 };
 
