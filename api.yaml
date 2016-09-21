@@ -29,6 +29,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/User'
+        400:
+          description: Failed to retrieve user
+          schema:
+            $ref: '#/definitions/Error'
     post:
       tags:
         - Users
@@ -69,6 +73,10 @@ paths:
           description: User updated successfully
           schema:
               $ref: '#/definitions/User'
+        400:
+          description: Failed to retrieve user
+          schema:
+            $ref: '#/definitions/Error'
     
   /api/users/{username}:
     get:
@@ -86,6 +94,10 @@ paths:
           description: User retrieved successfully
           schema:
             $ref: "#/definitions/User"
+        400:
+          description: Failed to retrieve user
+          schema:
+            $ref: '#/definitions/Error'
     delete:
       tags:
         - Users
@@ -129,6 +141,23 @@ paths:
           description: Error retrieving users
           schema:
             $ref: '#/definitions/Error'
+  /api/categories:
+    get:
+      tags:
+        - Categories
+      summary: Gets all categories
+      responses:
+        200:
+          description: Categories retrieved successfully
+          schema:
+            title: Categories
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+        400:
+          description: Error retrieving categories
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   User:
     type: object
@@ -151,6 +180,24 @@ definitions:
       lastSignInDate: 06/01/2016
       totalRoundsPlayed: 75
       highScore: 15
+  Category:
+    type: object
+    properties:
+      categoryName:
+        type: string
+    example:
+      categoryName: People
+  Difficulty:
+    type: object
+    properties:
+      difficultyName:
+        type: string
+      timeSpan:
+        type: integer
+        format: Int32
+    example:
+      difficultyName: Hard
+      timeSpan: 10
   Error:
     type: object
     properties:

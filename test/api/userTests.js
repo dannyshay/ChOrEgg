@@ -62,7 +62,6 @@ describe("Users", function() {
             .get('/api/users/getUsersByHighScore?numUsers=' + numUsers)
             .expect(200)
             .expect(function(res) {
-                console.log(JSON.stringify(res.body));
                 if(!(res.body.length > 0)) throw new Error("GET /api/users - No users returned.");
 
                 if(res.body.length > numUsers) throw new Error("GET /api/users - No users returned.");
