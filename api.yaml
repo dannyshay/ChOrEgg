@@ -158,6 +158,23 @@ paths:
           description: Error retrieving categories
           schema:
             $ref: '#/definitions/Error'
+  /api/difficulties:
+      get:
+        tags:
+          - Difficulties
+        summary: Gets all difficulties
+        responses:
+          200:
+            description: Difficulties retrieved successfully
+            schema:
+              title: Difficulties
+              type: array
+              items:
+                $ref: '#/definitions/Difficulty'
+          400:
+            description: Error retrieving difficulties
+            schema:
+              $ref: '#/definitions/Error'
 definitions:
   User:
     type: object
