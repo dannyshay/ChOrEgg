@@ -1,6 +1,7 @@
 // server.js
 
 // modules =======================================================
+//var express         = require('express');
 var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
@@ -58,8 +59,6 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public'));
-
-
 
 // routes ========================================================
 require('./app/routes')(app);

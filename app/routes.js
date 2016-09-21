@@ -62,6 +62,14 @@ module.exports = function(app) {
     // route to handle all angular requests
     var path = require('path');
 
+    app.get('/swagger/yaml', function(req, res) {
+       res.sendFile(path.join(__dirname, '../api.yaml'));
+    });
+
+    app.get('/swagger', function(req, res) {
+        res.sendFile(path.join(__dirname, '../public/swagger/index.html'));
+    });
+
     app.get('*', function(req, res) {
        res.sendFile(path.join(__dirname, '../public/index.html')); //load our public/index.html file
     });

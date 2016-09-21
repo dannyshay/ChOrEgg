@@ -12,13 +12,10 @@ host: localhost:8080
 basePath: /
 schemes:
   - http
-  - https
 consumes:
   - application/json
-  - text/xml
 produces:
   - application/json
-  - text/html
 paths:
   /api/users/:
     get:
