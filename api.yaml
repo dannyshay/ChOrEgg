@@ -141,6 +141,58 @@ paths:
           description: Error retrieving users
           schema:
             $ref: '#/definitions/Error'
+  /api/items:
+    get:
+      tags:
+        - Items
+      summary: Gets all items
+      responses:
+        200:
+          description: Items retrieved successfully
+          schema:
+            title: Items
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        400:
+          description: Error retrieving Items
+          schema:
+            $ref: '#/definitions/Error'
+  /api/items/getItemsInTimespan:
+    get:
+      tags:
+        - Items
+      summary: Gets some item sets within a specific timespan
+      parameters:
+        - name: category
+          in: query
+          description: The category in which to retreive the item pairs
+          required: true
+          type: string
+        - name: timeSpan
+          in: query
+          description: The timespan in which the items dates are to fall
+          required: true
+          type: integer
+          format: Int32
+        - name: numPairs
+          in: query
+          description: The number of item pairs to return
+          required: true
+          type: integer
+          format: Int32
+      responses:
+        200:
+          description: Item sets retrieved successfully
+          schema:
+            title: ItemSets
+            type: array
+            items:
+              $ref: '#/definitions/ItemSets'
+        400:
+          description: Error retrieving items
+          schema:
+            $ref: '#/definitions/Error'
   /api/categories:
     get:
       tags:
@@ -197,6 +249,45 @@ definitions:
       lastSignInDate: 06/01/2016
       totalRoundsPlayed: 75
       highScore: 15
+  Item:
+    type: object
+    properties:
+      category:
+        type: string
+      name:
+        type: string
+      date:
+        type: integer
+        format: Int32
+      image:
+        type: string
+    example:
+      category: People
+      name: Winston Churchill
+      date: 1874
+      image: https://upload.wikimedia.org/wikipedia/commons/3/35/Churchill_portrait_NYP_45063.jpg
+  ItemSets:
+    type: object
+    properties:
+      itemSet:
+        title: itemSets
+        type: array
+        items:
+          $ref: '#/definitions/ItemSet'
+  ItemSet:
+    type: object
+    properties:
+      name:
+        type: string
+      date:
+        type: integer
+        format: Int32
+      imageData:
+        type: string
+      category:
+        type: string
+      image:
+        type: string
   Category:
     type: object
     properties:
