@@ -79,6 +79,8 @@
 
       window.swaggerUi.load();
 
+      window.swaggerUi.api.setBasePath('/');
+
       function log() {
         if ('console' in window) {
           console.log.apply(console, arguments);

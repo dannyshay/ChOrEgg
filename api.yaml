@@ -8,7 +8,6 @@ info:
     You can try all HTTP operation described in this Swagger spec.
     
     Find source code of this API [here](https://github.com/dannyshay/ChOrEgg-Web)
-host: localhost:8080
 basePath: /
 schemes:
   - http
@@ -19,6 +18,9 @@ produces:
 paths:
   /api/users/:
     get:
+      tags:
+        - Users
+      summary: Get all users
       responses:
         200:
           description:  List all users
@@ -28,6 +30,9 @@ paths:
             items:
               $ref: '#/definitions/User'
     post:
+      tags:
+        - Users
+      summary: Add a new user
       parameters:
         - name: User
           in: body
@@ -37,8 +42,21 @@ paths:
           required: true
       responses:
         200:
-          description: Make a new User
+          description: User created successfully
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Error adding new user
+          schema:
+            $ref: '#/definitions/Error'
+        409:
+          description: User already exists
+          schema:
+            $ref: '#/definitions/Error'
     put:
+      tags:
+          - Users
+      summary: Update a user
       parameters:
         - name: User
           in: body
@@ -48,10 +66,15 @@ paths:
           required: true
       responses:
         200:
-          description: Updates the User
+          description: User updated successfully
+          schema:
+              $ref: '#/definitions/User'
     
   /api/users/{username}:
     get:
+      tags:
+        - Users
+      summary: Gets a user
       parameters:
         - name: username
           in: path
@@ -60,11 +83,13 @@ paths:
           required: true
       responses:
         200:
-          description: Gets a specific user by ID
+          description: User retrieved successfully
           schema:
             $ref: "#/definitions/User"
     delete:
-      summary: Deletes a User"
+      tags:
+        - Users
+      summary: Deletes a User
       produces:
         - application/json
       parameters:
@@ -76,8 +101,34 @@ paths:
       responses:
         200:
           description: User deleted successfully
-        404:
+        400:
           description: User not found
+          schema:
+              $ref: '#/definitions/Error'
+  /api/users/getUsersByHighScore:
+    get:
+      tags:
+        - Users
+      summary: Gets users by high score
+      parameters:
+        - name: numUsers
+          in: query
+          description: The total number of users to return
+          required: true
+          type: integer
+          format: Int32
+      responses:
+        200:
+          description: Users retrieved successfully
+          schema:
+            title: Users
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        400:
+          description: Error retrieving users
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   User:
     type: object
@@ -94,5 +145,16 @@ definitions:
       highScore:
         type: integer
         format: Int32
-        
-
+    example:
+      username: testUserName
+      createdDate: 01/01/2016
+      lastSignInDate: 06/01/2016
+      totalRoundsPlayed: 75
+      highScore: 15
+  Error:
+    type: object
+    properties:
+      Error:
+        type: string
+    example:
+      Error: This is a sample error message

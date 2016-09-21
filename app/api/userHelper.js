@@ -141,15 +141,17 @@ module.exports = {
     },
     getUsersByHighScore: function(req, res) {
         var numUsers = req.query.numUsers;
-        if(!numUsers || !numUsers > 0)
+        if(!numUsers || !(parseInt(numUsers) > 0)) {
             res.status(400).send({Error:'Must specify number of users (numUsers)'});
+            return;
+        }
 
         User
             .find(function(err, users){
                 if(err)
                     res.status(400).send({Error: err});
-
-                res.status(200).send(processUsersForResponse(users));
+                else
+                    res.status(200).send(processUsersForResponse(users));
             })
             .sort({highScore:-1})
             .limit(parseInt(numUsers));
