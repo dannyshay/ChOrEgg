@@ -9,6 +9,6 @@ describe('User Service', function(){
     }));
 
     it('exists', function() {
-       expect(UserService);
+       expect(UserService).toBeDefined();
     });
 });

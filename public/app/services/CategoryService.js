@@ -9,7 +9,8 @@ angular
                 return categories;
             },
             initialize: function() {
-              categories = [];
+                categories = [];
+                currentCategory = null;
             },
             getCurrentCategory: function() {
               return currentCategory;
