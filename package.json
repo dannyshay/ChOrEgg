@@ -8,7 +8,7 @@
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
-    "test": "./node_modules/mocha/bin/mocha test/api; ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
+    "test": "./node_modules/mocha/bin/mocha test/api",
     "start": "node server.js"
   },
   "repository": {
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/dannyshay/ChOrEgg-Web#readme",
   "dependencies": {
+    "angular-mocks": "^1.5.8",
     "async": "^2.0.0-rc.3",
     "body-parser": "^1.15.0",
     "bower": "^1.7.9",
