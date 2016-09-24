@@ -17,6 +17,10 @@
     height:400px;
 }
 
+.scoreLabel {
+    font-size:24px;
+}
+
 .bg-primary {
     padding-top:10px;
     padding-bottom:10px;
