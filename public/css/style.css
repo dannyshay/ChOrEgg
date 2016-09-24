@@ -186,15 +186,78 @@ body {
 /*iPhone6+*/
 @media screen and (max-width : 800px) {
     .item {
-        height: 180px;
+        height: 220px;
     }
 
     .label {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .label-important {
-        font-size: 20px;
+        font-size: 24px;
+    }
+
+    .footer-text {
+        font-size:14px;
+    }
+
+    .scoreLabel {
+        font-size: 23px;
+    }
+
+    /*Web - App View*/
+    @media screen and (max-height: 740px) and (min-height: 631px) {
+        .navbar {
+            margin-top:20px;
+        }
+    }
+
+    /*Mobile Safari (with URL bars) View*/
+    @media screen and (max-height:630px) {
+        .item {
+            height: 180px;
+        }
+
+        h4 {
+            font-size:16px;
+        }
+
+        .label {
+            font-size: 20px;
+        }
+
+        .label-important {
+            font-size: 20px;
+        }
+
+        .footer-text {
+            font-size:10px;
+        }
+
+        .col-lg-6 {
+            margin-top:-5px;
+        }
+
+        .col-xs-6 {
+            margin-top:-5px;
+        }
+
+        .label {
+            font-size:18px;
+        }
+
+        .label-important {
+            font-size:18px;
+        }
+
+        .hudDiv {
+            padding-top:5px;
+        }
+
+        .redX {
+            height:24px;
+            width: 24px;
+        }
     }
 
     @media screen and (max-width : 400px) {
@@ -203,11 +266,32 @@ body {
         }
     }
 
-    /*iPhone5*/
-    @media screen and (max-width : 320px) {
-        @media screen and (max-height: 600px) {
+    @media screen and (max-width : 375px) {
+        /*iPhone5*/
+        @media screen and (max-height: 667px) and (min-height:560px) {
+            /*Web App View*/
+            .navbar {
+                margin-top:20px;
+            }
+
+            .footer-text {
+                font-size:12px;
+            }
+
+            h4 {
+                font-size:16px;
+            }
+
+            .label-important {
+                font-size:20px;
+            }
+
+            label {
+                font-size:18px;
+            }
+
             .item {
-                height: 130px;
+                height: 200px;
             }
 
             .correctHeader {
@@ -217,12 +301,35 @@ body {
             .correctMessage {
                 font-size: 16px;
             }
+
+            .scoreLabel {
+                font-size:16px;
+            }
+        }
+
+        /*Safari URL View with Bars*/
+        @media screen and (max-height:559px) {
+            .item {
+                height:140px;
+            }
+
+            .correctHeader {
+                font-size:20px;
+            }
+
+            .correctMessage {
+                font-size: 14px;
+            }
+
+            .label {
+                font-size:16px;
+            }
         }
 
         /*iPhone4*/
-        @media screen and (max-height: 500px){
+        @media screen and (max-height: 568px){
             .item {
-                height: 80px;
+                height: 150px;
             }
 
             .correctHeader {
@@ -231,6 +338,16 @@ body {
 
             .correctMessage {
                 font-size: 12px;
+            }
+
+            @media screen and (max-height: 460px) {
+                .jumbotron {
+                    font-size:14px;
+                }
+
+                .item {
+                    height:100px;
+                }
             }
         }
     }

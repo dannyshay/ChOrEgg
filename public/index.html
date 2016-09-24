@@ -6,7 +6,7 @@
 
     <title>ChOrEgg</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="google-signin-client_id" content="271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com">
@@ -69,6 +69,28 @@
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', 'UA-46382114-2', 'auto');
+    </script>
+    <script>
+        // Got this script to prevent scrolling on touch events for mobile browsers
+        var firstMove;
+
+        window.addEventListener('touchstart', function (e) {
+            firstMove = true;
+        });
+
+        window.addEventListener('touchmove', function (e) {
+            if (firstMove) {
+                e.preventDefault();
+
+                firstMove = false;
+            }
+        });
+
+        window.addEventListener("load",function() {
+            setTimeout(function(){
+                window.scrollTo(0, 1);
+            }, 0);
+        });
     </script>
 </head>
 <body ng-app="choregg">
