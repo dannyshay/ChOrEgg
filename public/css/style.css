@@ -212,6 +212,10 @@ body {
         max-width:120px;
     }
 
+    .jumbotron {
+        font-size:20px;
+    }
+
     /*Web - App View*/
     @media screen and (max-height: 740px) and (min-height: 631px) {
         .navbar {
@@ -280,6 +284,10 @@ body {
     @media screen and (max-width : 375px) {
         /*iPhone5*/
         @media screen and (max-height: 667px) and (min-height:560px) {
+            .jumbotron {
+                font-size:18px;
+            }
+
             /*Web App View*/
             .navbar {
                 margin-top:20px;
@@ -339,6 +347,10 @@ body {
 
         /*iPhone4*/
         @media screen and (max-height: 568px){
+            .jumbotron {
+                font-size:14px;
+            }
+
             .item {
                 height: 150px;
             }
