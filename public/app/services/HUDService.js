@@ -1,32 +1,26 @@
 angular
     .module('choregg')
-    .factory('HUDService', ['UserService', function(UserService) {
+    .factory('HUDService', ['UserService', '$rootScope', function(UserService, $rootScope) {
         var currentScore = 0;
         var numStrikes = 0;
 
         return {
-            getCurrentScore: function() {
-                return currentScore;
-            },
             resetNumStrikes: function() {
                 numStrikes = 0;
-                $rootScope.$broadcast('numStrikesUpdated');
+                $rootScope.$broadcast('numStrikesChanged', {numStrikes: numStrikes});
             },
             resetCurrentScore: function() {
                 currentScore = 0;
-                $rootScope.$broadcast('currentScoreUpdated');
-            },
-            getNumStrikes: function() {
-                return numStrikes;
+                $rootScope.$broadcast('currentScoreChanged', {currentScore: currentScore});
             },
             addStrike: function() {
                 numStrikes += 1;
-                $rootScope.$broadcast('numStrikesUpdated');
+                $rootScope.$broadcast('numStrikesChanged', {numStrikes: numStrikes});
                 return numStrikes;
             },
             addPoints: function(numPoints) {
                 currentScore += numPoints;
-                $rootScope.$broadcast('currentScoreUpdated');
+                $rootScope.$broadcast('currentScoreChanged', {currentScore: currentScore});
 
                 UserService.checkUpdateHighScore(currentScore);
 
@@ -35,8 +29,8 @@ angular
             initialize: function() {
                 currentScore = 0;
                 numStrikes = 0;
-                $rootScope.$broadcast('currentScoreUpdated');
-                $rootScope.$broadcast('numStrikesUpdated');
+                $rootScope.$broadcast('currentScoreChanged', {currentScore: currentScore});
+                $rootScope.$broadcast('numStrikesChanged', {numStrikes: numStrikes});
             }
         }
     }]);

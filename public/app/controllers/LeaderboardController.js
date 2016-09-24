@@ -1,17 +1,16 @@
 angular
     .module('choregg')
-    .controller('LeaderboardController', ["$scope", "UserService", function($scope, UserService) {
+    .controller('LeaderboardController', ["$scope", function($scope) {
+        $scope.$on('currentStateChanged', function(event, options) {
+            $scope.currentState = options.currentState;
+        });
 
-        $scope.$watch(function() {return UserService.getUsers();},
-            function(aSetOfUsers) {
-                if(aSetOfUsers != null && aSetOfUsers != $scope.users) {
-                    $scope.users = aSetOfUsers;
+        $scope.$on('usersChanged', function(event, options) {
+            $scope.users = options.users;
 
-                    $scope.users.forEach(function(aUser) {
-                        // Remove the email domains for privacy
-                        aUser.username = aUser.username.split('@')[0];
-                    });
-                }
-            }
-        )
+            $scope.users.forEach(function(aUser) {
+                // Remove the email domains for privacy
+                aUser.username = aUser.username.split('@')[0];
+            });
+        });
     }]);

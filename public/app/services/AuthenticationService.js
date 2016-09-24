@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('AuthenticationService', ['$localStorage', 'UserService', function($localStorage, UserService) {
+    .factory('AuthenticationService', ['$localStorage', 'UserService', '$rootScope', function($localStorage, UserService, $rootScope) {
         var signedIn = false;
 
         if ($localStorage.signedIn != null) {
@@ -8,12 +8,9 @@ angular
         }
 
         return {
-            getSignedIn: function() {
-                return signedIn;
-            },
             signOut: function() {
                 signedIn = false;
-                $rootScope.$broadcast('signedInChanged');
+                $rootScope.$broadcast('signedInChanged', {signedIn: signedIn});
 
                 $localStorage.signedIn = false;
                 $localStorage.user = null;
@@ -23,7 +20,7 @@ angular
             },
             signInUser: function(aUser) {
                 signedIn = true;
-                $rootScope.$broadcast('signedInChanged');
+                $rootScope.$broadcast('signedInChanged', {signedIn: signedIn});
                 $localStorage.signedIn = signedIn;
                 
                 UserService.signInUser(aUser.w3.U3);

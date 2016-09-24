@@ -4,12 +4,9 @@ angular
         var loading = false;
 
         return {
-            getLoading: function() {
-                return loading;
-            },
             setLoading: function(aLoading) {
                 loading = aLoading;
-                $rootScope.$broadcast('loadingChanged');
+                $rootScope.$broadcast('loadingChanged', {loading: loading});
             }
         }
     }]);

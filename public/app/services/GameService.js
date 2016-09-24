@@ -8,22 +8,18 @@
 
 angular
     .module('choregg')
-    .factory('GameService', ['choreggAPI', '$q', 'TimerService', function(choreggAPI, $q, TimerService) {
+    .factory('GameService', ['choreggAPI', '$q', 'TimerService', '$rootScope', function(choreggAPI, $q, TimerService, $rootScope) {
         var items = [];
         var currentItems = null;
 
         return {
-            getItems: function () {
-                return items;
-            },
-            getCurrentItems: function() {
-              return currentItems;
-            },
             shiftItems: function () {
                 return $q(function(resolve) {
                     //Pops the top item off the stack
                     items.shift();
                     currentItems = items[0];
+                    $rootScope.$broadcast('itemsChanged', {items: items});
+                    $rootScope.$broadcast('currentItemsChanged', {currentItems: currentItems});
                     TimerService.restartTimer();
                     resolve();
                 });
@@ -42,9 +38,12 @@ angular
                             data.forEach(function(item) {
                                 items.push(item);
                             });
+                            $rootScope.$broadcast('itemsChanged', {items: items});
 
-                            if (!currentItems)
+                            if (!currentItems) {
                                 currentItems = items[0];
+                                $rootScope.$broadcast('currentItemsChanged', {currentItems: currentItems});
+                            }
 
                             //Return the promise
                             resolve();

@@ -18,49 +18,42 @@ angular
         });
     }])
     .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'GameService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, GameService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService) {
-        $scope.$watch(function() {return CategoryService.getCategories();},
-            function(aCategories) { $scope.categories = aCategories; }
-        );
+        $scope.$on('categoriesLoaded', function(event, options) {
+            $scope.categories = options.categories;
+        });
 
-        $scope.$watch(function() {return DifficultyService.getDifficulties();},
-            function(aDifficulties) { $scope.difficulties = aDifficulties; }
-        );
+        $scope.$on('difficultiesLoaded', function(event, options) {
+            $scope.difficulties = options.difficulties;
+        });
 
-        $scope.$watch(function() {return CategoryService.getCurrentCategory();},
-            function(aCategory) { if(aCategory) {$scope.currentCategory = aCategory; }}
-        );
+        $scope.$on('currentCategoryChanged', function(event, options) {
+            $scope.currentCategory = options.currentCategory;
+        });
 
-        $scope.$watch(function() {return DifficultyService.getCurrentDifficulty();},
-            function(aDifficulty) { if(aDifficulty) {$scope.currentDifficulty = aDifficulty; }}
-        );
+        $scope.$on('currentDifficultyChanged', function(event, options) {
+            $scope.currentDifficulty = options.currentDifficulty;
+        });
 
-        $scope.$watch(function() {return UserService.getUser();},
-            function(aUser) { $scope.user = aUser; }
-        );
+        $scope.$on('userChanged', function(event, options) {
+            $scope.user = options.user;
+            $scope.username = $scope.user.username;
+        });
 
-        $scope.$watch(function() {return UserService.getUsername();},
-            function(aUsername) { $scope.username = aUsername; }
-        );
+        $scope.$on('usernameChanged', function(event, options) {
+            $scope.user = options.user;
+        });
 
-        $scope.$watch(function() {return TimerService.getIsPaused();},
-            function(aIsPaused) {
-                if(aIsPaused != null && aIsPaused != $scope.paused) { $scope.paused = aIsPaused; }
-            }
-        );
+        $scope.$on('isPausedChanged', function(event, options) {
+            $scope.isPaused = options.isPaused;
+        });
 
-        $scope.$watch(function() {return StateService.getCurrentState();},
-            function(aCurrentState) {
-                if(aCurrentState != null && aCurrentState != $scope.currentState) { $scope.currentState = aCurrentState; }
-            }
-        );
+        $scope.$on('currentStateChanged', function(event, options) {
+            $scope.currentState = options.currentState;
+        });
 
-        $scope.$watch(function() {return AuthenticationService.getSignedIn();},
-            function(aSignedIn) {
-                if(aSignedIn != null && aSignedIn != $scope.signedIn) {
-                    $scope.signedIn = aSignedIn;
-                }
-            }
-        );
+        $scope.$on('signedInChanged', function(event, options) {
+            $scope.signedIn = options.signedIn;
+        });
 
         $scope.viewProfile = function() {
             StateService.setCurrentState('profile');

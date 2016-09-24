@@ -5,19 +5,12 @@ angular
         var currentDifficulty = null;
 
         return {
-            getDifficulties: function () {
-                return difficulties;
-            },
-            initialize: function() {
-                difficulties = [];
-                currentDifficulty = null;
-            },
             getCurrentDifficulty: function() {
               return currentDifficulty;
             },
             setCurrentDifficulty: function(aDifficulty) {
               currentDifficulty = aDifficulty;
-                $rootScope.$broadcast('currentDifficultyChanged');
+                $rootScope.$broadcast('currentDifficultyChanged', {currentDifficulty: currentDifficulty});
             },
             loadDifficulties: function () {
                 return $q(function (resolve) {
@@ -32,6 +25,7 @@ angular
 
                             difficulties = myDifficulties;
                             currentDifficulty = difficulties[0];
+                            $rootScope.$broadcast('difficultiesLoaded', {difficulties: difficulties});
                             resolve(difficulties);
                         });
                     } else {
@@ -40,6 +34,7 @@ angular
 
                         difficulties = myDifficulties;
                         currentDifficulty = difficulties[0];
+                        $rootScope.$broadcast('difficultiesLoaded', {difficulties: difficulties});
                         resolve(difficulties);
                     }
 

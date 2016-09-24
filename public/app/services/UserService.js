@@ -19,7 +19,7 @@ angular
                 choreggAPI.GetUsersByHighScore.query({numUsers: 20}, function(data) {
                     if(data != null && data != null && data != users) {
                         users = data;
-                        $rootScope.$broadcast('usersChanged');
+                        $rootScope.$broadcast('usersChanged', {users: users});
                         $localStorage.users = users;
                     }
                     resolve(users);
@@ -30,17 +30,11 @@ angular
         refreshUsers();
 
         return {
-            getUser: function() {
-                return user;
-            },
-            getUsername: function() {
-                return username;
-            },
             initialize: function() {
                 user = null;
                 username = null;
-                $rootScope.$broadcast('userChanged');
-                $rootScope.$broadcast('usernameChanged');
+                $rootScope.$broadcast('userChanged', {user: user});
+                $rootScope.$broadcast('usernameChanged', {username: username});
             },
             checkUpdateHighScore: function(aCurrentScore) {
                 return $q(function(resolve) {
@@ -64,12 +58,6 @@ angular
                     }
                 });
             },
-            getCurrentUser: function() {
-                return user;
-            },
-            getUsers: function() {
-                return users;
-            },
             refreshUsers: function() {
                 return refreshUsers();
             },
@@ -90,8 +78,8 @@ angular
 
                            user = myUser;
                            username = myUser.username;
-                           $rootScope.$broadcast('userChanged');
-                           $rootScope.$broadcast('usernameChanged');
+                           $rootScope.$broadcast('userChanged', {user: user});
+                           $rootScope.$broadcast('usernameChanged', {username: username});
 
                            $localStorage.user = user;
                            $localStorage.username = username;
@@ -111,8 +99,8 @@ angular
 
                            user = myUser;
                            username = myUser.username;
-                           $rootScope.$broadcast('userChanged');
-                           $rootScope.$broadcast('usernameChanged');
+                           $rootScope.$broadcast('userChanged', {user: user});
+                           $rootScope.$broadcast('usernameChanged', {username: username});
 
                            $localStorage.user = user;
                            $localStorage.username = username;

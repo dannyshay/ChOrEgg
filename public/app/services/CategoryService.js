@@ -5,20 +5,12 @@ angular
         var currentCategory = null;
 
         return {
-            getCategories: function() {
-                return categories;
-            },
-            initialize: function() {
-                categories = [];
-                currentCategory = null;
-                $rootScope.$broadcast('currentCategoryChanged');
-            },
             getCurrentCategory: function() {
                 return currentCategory;
             },
             setCurrentCategory: function(aCategory) {
                 currentCategory =  aCategory;
-                $rootScope.$broadcast('currentCategoryChanged');
+                $rootScope.$broadcast('currentCategoryChanged', {currentCategory: currentCategory});
             },
             loadCategories: function() {
                 return $q(function (resolve) {
@@ -33,6 +25,7 @@ angular
 
                                 categories = myCategories;
                                 currentCategory = categories[0];
+                                $rootScope.$broadcast('categoriesLoaded', {categories: categories});
                                 resolve(categories);
                             });
                         } else {
@@ -41,6 +34,7 @@ angular
 
                             categories = myCategories;
                             currentCategory = categories[0];
+                            $rootScope.$broadcast('categoriesLoaded', {categories: categories});
                             resolve(categories);
                         }
 

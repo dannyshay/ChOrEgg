@@ -1,11 +1,10 @@
 angular
     .module('choregg')
-    .controller('MainController', ["$scope", "StateService", function($scope, StateService) {
-        $scope.$watch(function() {return StateService.getCurrentState();},
-            function(aState) {
-                if(aState != null && aState != $scope.currentState) { $scope.currentState = aState}
-            }
-        )
-    }]);
+    .controller('MainController', ["$scope", function($scope) {
+        $scope.currentState = "splash";
 
-    // Not much here for now - this is not used yet
+        $scope.$on('currentStateChanged', function(event, options) {
+            $scope.currentState =  options.currentState;
+        });
+
+    }]);

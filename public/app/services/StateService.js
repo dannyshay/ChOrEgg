@@ -4,15 +4,12 @@ angular
         var currentState = "splash";
 
         return {
-            getCurrentState: function() {
-                return currentState;
-            },
             setCurrentState: function(aState) {
                 if (currentState == aState)
                     return;
 
                 currentState = aState;
-                $rootScope.$broadcast('currentStateChanged');
+                $rootScope.$broadcast('currentStateChanged', {currentState: currentState});
 
                 switch (aState) {
                     case 'game':

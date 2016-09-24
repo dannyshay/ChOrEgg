@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', 'StateService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService, StateService) {
+    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService) {
         //-------------------------------------- EXECUTED SCRIPT --------------------------------------
         // - This is the script that is executed when the page first loads
         // - We load the categories / difficulties and then set the local variables
@@ -8,15 +8,15 @@ angular
         //---------------------------------------------------------------------------------------------
         LoadingService.setLoading(true);
         $scope.loading = true;
-        DifficultyService.loadDifficulties().then(function() {
-            CategoryService.loadCategories().then(function(){
+        DifficultyService.loadDifficulties().then(function(someDifficulties) {
+            CategoryService.loadCategories().then(function(someCategories){
                 // This is needed because we try and load the items immediately - so we can't wait on the $watch() for categories / difficulties
-                $scope.difficulties = DifficultyService.getDifficulties();
-                $scope.categories = CategoryService.getCategories();
+                $scope.difficulties = someDifficulties;
+                $scope.categories = someCategories;
 
                 // Set the default current difficulty and category to the first returned in our lists
-                $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
-                $scope.currentCategory = CategoryService.getCurrentCategory();
+                $scope.currentDifficulty = $scope.difficulties[0];
+                $scope.currentCategory = $scope.categories[0];
 
                 getInitialItems();
             });
@@ -27,47 +27,45 @@ angular
         //   and look for an updated variable to update the local scope
         // - Each time 'broadcasted' data is updated on a remote controller - these functions will get called
         //-----------------------------------------------------------------------------------------------------
-        $scope.$on('pausedChanged', function() {
-            var updatedVar = TimerService.getIsPaused();
+        $scope.$on('itemsChanged', function(event, options) {
+            $scope.Items = options.items;
+        });
 
-            if(updatedVar != null && updatedVar != $scope.isPaused) {
-                $scope.isPaused = updatedVar;
+        $scope.$on('currentItemsChanged', function(event, options) {
+            $scope.CurrentItems = options.currentItems;
+        });
+
+        $scope.$on('isPausedChanged', function(event, options) {
+            if(options.isPaused != null && options.isPaused != $scope.isPaused) {
+                $scope.isPaused = options.isPaused;
             }
         });
 
-        $scope.$on('loadingChanged', function() {
-            var updatedVar = LoadingService.getLoading();
-
-            if (updatedVar != null && updatedVar != $scope.loading) {
-                $scope.loading = updatedVar;
+        $scope.$on('loadingChanged', function(event, options) {
+            if (options.loading != null && options.loading != $scope.loading) {
+                $scope.loading = options.loading;
             }
         });
 
-        $scope.$on('currentCategoryChanged', function() {
-            var updatedVar = CategoryService.getCurrentCategory();
-
-            if (updatedVar != null && updatedVar != $scope.currentCategory) {
-                $scope.currentCategory = updatedVar;
+        $scope.$on('currentCategoryChanged', function(event, options) {
+            if (options.currentCategory != null && options.currentCategory != $scope.currentCategory) {
+                $scope.currentCategory = options.currentCategory;
 
                 getInitialItems();
             }
         });
 
-        $scope.$on('currentDifficultyChanged', function() {
-            var updatedVar = DifficultyService.getCurrentDifficulty();
-
-            if (updatedVar != null && updatedVar != $scope.currentDifficulty) {
-                $scope.currentDifficulty = updatedVar;
+        $scope.$on('currentDifficultyChanged', function(event, options) {
+            if (options.currentDifficulty != null && options.currentDifficulty != $scope.currentDifficulty) {
+                $scope.currentDifficulty = options.currentDifficulty;
 
                 getInitialItems();
             }
         });
 
-        $scope.$on('currentStateChanged', function() {
-            var updatedVar = StateService.getCurrentState();
-
-            if (updatedVar != null && updatedVar != $scope.currentState) {
-                $scope.currentState = updatedVar;
+        $scope.$on('currentStateChanged', function(event, options) {
+            if (options.currentState != null && options.currentState != $scope.currentState) {
+                $scope.currentState = options.currentState;
             }
         });
 
@@ -82,17 +80,11 @@ angular
         function getInitialItems() {
             return $q(function(resolve) {
                 GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
-                    // Update the local scoped variables with the updated variables in the service (vs doing a $watch)
-                    $scope.Items = GameService.getItems();
-                    $scope.CurrentItems = GameService.getCurrentItems();
-
-                    //Update the LoadingService and local scoped variable
+                    //Update the LoadingService
                     LoadingService.setLoading(false);
-                    $scope.loading = false;
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
-                        $scope.Items = GameService.getItems();
                         resolve();
                     });
                 });
@@ -177,8 +169,6 @@ angular
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
             GameService.shiftItems().then(function() {
-                $scope.Items = GameService.getItems();
-                $scope.CurrentItems = GameService.getCurrentItems();
                 $scope.imageFlipping = false;
                 TimerService.startTimer();
                 // Then get some more items using the current settings

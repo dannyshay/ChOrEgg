@@ -1,13 +1,11 @@
 angular
     .module('choregg')
-    .controller('ProfileController', ["$scope", "UserService", function($scope, UserService) {
-        $scope.$watch(function() {return UserService.getCurrentUser();},
-            function(aUser) {
-                if(aUser != null && aUser != $scope.user) {
-                    $scope.user = aUser;
-                }
-            }
-        )
-    }]);
+    .controller('ProfileController', ["$scope", "UserService", function($scope) {
+        $scope.$on('currentStateChanged', function(event, options) {
+            $scope.currentState = options.currentState;
+        });
 
-    // Not much here for now - this is not used yet
+        $scope.$on('userChanged', function(event, options) {
+            $scope.user = options.user;
+        });
+    }]);

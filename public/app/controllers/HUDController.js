@@ -1,41 +1,33 @@
 angular
     .module('choregg')
-    .controller('HudController', ['$scope', 'HUDService', 'LoadingService', 'UserService', 'AuthenticationService', function($scope, HUDService, LoadingService, UserService, AuthenticationService) {
+    .controller('HudController', ['$scope', 'HUDService', function($scope, HUDService) {
+        $scope.currentScore = 0;
+        $scope.numStrikes = 0;
+
         // Watch the score
-        $scope.$watch(function () { return HUDService.getCurrentScore(); },
-            function (aScore) { $scope.currentScore = aScore; }
-        );
+        $scope.$on('currentScoreChanged', function(event, options) {
+            $scope.currentScore = options.currentScore;
+        });
 
-        // Watch the loading indicator
-        $scope.$watch(function() { return LoadingService.getLoading();},
-            function (aLoading) {
-                if (aLoading != null && aLoading != $scope.isLoading) {
-                    $scope.isLoading = aLoading;
-                }
+        $scope.$on('numStrikesChanged', function(event, options) {
+            $scope.numStrikes = options.numStrikes;
+
+            // Game Over!!
+            if ($scope.numStrikes && $scope.numStrikes >= 5) {
+                // TODO: Replace this with a nice modal window
+                alert('GAME OVER!!');
+                HUDService.resetNumStrikes();
+                HUDService.resetCurrentScore()
             }
-        );
+        });
 
-        $scope.$watch(function() {return AuthenticationService.getSignedIn();},
-            function(aSignedIn) {
-                if(aSignedIn != null && aSignedIn != $scope.signedIn) {
-                    $scope.signedIn = aSignedIn
-                }
-            }
-        );
+        $scope.$on('currentStateChanged', function(event, options) {
+            $scope.currentState = options.currentState;
+        });
 
-        // Watch the strikes
-        $scope.$watch(function () { return HUDService.getNumStrikes(); },
-            function (aNumStrikes) {
-                $scope.numStrikes = aNumStrikes;
-
-                // Game over baby!
-                if ($scope.numStrikes && $scope.numStrikes >= 5) {
-                    alert('GAME OVER!!');
-                    HUDService.resetNumStrikes();
-                    HUDService.resetCurrentScore()
-                }
-            }
-        );
+        $scope.$on('loadingChanged', function(event, options) {
+            $scope.loading = options.loading;
+        });
 
         // Used by Angular in the view (hud.html)
         $scope.getNumber = function(number) {
