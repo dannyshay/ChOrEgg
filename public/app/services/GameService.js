@@ -13,6 +13,9 @@ angular
         var currentItems = null;
 
         return {
+            getItems: function () {
+                return items;
+            },
             shiftItems: function () {
                 return $q(function(resolve) {
                     //Pops the top item off the stack
