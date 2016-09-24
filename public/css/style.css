@@ -167,6 +167,14 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.label {
+    font-size: 36px;
+}
+
+.label-important {
+    font-size: 36px;
+}
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
@@ -175,16 +183,6 @@ body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-@media screen and (min-width : 1280px) {
-    .label {
-        font-size: 36px;
-    }
-
-    .label-important {
-        font-size: 36px;
-    }
 }
 
 /*Mobile*/
