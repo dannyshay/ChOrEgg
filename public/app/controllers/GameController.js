@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('ItemController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService, UserService) {
+    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService) {
         //-------------------------------------- EXECUTED SCRIPT --------------------------------------
         // - This is the script that is executed when the page first loads
         // - We load the categories / difficulties and then set the local variables
@@ -24,7 +24,7 @@ angular
         });
 
         //------------------------------------------ WATCHES ------------------------------------------
-        // - Each of these watches 'keeps an eye' on data that is shared between the ItemController and other controllers
+        // - Each of these watches 'keeps an eye' on data that is shared between the GameController and other controllers
         // - Each time 'watched' data is updated on a remote controller - these functions will get called
         //---------------------------------------------------------------------------------------------
         $scope.$watch(function () { return LoadingService.getLoading(); },
@@ -37,7 +37,7 @@ angular
             }
         )
 
-        $scope.$watch(function() { return ItemService.getItems(); },
+        $scope.$watch(function() { return GameService.getItems(); },
             function(anItemList) { $scope.Items = anItemList;}
         );
 
@@ -49,7 +49,7 @@ angular
             function (aDifficulties) { $scope.difficulties = aDifficulties; }
         );
 
-        $scope.$watch(function() {return ItemService.getCurrentItems();},
+        $scope.$watch(function() {return GameService.getCurrentItems();},
             function(aCurrentItems) { $scope.CurrentItems = aCurrentItems;  }
         );
 
@@ -83,14 +83,14 @@ angular
         // - If you are wishing to just get more items with the existing category / difficulty - use 'getMoreItems()' below
         function getInitialItems() {
             return $q(function(resolve) {
-                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
+                GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     LoadingService.setLoading(false);
                     if ($scope.currentState == 'game') {
                         TimerService.restartTimer();
                     }
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
-                    ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
+                    GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
                         resolve();
                     });
                 });
@@ -123,7 +123,7 @@ angular
 
                 UserService.addRoundPlayed();
 
-                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
+                GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
                     LoadingService.setLoading(false);
                     resolve();
                 });
@@ -176,7 +176,7 @@ angular
         // This event is called when card flipped from 'back' to 'front'
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
-            ItemService.shiftItems().then(function() {
+            GameService.shiftItems().then(function() {
                 $scope.imageFlipping = false;
                 TimerService.startTimer();
                 // Then get some more items using the current settings

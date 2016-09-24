@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('TimerController', ['$scope', 'TimerService', 'ItemService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', function($scope, TimerService, ItemService, HUDService, DifficultyService, CategoryService, LoadingService, UserService) {
+    .controller('TimerController', ['$scope', 'TimerService', 'GameService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', function($scope, TimerService, GameService, HUDService, DifficultyService, CategoryService, LoadingService, UserService) {
         //NOTE - the timer that is first stared is stared automatically by the <timer> directive in timer.htm
         $scope.$watch(function() { return LoadingService.getLoading();},
             function(aLoading) {
@@ -35,12 +35,12 @@ angular
                 // Check for a timeout scenario
                 if ($scope.timeRemaining == 0) {
                     TimerService.restartTimer();
-                    ItemService.shiftItems();
+                    GameService.shiftItems();
                     HUDService.addStrike();
                     UserService.addRoundPlayed();
 
                     // Get some more items (up to 10 based on currenct amount in item cache) to keep going
-                    ItemService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 10 - ItemService.getItems().length);
+                    GameService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 10 - GameService.getItems().length);
                 }
 
                 // Update the timer if necessary (this is ugly but must be done :( )

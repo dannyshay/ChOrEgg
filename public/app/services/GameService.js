@@ -1,4 +1,4 @@
-//ItemService.js
+//GameService.js
 //
 // * Keeps track of the 'item' list in ChOrEgg
 // * Responsibilities include:
@@ -8,7 +8,7 @@
 
 angular
     .module('choregg')
-    .factory('ItemService', ['choreggAPI', '$q', 'TimerService', function(choreggAPI, $q, TimerService) {
+    .factory('GameService', ['choreggAPI', '$q', 'TimerService', function(choreggAPI, $q, TimerService) {
         var items = [];
         var currentItems = null;
 
