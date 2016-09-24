@@ -185,6 +185,12 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+@media screen and (min-width: 1200px) {
+    .item {
+        height: 300px;
+    }
+}
+
 /*Mobile*/
 /*iPhone6+*/
 @media screen and (max-width : 800px) {
@@ -247,6 +253,10 @@ body {
 
         .label {
             font-size:18px;
+        }
+
+        .scoreLabel {
+            line-height: 1.5em;
         }
 
         .label-important {
