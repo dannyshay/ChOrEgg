@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('LoadingService', [function() {
+    .factory('LoadingService', ['$rootScope',function($rootScope) {
         var loading = false;
 
         return {
@@ -9,6 +9,7 @@ angular
             },
             setLoading: function(aLoading) {
                 loading = aLoading;
+                $rootScope.$broadcast('loadingChanged');
             }
         }
     }]);

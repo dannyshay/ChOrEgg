@@ -22,16 +22,22 @@ angular
                 $rootScope.$broadcast('timer-stop');
                 isPaused = true;
                 isRunning = false;
+                $rootScope.$broadcast('pausedChanged');
+                $rootScope.$broadcast('runningChanged');
             },
             resume: function() {
                 $rootScope.$broadcast('timer-start');
                 isRunning = true;
                 isPaused = false;
+                $rootScope.$broadcast('pausedChanged');
+                $rootScope.$broadcast('runningChanged');
             },
             startTimer: function() {
                 isRunning = true;
                 isPaused = false;
                 $rootScope.$broadcast('timer-start');
+                $rootScope.$broadcast('pausedChanged');
+                $rootScope.$broadcast('runningChanged');
             },
             tickDown: function() {
                 timeRemaining -= 1;
@@ -40,6 +46,8 @@ angular
                 $rootScope.$broadcast('timer-stop');
                 isRunning = false;
                 isPaused = false;
+                $rootScope.$broadcast('pausedChanged');
+                $rootScope.$broadcast('runningChanged');
             },
             restartTimer: function() {
                 return $q(function(resolve) {
@@ -51,6 +59,8 @@ angular
                     }
 
                     timeRemaining = 10;
+                    $rootScope.$broadcast('pausedChanged');
+                    $rootScope.$broadcast('runningChanged');
                     resolve();
                 });
 

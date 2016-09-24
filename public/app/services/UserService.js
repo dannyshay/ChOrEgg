@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('UserService', ['$localStorage', 'choreggAPI','$q', function($localStorage, choreggAPI, $q) {
+    .factory('UserService', ['$localStorage', 'choreggAPI','$q', '$rootScope', function($localStorage, choreggAPI, $q, $rootScope) {
         var user = null;
         var username = null;
         var users = null;
@@ -14,11 +14,12 @@ angular
         if ($localStorage.users)
             users = $localStorage.users;
 
-        var updateUsers = function() {
+        var refreshUsers = function() {
             return $q(function(resolve) {
                 choreggAPI.GetUsersByHighScore.query({numUsers: 20}, function(data) {
                     if(data != null && data != null && data != users) {
                         users = data;
+                        $rootScope.$broadcast('usersChanged');
                         $localStorage.users = users;
                     }
                     resolve(users);
@@ -26,7 +27,7 @@ angular
             });
         };
 
-        updateUsers();
+        refreshUsers();
 
         return {
             getUser: function() {
@@ -38,6 +39,8 @@ angular
             initialize: function() {
                 user = null;
                 username = null;
+                $rootScope.$broadcast('userChanged');
+                $rootScope.$broadcast('usernameChanged');
             },
             checkUpdateHighScore: function(aCurrentScore) {
                 return $q(function(resolve) {
@@ -67,8 +70,8 @@ angular
             getUsers: function() {
                 return users;
             },
-            updateUsers: function() {
-                return updateUsers();
+            refreshUsers: function() {
+                return refreshUsers();
             },
             signInUser: function(aUsername) {
                 return $q(function(resolve) {
@@ -87,6 +90,8 @@ angular
 
                            user = myUser;
                            username = myUser.username;
+                           $rootScope.$broadcast('userChanged');
+                           $rootScope.$broadcast('usernameChanged');
 
                            $localStorage.user = user;
                            $localStorage.username = username;
@@ -106,6 +111,8 @@ angular
 
                            user = myUser;
                            username = myUser.username;
+                           $rootScope.$broadcast('userChanged');
+                           $rootScope.$broadcast('usernameChanged');
 
                            $localStorage.user = user;
                            $localStorage.username = username;

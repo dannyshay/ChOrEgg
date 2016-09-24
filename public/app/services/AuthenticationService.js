@@ -13,6 +13,7 @@ angular
             },
             signOut: function() {
                 signedIn = false;
+                $rootScope.$broadcast('signedInChanged');
 
                 $localStorage.signedIn = false;
                 $localStorage.user = null;
@@ -22,6 +23,7 @@ angular
             },
             signInUser: function(aUser) {
                 signedIn = true;
+                $rootScope.$broadcast('signedInChanged');
                 $localStorage.signedIn = signedIn;
                 
                 UserService.signInUser(aUser.w3.U3);

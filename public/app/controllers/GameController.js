@@ -1,77 +1,75 @@
 angular
     .module('choregg')
-    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService) {
+    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', 'StateService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService, StateService) {
         //-------------------------------------- EXECUTED SCRIPT --------------------------------------
         // - This is the script that is executed when the page first loads
         // - We load the categories / difficulties and then set the local variables
         // - Lastly, we get some items using the defaults we just got back from the server
         //---------------------------------------------------------------------------------------------
         LoadingService.setLoading(true);
-        DifficultyService.loadDifficulties().then(function(someDifficulties) {
-            CategoryService.loadCategories().then(function(someCategories){
+        $scope.loading = true;
+        DifficultyService.loadDifficulties().then(function() {
+            CategoryService.loadCategories().then(function(){
                 // This is needed because we try and load the items immediately - so we can't wait on the $watch() for categories / difficulties
-                $scope.difficulties = someDifficulties;
-                $scope.categories = someCategories;
+                $scope.difficulties = DifficultyService.getDifficulties();
+                $scope.categories = CategoryService.getCategories();
 
                 // Set the default current difficulty and category to the first returned in our lists
-                $scope.currentDifficulty = $scope.difficulties[0];
-                $scope.currentCategory = $scope.categories[0];
-
-                $scope.imageFlipping = false;
+                $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
+                $scope.currentCategory = CategoryService.getCurrentCategory();
 
                 getInitialItems();
             });
         });
 
-        //------------------------------------------ WATCHES ------------------------------------------
-        // - Each of these watches 'keeps an eye' on data that is shared between the GameController and other controllers
-        // - Each time 'watched' data is updated on a remote controller - these functions will get called
-        //---------------------------------------------------------------------------------------------
-        $scope.$watch(function () { return LoadingService.getLoading(); },
-            function (aLoading) { $scope.loading = aLoading; }
-        );
+        //----------------------------------------- BROADCAST HANDLERS ----------------------------------------
+        // - Each of these handlers will keep an eye out for an event from the rootController to go back
+        //   and look for an updated variable to update the local scope
+        // - Each time 'broadcasted' data is updated on a remote controller - these functions will get called
+        //-----------------------------------------------------------------------------------------------------
+        $scope.$on('pausedChanged', function() {
+            var updatedVar = TimerService.getIsPaused();
 
-        $scope.$watch(function() { return TimerService.getIsPaused();},
-            function(aIsPaused) {
-                if(aIsPaused != null && aIsPaused != $scope.isPaused) { $scope.isPaused = aIsPaused; }
+            if(updatedVar != null && updatedVar != $scope.isPaused) {
+                $scope.isPaused = updatedVar;
             }
-        )
+        });
 
-        $scope.$watch(function() { return GameService.getItems(); },
-            function(anItemList) { $scope.Items = anItemList;}
-        );
+        $scope.$on('loadingChanged', function() {
+            var updatedVar = LoadingService.getLoading();
 
-        $scope.$watch(function () { return CategoryService.getCategories(); },
-            function (aCategories) { $scope.categories = aCategories; }
-        );
-
-        $scope.$watch(function () { return DifficultyService.getDifficulties(); },
-            function (aDifficulties) { $scope.difficulties = aDifficulties; }
-        );
-
-        $scope.$watch(function() {return GameService.getCurrentItems();},
-            function(aCurrentItems) { $scope.CurrentItems = aCurrentItems;  }
-        );
-
-        $scope.$watch(function() {return CategoryService.getCurrentCategory(); },
-            function(aCurrentCategory) {
-                if($scope.currentCategory && $scope.currentCategory != aCurrentCategory) {
-                    LoadingService.setLoading(true);
-                    $scope.currentCategory = aCurrentCategory;
-                    getInitialItems();
-                }
+            if (updatedVar != null && updatedVar != $scope.loading) {
+                $scope.loading = updatedVar;
             }
-        );
+        });
 
-        $scope.$watch(function() {return DifficultyService.getCurrentDifficulty(); },
-            function(aCurrentDifficulty) {
-                if($scope.currentDifficulty && $scope.currentDifficulty != aCurrentDifficulty) {
-                    LoadingService.setLoading(true);
-                    $scope.currentDifficulty = aCurrentDifficulty;
-                    getInitialItems();
-                }
+        $scope.$on('currentCategoryChanged', function() {
+            var updatedVar = CategoryService.getCurrentCategory();
+
+            if (updatedVar != null && updatedVar != $scope.currentCategory) {
+                $scope.currentCategory = updatedVar;
+
+                getInitialItems();
             }
-        );
+        });
+
+        $scope.$on('currentDifficultyChanged', function() {
+            var updatedVar = DifficultyService.getCurrentDifficulty();
+
+            if (updatedVar != null && updatedVar != $scope.currentDifficulty) {
+                $scope.currentDifficulty = updatedVar;
+
+                getInitialItems();
+            }
+        });
+
+        $scope.$on('currentStateChanged', function() {
+            var updatedVar = StateService.getCurrentState();
+
+            if (updatedVar != null && updatedVar != $scope.currentState) {
+                $scope.currentState = updatedVar;
+            }
+        });
 
         //-------------------------------------- CLASS METHODS --------------------------------------
         // - These are the main methods used by this controller
@@ -84,13 +82,17 @@ angular
         function getInitialItems() {
             return $q(function(resolve) {
                 GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
+                    // Update the local scoped variables with the updated variables in the service (vs doing a $watch)
+                    $scope.Items = GameService.getItems();
+                    $scope.CurrentItems = GameService.getCurrentItems();
+
+                    //Update the LoadingService and local scoped variable
                     LoadingService.setLoading(false);
-                    if ($scope.currentState == 'game') {
-                        TimerService.restartTimer();
-                    }
+                    $scope.loading = false;
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
+                        $scope.Items = GameService.getItems();
                         resolve();
                     });
                 });
@@ -107,18 +109,16 @@ angular
                     LoadingService.setLoading(true);
                     $scope.Items = [];
                 }
-                else {
 
-                    // This logic is customized to cache items according to the rate the user can flip the cards
-                    if ($scope.Items.length <= 1) {
-                        numPairs = 1;
-                    } else if ($scope.Items.length <= 2) {
-                        numPairs = 3;
-                    } else if ($scope.Items.length <= 5) {
-                        numPairs = 5;
-                    } else if ($scope.Items.length <= 10) {
-                        numPairs = 10;
-                    }
+                // This logic is customized to cache items according to the rate the user can flip the cards
+                if ($scope.Items.length <= 1) {
+                    numPairs = 2;
+                } else if ($scope.Items.length <= 2) {
+                    numPairs = 3;
+                } else if ($scope.Items.length <= 5) {
+                    numPairs = 5;
+                } else if ($scope.Items.length <= 10) {
+                    numPairs = 10;
                 }
 
                 UserService.addRoundPlayed();
@@ -177,6 +177,8 @@ angular
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
             GameService.shiftItems().then(function() {
+                $scope.Items = GameService.getItems();
+                $scope.CurrentItems = GameService.getCurrentItems();
                 $scope.imageFlipping = false;
                 TimerService.startTimer();
                 // Then get some more items using the current settings

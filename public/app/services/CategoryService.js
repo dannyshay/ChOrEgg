@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('CategoryService', ['$cookies','choreggAPI', '$q', function($cookies, choreggAPI, $q) {
+    .factory('CategoryService', ['$cookies','choreggAPI', '$q', '$rootScope', function($cookies, choreggAPI, $q, $rootScope) {
         var categories = [];
         var currentCategory = null;
 
@@ -11,12 +11,14 @@ angular
             initialize: function() {
                 categories = [];
                 currentCategory = null;
+                $rootScope.$broadcast('currentCategoryChanged');
             },
             getCurrentCategory: function() {
-              return currentCategory;
+                return currentCategory;
             },
             setCurrentCategory: function(aCategory) {
-              currentCategory =  aCategory;
+                currentCategory =  aCategory;
+                $rootScope.$broadcast('currentCategoryChanged');
             },
             loadCategories: function() {
                 return $q(function (resolve) {

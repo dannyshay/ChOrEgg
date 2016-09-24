@@ -1,8 +1,8 @@
 angular
     .module('choregg')
-    .factory('DifficultyService', ['$cookies','choreggAPI', '$q', function($cookies, choreggAPI, $q) {
+    .factory('DifficultyService', ['$cookies','choreggAPI', '$q', '$rootScope', function($cookies, choreggAPI, $q, $rootScope) {
         var difficulties = [];
-        var currentDifficulty = '';
+        var currentDifficulty = null;
 
         return {
             getDifficulties: function () {
@@ -10,12 +10,14 @@ angular
             },
             initialize: function() {
                 difficulties = [];
+                currentDifficulty = null;
             },
             getCurrentDifficulty: function() {
               return currentDifficulty;
             },
             setCurrentDifficulty: function(aDifficulty) {
               currentDifficulty = aDifficulty;
+                $rootScope.$broadcast('currentDifficultyChanged');
             },
             loadDifficulties: function () {
                 return $q(function (resolve) {
