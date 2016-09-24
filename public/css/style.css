@@ -35,13 +35,7 @@ body {
 }
 
 .game-start-button {
-    background-color: yellow;
-    font-size: 36px;
-    border-radius: 15px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    max-width:240px;
 }
 
 .vertical-center {
@@ -212,6 +206,10 @@ body {
 
     .scoreLabel {
         font-size: 23px;
+    }
+
+    .game-start-button {
+        max-width:120px;
     }
 
     /*Web - App View*/
