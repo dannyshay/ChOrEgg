@@ -35,7 +35,8 @@
     "loaders.css": "^0.1.2",
     "angular-preload-image": "*",
     "ng-google-signin": "^0.1.0",
-    "angular-mocks": "^1.5.8"
+    "angular-mocks": "^1.5.8",
+    "font-awesome": "^4.6.3"
   },
   "resolutions": {
     "angular": "1.5.8"

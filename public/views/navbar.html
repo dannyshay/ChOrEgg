@@ -33,15 +33,15 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">{{(username != "" && username != null ? username : "Account")}}</li>
-                            <li ng-hide="(!signedIn || currentState =='profile')"><a href="#" ng-click="viewProfile()"><span class="glyphicon glyphicon-user" /> Profile</a></li>
-                            <li><a href="#" ng-click="viewLeaderboard()"><span class="glyphicon glyphicon-user" /> Leaderboard</a></li>
-                            <li ng-hide="(currentState == 'game')"><a href="#" ng-click="viewMain()"><span class="glyphicon glyphicon-play-circle" /> Play</a></li>
-                            <li ng-hide="signedIn"><a href="#" ng-click="login()"><span class="glyphicon glyphicon-log-in" /> Login</a></li>
-                            <li ng-hide="!signedIn"><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" /> Logout</a></li>
+                            <li ng-hide="(!signedIn || currentState =='profile')"><a href="#" ng-click="viewProfile()"><i class="fa fa-user"></i><span style="padding-left:15px">Profile</span></a></li>
+                            <li><a href="#" ng-click="viewLeaderboard()"><i class="fa fa-trophy" aria-hidden="true"></i><span style="padding-left:15px;">Leaderboard</span></a></li>
+                            <li ng-hide="(currentState == 'game')"><a href="#" ng-click="viewMain()"><i class="fa fa-play-circle-o"></i><span style="padding-left:15px">Play</span></a></li>
+                            <li ng-hide="signedIn"><a href="#" ng-click="login()"><i class="fa fa-sign-in"></i><span style="padding-left:15px">Login</span></a></li>
+                            <li ng-hide="!signedIn"><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i><span style="padding-left:15px">Logout</span></a></li>
                             <li ng-hide="currentState !== 'game'" class="divider"></li>
                             <li ng-hide="currentState != 'game'" class="dropdown-header">Options</li>
-                            <li ng-hide="(paused || currentState != 'game')"><a href="#" ng-click="pause()"><span class="glyphicon glyphicon-pause"/> Pause</a></li>
-                            <li ng-hide="(!paused || currentState != 'game')"><a href="#" ng-click="resume()"><span class="glyphicon glyphicon-play"/> Resume </a></li>
+                            <li ng-hide="(paused || currentState != 'game')"><a href="#" ng-click="pause()"><i class="fa fa-pause-circle"></i><span style="padding-left:15px">Pause</span></a></li>
+                            <li ng-hide="(!paused || currentState != 'game')"><a href="#" ng-click="resume()"><i class="fa fa-play"></i><span style="padding-left:15px">Resume</span></a></li>
                         </ul>
                     </li>
                 </ul>
