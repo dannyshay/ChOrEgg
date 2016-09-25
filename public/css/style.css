@@ -169,6 +169,10 @@ body {
     font-size: 36px;
 }
 
+.fa-custom {
+    font-size:5em;
+}
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
@@ -214,6 +218,10 @@ body {
 
     .jumbotron {
         font-size:20px;
+    }
+
+    .fa-custom {
+        font-size:2em;
     }
 
     /*Web - App View*/
@@ -273,6 +281,10 @@ body {
             height:24px;
             width: 24px;
         }
+
+        .fa-custom {
+            font-size:1.5em;
+        }
     }
 
     @media screen and (max-width : 400px) {
@@ -286,6 +298,10 @@ body {
         @media screen and (max-height: 667px) and (min-height:560px) {
             .jumbotron {
                 font-size:18px;
+            }
+
+            .fa-custom {
+                font-size:1.5em;
             }
 
             /*Web App View*/
@@ -323,6 +339,7 @@ body {
 
             .scoreLabel {
                 font-size:16px;
+                line-height:1.5em;
             }
         }
 
