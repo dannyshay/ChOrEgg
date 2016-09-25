@@ -1,11 +1,11 @@
 <div ng-controller="LeaderboardController as leaderboard" class="topPadding">
     <h1 class="page-header text-center">High Scores</h1>
-    <div class="row text-center">
+    <div class="row text-center" style="margin-top:-20px;">
         <div class="col-lg-6 col-xs-6">
-            <strong>Username:</strong><br/>
+            <h3>Username:</h3><br/>
         </div>
         <div class="col-lg-6 col-xs-6">
-            <strong>High Score:</strong><br/>
+            <h3>High Score:</h3><br/>
         </div>
     </div>
     <div class="row text-center" ng-repeat="user in users track by $index">

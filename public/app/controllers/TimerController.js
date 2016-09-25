@@ -1,8 +1,12 @@
 angular
     .module('choregg')
-    .controller('TimerController', ['$scope', 'TimerService', 'GameService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', function($scope, TimerService, GameService, HUDService, DifficultyService, CategoryService, LoadingService, UserService) {
+    .controller('TimerController', ['$scope', 'TimerService', 'GameService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', 'StateService', function($scope, TimerService, GameService, HUDService, DifficultyService, CategoryService, LoadingService, UserService, StateService) {
         $scope.$on('loadingChanged', function(event, options) {
             $scope.loading = options.loading;
+        });
+
+        $scope.$on('currentStateChanged', function(event, options) {
+            $scope.currentState = options.currentState;
         });
 
         $scope.$on('isRunningChanged', function(event, options) {
@@ -36,6 +40,7 @@ angular
         // Every time the ticker ticks (once per second)
         $scope.$on('timer-tick', function(event, value) {
             // Subtract a second from our 'time remaining'
+            console.log('about to tick down');
             TimerService.tickDown();
         });
     }]);

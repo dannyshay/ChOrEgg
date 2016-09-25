@@ -160,17 +160,16 @@ angular
                 $scope.CurrentItems.itemSet.forEach(function (element) {
                     element.flipped = false;
                 });
-
-                TimerService.restartTimer();
             }, 500);
         };
 
         // This event is called when card flipped from 'back' to 'front'
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
+            TimerService.restartTimer();
             GameService.shiftItems().then(function() {
                 $scope.imageFlipping = false;
-                TimerService.startTimer();
+
                 // Then get some more items using the current settings
                 getMoreItems()
             });

@@ -28,8 +28,10 @@ angular
                 $rootScope.$broadcast('isRunningChanged', {isRunning: isRunning});
             },
             tickDown: function() {
-                timeRemaining -= 1;
-                $rootScope.$broadcast('timeRemainingChanged', {timeRemaining: timeRemaining});
+                if (isRunning && !isPaused) {
+                    timeRemaining -= 1;
+                    $rootScope.$broadcast('timeRemainingChanged', {timeRemaining: timeRemaining});
+                }
             },
             stopTimer: function () {
                 $rootScope.$broadcast('timer-stop');
@@ -40,17 +42,16 @@ angular
             },
             restartTimer: function() {
                 return $q(function(resolve) {
+                    $rootScope.$broadcast('timer-stop');
+                    $rootScope.$broadcast('timer-start');
                     $rootScope.$broadcast('timer-set-countdown', 10);
                     timeRemaining = 10;
                     $rootScope.$broadcast('timeRemainingChanged', {timeRemaining: timeRemaining});
 
-                    if (!isRunning) {
-                        $rootScope.$broadcast('timer-start');
-                        isRunning = true;
-                        isPaused = false;
-                        $rootScope.$broadcast('isPausedChanged', {isPaused: isPaused});
-                        $rootScope.$broadcast('isRunningChanged', {isRunning: isRunning});
-                    }
+                    isRunning = true;
+                    isPaused = false;
+                    $rootScope.$broadcast('isPausedChanged', {isPaused: isPaused});
+                    $rootScope.$broadcast('isRunningChanged', {isRunning: isRunning});
 
                     resolve();
                 });
