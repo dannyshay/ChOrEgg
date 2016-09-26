@@ -13,7 +13,10 @@ angular
 
                 switch (aState) {
                     case 'game':
-                        GameService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 1, true).then(function() {
+                        var currentCategory = CategoryService.getCurrentCategory();
+                        var currentDifficulty = DifficultyService.getCurrentDifficulty();
+                        GameService.getItemsInTimespan(currentCategory.categoryName, currentDifficulty.timeSpan, 1, true).then(function() {
+                            GameService.getItemsInTimespan(currentCategory.categoryName, currentDifficulty.timeSpan, 2, false);
                             TimerService.restartTimer();
                             LoadingService.setLoading(false);
                         });
