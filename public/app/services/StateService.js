@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('StateService', ['TimerService', 'UserService', '$rootScope', 'CategoryService', 'DifficultyService', 'GameService', function(TimerService, UserService, $rootScope, CategoryService, DifficultyService, GameService) {
+    .factory('StateService', ['TimerService', 'UserService', '$rootScope', 'CategoryService', 'DifficultyService', 'GameService', 'LoadingService', function(TimerService, UserService, $rootScope, CategoryService, DifficultyService, GameService, LoadingService) {
         var currentState = "splash";
 
         return {
@@ -13,8 +13,11 @@ angular
 
                 switch (aState) {
                     case 'game':
-                        GameService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 1, true);
-                        TimerService.restartTimer();
+                        GameService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 1, true).then(function() {
+                            TimerService.restartTimer();
+                            LoadingService.setLoading(false);
+                        });
+
                         break;
                     case 'chooseCategory':
                         TimerService.stopTimer();
