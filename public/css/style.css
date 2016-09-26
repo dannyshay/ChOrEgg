@@ -38,6 +38,19 @@ body {
     max-width:240px;
 }
 
+.playGameButton {
+    font-size:42px;
+}
+
+.game-category-button {
+    border-radius: 10px;
+    background-color:yellow;
+    color: black;
+    padding:10px;
+    margin: 20px;
+    font-size:26px;
+}
+
 .vertical-center {
     height:100%;
     width:100%;
@@ -224,6 +237,14 @@ body {
         font-size:2em;
     }
 
+    h4 {
+        font-size:16px;
+    }
+
+    .playGameButton {
+        font-size:36px;
+    }
+
     /*Web - App View*/
     @media screen and (max-height: 740px) and (min-height: 631px) {
         .navbar {
@@ -284,6 +305,10 @@ body {
 
         .fa-custom {
             font-size:1.5em;
+        }
+
+        .playGameButton {
+            font-size:24px;
         }
     }
 
@@ -378,6 +403,10 @@ body {
 
             .correctMessage {
                 font-size: 12px;
+            }
+
+            .playGameButton {
+                font-size:14px;
             }
 
             @media screen and (max-height: 460px) {

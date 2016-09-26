@@ -1,27 +1,6 @@
 angular
     .module('choregg')
     .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService) {
-        //-------------------------------------- EXECUTED SCRIPT --------------------------------------
-        // - This is the script that is executed when the page first loads
-        // - We load the categories / difficulties and then set the local variables
-        // - Lastly, we get some items using the defaults we just got back from the server
-        //---------------------------------------------------------------------------------------------
-        LoadingService.setLoading(true);
-        $scope.loading = true;
-        DifficultyService.loadDifficulties().then(function(someDifficulties) {
-            CategoryService.loadCategories().then(function(someCategories){
-                // This is needed because we try and load the items immediately - so we can't wait on the $watch() for categories / difficulties
-                $scope.difficulties = someDifficulties;
-                $scope.categories = someCategories;
-
-                // Set the default current difficulty and category to the first returned in our lists
-                $scope.currentDifficulty = $scope.difficulties[0];
-                $scope.currentCategory = $scope.categories[0];
-
-                getInitialItems();
-            });
-        });
-
         //----------------------------------------- BROADCAST HANDLERS ----------------------------------------
         // - Each of these handlers will keep an eye out for an event from the rootController to go back
         //   and look for an updated variable to update the local scope
@@ -51,7 +30,7 @@ angular
             if (options.currentCategory != null && options.currentCategory != $scope.currentCategory) {
                 $scope.currentCategory = options.currentCategory;
 
-                getInitialItems();
+                if ($scope.currentState == 'game') {getInitialItems();}
             }
         });
 
@@ -59,7 +38,7 @@ angular
             if (options.currentDifficulty != null && options.currentDifficulty != $scope.currentDifficulty) {
                 $scope.currentDifficulty = options.currentDifficulty;
 
-                getInitialItems();
+                if ($scope.currentState == 'game') {getInitialItems();}
             }
         });
 
@@ -78,6 +57,12 @@ angular
         // - The main idea of this method is tha we load a few sets of items very quickly so the user can play with no loag
         // - If you are wishing to just get more items with the existing category / difficulty - use 'getMoreItems()' below
         function getInitialItems() {
+            if (!$scope.currentCategory)
+                $scope.currentCategory = CategoryService.getCurrentCategory();
+
+            if(!$scope.currentDifficulty)
+                $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
+
             return $q(function(resolve) {
                 GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     //Update the LoadingService
@@ -93,6 +78,12 @@ angular
         // Gets more items with the current category / difficulty
         // - This method will use amount of items currently in the item cache ($scope.Items) to determine how many (if any) new items to pull from the API
         function getMoreItems() {
+            if (!$scope.currentCategory)
+                $scope.currentCategory = CategoryService.getCurrentCategory();
+
+            if(!$scope.currentDifficulty)
+                $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
+
             return $q(function(resolve) {
                 var numPairs = 0;
 
@@ -114,6 +105,7 @@ angular
                 }
 
                 UserService.addRoundPlayed();
+
 
                 GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
                     LoadingService.setLoading(false);

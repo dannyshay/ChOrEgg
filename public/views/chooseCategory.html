@@ -1,0 +1,11 @@
+<div ng-controller="ChooseCategoryController as chooseCategoryCtrl" class="topPadding text-center" ng-hide="loading || currentState != 'chooseCategory'">
+    <div class="row" class="text-center" style="max-width:75%; margin-left:auto; margin-right:auto;">
+        <h1 class="jumbotron" style="padding:20px;">Pick a category!</h1>
+    </div>
+    <div class="row" class="text-center" style="max-width:75%; margin-left:auto; margin-right:auto;">
+        <img src="../assets/Images/hatch.gif" style="max-width:75%" />
+    </div>
+    <div class="row" class="text-center">
+        <button class="btn btn-large" style="background-color:lightgoldenrodyellow; margin:20px;" ng-repeat="category in categories track by $index"  ng-click="viewGame(category)"><span style="font-weight: bold;" class="playGameButton">{{category.categoryName}}</span></button>
+    </div>
+</div>

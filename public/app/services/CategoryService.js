@@ -14,32 +14,17 @@ angular
             },
             loadCategories: function() {
                 return $q(function (resolve) {
-                        // Try and load the categories from cookies first (faster)
-                        var myCategories = $cookies.get('categories');
-                        if (!myCategories || myCategories == undefined) {
-                            // If we don't find anything there - call the API
-                            choreggAPI.Categories.query(function (data) {
-                                myCategories = data;
-                                // Save the categories to a cookie
-                                $cookies.put('categories', JSON.stringify(myCategories));
-
-                                categories = myCategories;
-                                currentCategory = categories[0];
-                                $rootScope.$broadcast('categoriesLoaded', {categories: categories});
-                                resolve(categories);
-                            });
-                        } else {
-                            // Parse the caetegories from the cookie
-                            myCategories = JSON.parse(myCategories);
-
-                            categories = myCategories;
+                    if (categories.length == 0) {
+                        choreggAPI.Categories.query(function(someCategories) {
+                            categories = someCategories;
                             currentCategory = categories[0];
-                            $rootScope.$broadcast('categoriesLoaded', {categories: categories});
+                            $rootScope.$broadcast('categoriesLoaded', {categories:categories});
                             resolve(categories);
-                        }
-
+                        });
+                    } else {
+                        resolve(categories);
                     }
-                );
+                });
             }
         }
     }]);

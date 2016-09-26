@@ -36,7 +36,8 @@
     "angular-preload-image": "*",
     "ng-google-signin": "^0.1.0",
     "angular-mocks": "^1.5.8",
-    "font-awesome": "^4.6.3"
+    "font-awesome": "^4.6.3",
+    "materialize": "^0.97.7"
   },
   "resolutions": {
     "angular": "1.5.8"

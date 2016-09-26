@@ -40,7 +40,6 @@ angular
         // Every time the ticker ticks (once per second)
         $scope.$on('timer-tick', function(event, value) {
             // Subtract a second from our 'time remaining'
-            console.log('about to tick down');
             TimerService.tickDown();
         });
     }]);

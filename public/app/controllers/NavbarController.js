@@ -68,6 +68,7 @@ angular
         };
 
         $scope.viewSplash = function() {
+            HUDService.initialize();
             StateService.setCurrentState('splash');
         };
 
