@@ -84,6 +84,11 @@ angular
 
         };
 
+        $scope.viewChooseCategory = function() {
+            HUDService.initialize();
+            StateService.setCurrentState('chooseCategory');
+        };
+
         $scope.login = function () {
             GoogleSignin.signIn().then(function (user) {
                 AuthenticationService.signInUser(GoogleSignin.getUser());
