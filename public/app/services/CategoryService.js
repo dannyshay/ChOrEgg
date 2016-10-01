@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('CategoryService', ['$cookies','choreggAPI', '$q', '$rootScope', function($cookies, choreggAPI, $q, $rootScope) {
+    .factory('CategoryService', ['$cookies','choreggAPI', '$q', '$rootScope', 'LoadingService', function($cookies, choreggAPI, $q, $rootScope, LoadingService) {
         var categories = [];
         var currentCategory = null;
 
@@ -9,6 +9,7 @@ angular
                 return currentCategory;
             },
             setCurrentCategory: function(aCategory) {
+                LoadingService.setLoading(true);
                 currentCategory =  aCategory;
                 $rootScope.$broadcast('currentCategoryChanged', {currentCategory: currentCategory});
             },
