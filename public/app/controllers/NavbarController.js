@@ -84,6 +84,38 @@ angular
 
         };
 
+        $scope.handleDifficultyColor = function(aDifficulty) {
+            switch (aDifficulty.difficultyName) {
+                case "Easy":
+                    return {color:'green'}
+                    break;
+                case "Medium":
+                    return {color:'orange'}
+                    break;
+                case "Hard":
+                    return {color:'red'}
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        $scope.handleCategoryIcons = function(aCategory) {
+            switch (aCategory.categoryName) {
+                case "People":
+                    return 'fa fa-users';
+                    break;
+                case "Inventions":
+                    return 'fa fa-gears';
+                    break;
+                case "Monuments":
+                    return 'fa fa-institution';
+                    break;
+                default:
+                    break;
+            }
+        }
+
         $scope.viewChooseCategory = function() {
             HUDService.initialize();
             StateService.setCurrentState('chooseCategory');

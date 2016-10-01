@@ -19,14 +19,14 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Select One</li>
-                            <li ng-class="{'active':isActiveCategory(category)}" ng-repeat="category in categories track by $index"><a href="#" ng-click="categoryChange(category)">{{category.categoryName}}</a></li>
+                            <li ng-class="{'active':isActiveCategory(category)}" ng-repeat="category in categories track by $index"><a href="#" ng-click="categoryChange(category)">{{category.categoryName}}<i class="fa" ng-class="handleCategoryIcons(category)" style="float:right"></i></a></li>
                         </ul>
                     </li>
                     <li class="dropdown" ng-hide="currentState != 'game'">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Difficulty <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Select One</li>
-                            <li ng-class="{'active':isActiveDifficulty(difficulty)}" ng-repeat="difficulty in difficulties track by $index"><a href="#" ng-click="difficultyChange(difficulty)">{{difficulty.difficultyName}}</a></li>
+                            <li ng-class="{'active':isActiveDifficulty(difficulty)}" ng-repeat="difficulty in difficulties track by $index"><a href="#" ng-click="difficultyChange(difficulty)">{{difficulty.difficultyName}}<i class="fa fa-asterisk" ng-style="handleDifficultyColor(difficulty)" style="float:right"></i></a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -40,8 +40,8 @@
                             <li ng-hide="!signedIn"><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i><span style="padding-left:15px">Logout</span></a></li>
                             <li ng-hide="currentState !== 'game'" class="divider"></li>
                             <li ng-hide="currentState != 'game'" class="dropdown-header">Options</li>
-                            <li ng-hide="(paused || currentState != 'game')"><a href="#" ng-click="pause()"><i class="fa fa-pause-circle"></i><span style="padding-left:15px">Pause</span></a></li>
-                            <li ng-hide="(!paused || currentState != 'game')"><a href="#" ng-click="resume()"><i class="fa fa-play"></i><span style="padding-left:15px">Resume</span></a></li>
+                            <li ng-hide="(isPaused || currentState != 'game')"><a href="#" ng-click="pause()"><i class="fa fa-pause-circle"></i><span style="padding-left:15px">Pause</span></a></li>
+                            <li ng-hide="(!isPaused || currentState != 'game')"><a href="#" ng-click="resume()"><i class="fa fa-play"></i><span style="padding-left:15px">Resume</span></a></li>
                         </ul>
                     </li>
                 </ul>
