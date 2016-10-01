@@ -32,9 +32,8 @@ angular
                 });
             },
             getItemsInTimespan: function (aCategory, aTimespan, aNumPairs, aClearItems) {
-                if(!gettingItems) {
-                    gettingItems = true;
-                    return $q(function (resolve) {
+                return $q(function (resolve) {
+                    if (!gettingItems) {
                         //Maybe we are changing a category / difficulty and want to clear the items
                         if (aClearItems == true) {
                             items = [];
@@ -65,11 +64,10 @@ angular
                                 resolve({currentItems: currentItems});
                             }
                         );
-                    });
-
-                } else {
-                    return false;
-                }
+                    } else {
+                        resolve(false);
+                    }
+                });
             }
         }
     }]);

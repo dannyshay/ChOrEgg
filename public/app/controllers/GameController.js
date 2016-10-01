@@ -7,15 +7,19 @@ angular
         // - Each time 'broadcasted' data is updated on a remote controller - these functions will get called
         //-----------------------------------------------------------------------------------------------------
         $scope.$on('itemsChanged', function(event, options) {
-            if (options.items[0].itemSet[0].category != CategoryService.getCurrentCategory().categoryName)
+            if (options.items[0].itemSet[0].category != CategoryService.getCurrentCategory().categoryName) {
+                getInitialItems();
                 return;
+            }
 
             $scope.Items = options.items;
         });
 
         $scope.$on('currentItemsChanged', function(event, options) {
-            if (options.currentItems.itemSet[0].category != CategoryService.getCurrentCategory().categoryName)
+            if (options.currentItems.itemSet[0].category != CategoryService.getCurrentCategory().categoryName) {
+                getInitialItems();
                 return;
+            }
 
             $scope.CurrentItems = options.currentItems;
         });
@@ -37,14 +41,6 @@ angular
                 $scope.currentCategory = options.currentCategory;
 
                 if ($scope.currentState == 'game') {
-                    var isGettingItems = ItemService.isGettingItems();
-                    console.log(isGettingItems);
-
-                    while (isGettingItems) {
-                        isGettingItems = ItemService.isGettingItems()
-                        console.log(isGettingItems);
-                    }
-
                     getInitialItems();
                 }
             }
@@ -84,6 +80,8 @@ angular
 
             return $q(function(resolve) {
                  var success = ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function(someCurrentItems) {
+                     if (someCurrentItems == false) { getInitialItems(); return; }
+
                     if (someCurrentItems && someCurrentItems.length > 0) { $scope.currentItems = someCurrentItems; }
 
                     //Update the LoadingService
