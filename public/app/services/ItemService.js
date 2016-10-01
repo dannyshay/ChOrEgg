@@ -37,11 +37,11 @@ angular
 
                     var itemNames = [];
                     if (items.length > 0 && !aClearItems) {
-                        itemNames = items.map(function(i) {return i.name});
+                        itemNames = items[0].itemSet.map(function(i) { return i.name});
                     }
 
                     // Call the API to get some more items as specified by the input params
-                    choreggAPI.GetItemsInTimespan.query({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs, anOldItemSet: itemNames},
+                    choreggAPI.GetItemsInTimespan.query({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs, anOldItemSet: JSON.stringify(itemNames)},
                         function (data) {
                             //Add the items to the array since we didn't necessarily clear it
                             data.forEach(function(item) {

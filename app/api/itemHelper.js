@@ -92,7 +92,8 @@ module.exports = {
                 var item2 = getRandomItem(items);
 
                 var passedItemCheck = true;
-                var itemNames = (req.query.itemNames ? req.query.itemNames : []);
+                var itemNames = (req.query.anOldItemSet ? req.query.anOldItemSet : []);
+
                 if (itemNames && itemNames.length > 0) { passedItemCheck = !itemsContainNewItems([item1.name, item2.name], itemNames); }
 
                 //Search until we find two items that don't match and meet a few other criteria
@@ -103,7 +104,7 @@ module.exports = {
                 {
                     item1 = getRandomItem(items);
                     item2 = getRandomItem(items);
-                    if (itemNames.length > 0) { passedItemCheck = !itemsContainNewItems([item1.name, item2.name], itemNames); }
+                    if (itemNames && itemNames.length > 0) { passedItemCheck = !itemsContainNewItems([item1.name, item2.name], itemNames); }
                 }
 
                 //Add the items to the id dictionary so we can look them up later

@@ -13,13 +13,14 @@ angular
 
                 switch (aState) {
                     case 'game':
-                        var currentCategory = CategoryService.getCurrentCategory();
-                        var currentDifficulty = DifficultyService.getCurrentDifficulty();
-                        ItemService.getItemsInTimespan(currentCategory.categoryName, currentDifficulty.timeSpan, 1, true).then(function() {
-                            ItemService.getItemsInTimespan(currentCategory.categoryName, currentDifficulty.timeSpan, 2, false);
-                            TimerService.restartTimer();
-                            LoadingService.setLoading(false);
-                        });
+                        // var currentCategory = CategoryService.getCurrentCategory();
+                        // var currentDifficulty = DifficultyService.getCurrentDifficulty();
+                        // console.log('getting first items');
+                        // ItemService.getItemsInTimespan(currentCategory.categoryName, currentDifficulty.timeSpan, 1, true).then(function() {
+                        //     ItemService.getItemsInTimespan(currentCategory.categoryName, currentDifficulty.timeSpan, 2, false);
+                        //     TimerService.restartTimer();
+                        //     LoadingService.setLoading(false);
+                        // });
 
                         break;
                     case 'chooseCategory':

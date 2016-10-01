@@ -46,6 +46,8 @@ angular
             if (options.currentState != null && options.currentState != $scope.currentState) {
                 $scope.currentState = options.currentState;
             }
+
+            if ($scope.currentState == 'game') {getInitialItems();}
         });
 
         //-------------------------------------- CLASS METHODS --------------------------------------
