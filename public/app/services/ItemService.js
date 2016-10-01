@@ -55,7 +55,7 @@ angular
                             }
 
                             //Return the promise
-                            resolve();
+                            resolve({currentItems: currentItems});
                         }
                     );
                 });

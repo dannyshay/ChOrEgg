@@ -81,7 +81,6 @@ angular
         $scope.categoryChange = function(aCategory) {
             HUDService.initialize();
             CategoryService.setCurrentCategory(aCategory);
-            TimerService.restartTimer();
 
         };
 

@@ -67,7 +67,8 @@ angular
                 $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
 
             return $q(function(resolve) {
-                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
+                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function(someCurrentItems) {
+                    $scope.currentItems = someCurrentItems;
                     //Update the LoadingService
                     LoadingService.setLoading(false);
                     TimerService.restartTimer();
