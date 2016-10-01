@@ -11,7 +11,7 @@ angular
         });
 
         $scope.$on('currentItemsChanged', function(event, options) {
-            if($scope.currentCategory && options.currentItems.itemSet[0].category != $scope.currentCategory.categoryName)
+            if(options.currentItems.itemSet[0].category != CategoryService.getCurrentCategory())
                 return;
 
             $scope.CurrentItems = options.currentItems;
