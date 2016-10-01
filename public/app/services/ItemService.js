@@ -36,7 +36,7 @@ angular
                     }
 
                     var itemNames = [];
-                    if (items.length > 0) {
+                    if (items.length > 0 && !aClearItems) {
                         itemNames = items.map(function(i) {return i.name});
                     }
 

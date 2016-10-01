@@ -11,4 +11,9 @@ describe('Category Service', function(){
     it('exists', function() {
        expect(CategoryService).toBeDefined();
     });
+
+    it('can get/set the current category', function() {
+        CategoryService.setCurrentCategory('People');
+        expect(CategoryService.getCurrentCategory()).toBe('People');
+    });
 });
