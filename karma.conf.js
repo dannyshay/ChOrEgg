@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'public/scripts/jQuery/dist/jquery.min.js',
+      'public/scripts/jquery/dist/jquery.min.js',
       'public/scripts/bootstrap/dist/js/bootstrap.min.js',
       'public/scripts/angular/angular.min.js',
       'public/scripts/angular-mocks/angular-mocks.js',
@@ -33,7 +33,6 @@ module.exports = function(config) {
       'public/scripts/moment/moment.js',
       'public/scripts/ng-google-signin/dist/ng-google-signin.min.js',
       'public/scripts/ngstorage/ngStorage.min.js',
-      'public/scripts/satellizer/dist/satellizer.min.js',
       'public/scripts/SHA-1/sha1.js',
 
       'public/app/app.js',        // Load your module before the rest of your app.

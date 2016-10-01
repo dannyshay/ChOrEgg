@@ -40,6 +40,14 @@ var processItemsForResponse = function(anItemSet) {
     return retVal;
 };
 
+function itemsContainNewItems(newItems, allCurrentItems){
+    for(var i = 0; i < newItems.length; i++){
+        if(allCurrentItems.indexOf(newItems[i]) === -1)
+            return false;
+    }
+    return true;
+}
+
 module.exports = {
     //getAll - Use this to get all items in the entire database regardless of category
     getAll: function (res) {
@@ -83,14 +91,19 @@ module.exports = {
                 var item1 = getRandomItem(items);
                 var item2 = getRandomItem(items);
 
+                var passedItemCheck = true;
+                var itemNames = items.map(function(i) { return i.name });
+                if (items.length > 0) { passedItemCheck = !itemsContainNewItems([item1.name, item2.name], itemNames); }
+
                 //Search until we find two items that don't match and meet a few other criteria
                 while (retDict[item1.id] != null || retDict[item2.id] != null ||
                 item2.id == item1.id || // Don't match
                 Math.abs(item2.date - item1.date) >= timeSpan || // Within timespan
-                item1.date == item2.date) // Not the same year
+                item1.date == item2.date && passedItemCheck) // Not the same year
                 {
                     item1 = getRandomItem(items);
                     item2 = getRandomItem(items);
+                    if (items.length > 0) { passedItemCheck = !itemsContainNewItems([item1.name, item2.name], itemNames); }
                 }
 
                 //Add the items to the id dictionary so we can look them up later
