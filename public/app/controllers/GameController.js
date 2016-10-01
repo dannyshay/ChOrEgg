@@ -7,10 +7,16 @@ angular
         // - Each time 'broadcasted' data is updated on a remote controller - these functions will get called
         //-----------------------------------------------------------------------------------------------------
         $scope.$on('itemsChanged', function(event, options) {
+            if (options.items[0].itemSet[0].category != CategoryService.getCurrentCategory().categoryName)
+                return;
+
             $scope.Items = options.items;
         });
 
         $scope.$on('currentItemsChanged', function(event, options) {
+            if (options.currentItems.itemSet[0].category != CategoryService.getCurrentCategory().categoryName)
+                return;
+
             $scope.CurrentItems = options.currentItems;
         });
 
