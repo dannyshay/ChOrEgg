@@ -57,6 +57,7 @@ angular
         // - The main idea of this method is tha we load a few sets of items very quickly so the user can play with no loag
         // - If you are wishing to just get more items with the existing category / difficulty - use 'getMoreItems()' below
         function getInitialItems() {
+            TimerService.stopTimer();
             if (!$scope.currentCategory)
                 $scope.currentCategory = CategoryService.getCurrentCategory();
 
@@ -67,6 +68,7 @@ angular
                 ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     //Update the LoadingService
                     LoadingService.setLoading(false);
+                    TimerService.restartTimer();
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
                     ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {

@@ -1,4 +1,4 @@
-<div ng-controller="GameController as itemCtrl">
+<div ng-controller="GameController as itemCtrl" ng-hide="loading || currentState != 'game'">
     <!--Item 1-->
     <div class="col-sm-6 padded" ng-repeat="item in CurrentItems.itemSet track by $index">
         <!--Name-->
