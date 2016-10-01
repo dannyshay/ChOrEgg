@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'GameService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, GameService, HUDService, LoadingService, UserService) {
+    .controller('GameController', ['$scope', '$http', '$cookies', '$analytics', '$timeout',  '$q', 'TimerService', 'CategoryService', 'DifficultyService', 'ItemService','HUDService', 'LoadingService', 'UserService', function ($scope, $http, $cookies, $analytics, $timeout,  $q, TimerService, CategoryService, DifficultyService, ItemService, HUDService, LoadingService, UserService) {
         //----------------------------------------- BROADCAST HANDLERS ----------------------------------------
         // - Each of these handlers will keep an eye out for an event from the rootController to go back
         //   and look for an updated variable to update the local scope
@@ -64,12 +64,12 @@ angular
                 $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
 
             return $q(function(resolve) {
-                GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
+                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function() {
                     //Update the LoadingService
                     LoadingService.setLoading(false);
 
                     // Now that we got our first set back and the user can play - go ahead and grab two more real quick :)
-                    GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
+                    ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 2, false).then(function() {
                         resolve();
                     });
                 });
@@ -107,7 +107,7 @@ angular
                 UserService.addRoundPlayed();
 
 
-                GameService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
+                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, numPairs, false).then(function() {
                     LoadingService.setLoading(false);
                     resolve();
                 });
@@ -159,7 +159,7 @@ angular
         $scope.afterFlop = function () {
             // Bump the current items off the array using 'shiftItems'
             TimerService.restartTimer();
-            GameService.shiftItems().then(function() {
+            ItemService.shiftItems().then(function() {
                 $scope.imageFlipping = false;
 
                 // Then get some more items using the current settings

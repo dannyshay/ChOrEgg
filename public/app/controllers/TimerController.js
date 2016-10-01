@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('TimerController', ['$scope', 'TimerService', 'GameService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', 'StateService', function($scope, TimerService, GameService, HUDService, DifficultyService, CategoryService, LoadingService, UserService, StateService) {
+    .controller('TimerController', ['$scope', 'TimerService', 'ItemService', 'HUDService', 'DifficultyService', 'CategoryService', 'LoadingService', 'UserService', 'StateService', function($scope, TimerService, ItemService, HUDService, DifficultyService, CategoryService, LoadingService, UserService, StateService) {
         $scope.$on('loadingChanged', function(event, options) {
             $scope.loading = options.loading;
         });
@@ -23,12 +23,12 @@ angular
             // Check for a timeout scenario
             if ($scope.timeRemaining == 0) {
                 TimerService.restartTimer();
-                GameService.shiftItems();
+                ItemService.shiftItems();
                 HUDService.addStrike();
                 UserService.addRoundPlayed();
 
                 // Get some more items (up to 10 based on currenct amount in item cache) to keep going
-                GameService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 10 - GameService.getItems().length);
+                ItemService.getItemsInTimespan(CategoryService.getCurrentCategory().categoryName, DifficultyService.getCurrentDifficulty().timeSpan, 10 - ItemService.getItems().length);
             }
 
             // Update the timer if necessary (this is ugly but must be done :( )

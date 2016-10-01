@@ -42,7 +42,6 @@ angular
                         if (aCurrentScore > user.highScore) {
                             user.highScore = aCurrentScore;
                             choreggAPI.User.update({username: username}, user);
-                            console.log('New high score!');
                         }
 
                         resolve(user.highScore);

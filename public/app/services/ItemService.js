@@ -1,4 +1,4 @@
-//GameService.js
+//ItemService.js
 //
 // * Keeps track of the 'item' list in ChOrEgg
 // * Responsibilities include:
@@ -8,7 +8,7 @@
 
 angular
     .module('choregg')
-    .factory('GameService', ['choreggAPI', '$q', 'TimerService', '$rootScope', function(choreggAPI, $q, TimerService, $rootScope) {
+    .factory('ItemService', ['choreggAPI', '$q', 'TimerService', '$rootScope', function(choreggAPI, $q, TimerService, $rootScope) {
         var items = [];
         var currentItems = null;
 
@@ -34,8 +34,14 @@ angular
                         items = [];
                         currentItems = null;
                     }
+
+                    var itemNames = [];
+                    if (items.length > 0) {
+                        itemNames = items.map(function(i) {return i.name});
+                    }
+
                     // Call the API to get some more items as specified by the input params
-                    choreggAPI.GetItemsInTimespan.query({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs, anOldItemSet: currentItems},
+                    choreggAPI.GetItemsInTimespan.query({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs, anOldItemSet: itemNames},
                         function (data) {
                             //Add the items to the array since we didn't necessarily clear it
                             data.forEach(function(item) {
