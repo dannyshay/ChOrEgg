@@ -8,7 +8,7 @@
 
 angular
     .module('choregg')
-    .factory('ItemService', ['choreggAPI', '$q', 'TimerService', '$rootScope', function(choreggAPI, $q, TimerService, $rootScope) {
+    .factory('ItemService', ['choreggAPI', '$q', 'TimerService', '$rootScope', 'CategoryService', function(choreggAPI, $q, TimerService, $rootScope, CategoryService) {
         var items = [];
         var currentItems = null;
 
@@ -43,6 +43,7 @@ angular
                     // Call the API to get some more items as specified by the input params
                     choreggAPI.GetItemsInTimespan.query({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs, anOldItemSet: JSON.stringify(itemNames)},
                         function (data) {
+                            if (CategoryService.getCurrentCategory() != aCategory) { resolve(); }
                             //Add the items to the array since we didn't necessarily clear it
                             data.forEach(function(item) {
                                 items.push(item);
