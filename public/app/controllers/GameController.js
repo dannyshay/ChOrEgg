@@ -104,8 +104,6 @@ angular
                     numPairs = 2;
                 } else if ($scope.Items.length <= 2) {
                     numPairs = 3;
-                } else if ($scope.Items.length <= 5) {
-                    numPairs = 5;
                 }
 
                 UserService.addRoundPlayed();
