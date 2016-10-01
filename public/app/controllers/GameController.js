@@ -83,7 +83,7 @@ angular
                 $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
 
             return $q(function(resolve) {
-                ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function(someCurrentItems) {
+                 var success = ItemService.getItemsInTimespan($scope.currentCategory.categoryName, $scope.currentDifficulty.timeSpan, 1, true).then(function(someCurrentItems) {
                     if (someCurrentItems && someCurrentItems.length > 0) { $scope.currentItems = someCurrentItems; }
 
                     //Update the LoadingService
@@ -95,6 +95,10 @@ angular
                         resolve();
                     });
                 });
+
+                if (!success) {
+                    console.log('failed!');
+                }
             });
         }
         // Gets more items with the current category / difficulty
