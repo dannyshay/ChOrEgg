@@ -25,6 +25,7 @@ angular
 
                             difficulties = myDifficulties;
                             currentDifficulty = difficulties[0];
+                            $rootScope.$broadcast('currentDifficultyChanged', {currentDifficulty: currentDifficulty});
                             $rootScope.$broadcast('difficultiesLoaded', {difficulties: difficulties});
                             resolve(difficulties);
                         });
@@ -34,6 +35,7 @@ angular
 
                         difficulties = myDifficulties;
                         currentDifficulty = difficulties[0];
+                        $rootScope.$broadcast('currentDifficultyChanged', {currentDifficulty: currentDifficulty});
                         $rootScope.$broadcast('difficultiesLoaded', {difficulties: difficulties});
                         resolve(difficulties);
                     }

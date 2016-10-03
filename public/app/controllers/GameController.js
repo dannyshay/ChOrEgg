@@ -40,9 +40,7 @@ angular
             if (options.currentCategory != null && options.currentCategory != $scope.currentCategory) {
                 $scope.currentCategory = options.currentCategory;
 
-                if ($scope.currentState == 'game') {
-                    getInitialItems();
-                }
+                if ($scope.currentState == 'game') { getInitialItems();}
             }
         });
 
