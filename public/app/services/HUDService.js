@@ -5,6 +5,14 @@ angular
         var numStrikes = 0;
 
         return {
+            getCurrentScore: function() {
+                // THIS IS ONLY USED IN TEST
+                return currentScore;
+            },
+            getNumStrikes: function() {
+                // THIS IS ONLY USED IN TEST
+                return numStrikes;
+            },
             resetNumStrikes: function() {
                 numStrikes = 0;
                 $rootScope.$broadcast('numStrikesChanged', {numStrikes: numStrikes});
