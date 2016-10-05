@@ -6,6 +6,18 @@ angular
         var isPaused = null;
 
         return {
+            getTimeRemaining: function() {
+                // THIS IS ONLY USED IN TEST
+                return timeRemaining;
+            },
+            getIsRunning: function() {
+                // THIS IS ONLY USED IN TEST
+                return isRunning;
+            },
+            getIsPaused: function() {
+                // THIS IS ONLY USED IN TEST
+                return isPaused;
+            },
             pause: function() {
                 $rootScope.$broadcast('timer-stop');
                 isPaused = true;
@@ -41,21 +53,16 @@ angular
                 $rootScope.$broadcast('isRunningChanged', {isRunning: isRunning});
             },
             restartTimer: function() {
-                return $q(function(resolve) {
-                    $rootScope.$broadcast('timer-stop');
-                    $rootScope.$broadcast('timer-start');
-                    $rootScope.$broadcast('timer-set-countdown', 10);
-                    timeRemaining = 10;
-                    $rootScope.$broadcast('timeRemainingChanged', {timeRemaining: timeRemaining});
+                $rootScope.$broadcast('timer-stop');
+                $rootScope.$broadcast('timer-start');
+                $rootScope.$broadcast('timer-set-countdown', 10);
+                timeRemaining = 10;
+                $rootScope.$broadcast('timeRemainingChanged', {timeRemaining: timeRemaining});
 
-                    isRunning = true;
-                    isPaused = false;
-                    $rootScope.$broadcast('isPausedChanged', {isPaused: isPaused});
-                    $rootScope.$broadcast('isRunningChanged', {isRunning: isRunning});
-
-                    resolve();
-                });
-
+                isRunning = true;
+                isPaused = false;
+                $rootScope.$broadcast('isPausedChanged', {isPaused: isPaused});
+                $rootScope.$broadcast('isRunningChanged', {isRunning: isRunning});
             }
         }
     }]);
