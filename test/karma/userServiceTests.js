@@ -12,6 +12,7 @@ describe('User Service', function(){
 
     beforeEach(inject(function(_UserService_) {
         UserService = _UserService_;
+        UserService.setUser(aUsername);
     }));
 
     it('exists', function() {
@@ -20,8 +21,6 @@ describe('User Service', function(){
 
     it('should set a user', function() {
         inject(function($localStorage, $rootScope) {
-            UserService.setUser(aUsername);
-
             var currentUser = UserService.getUser();
 
             // Make sure we got a user
