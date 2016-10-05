@@ -4,6 +4,10 @@ angular
         var currentState = "splash";
 
         return {
+            getCurrentState: function() {
+                //THIS IS ONLY USED IN TEST
+                return currentState;
+            },
             setCurrentState: function(aState) {
                 if (currentState == aState)
                     return;
