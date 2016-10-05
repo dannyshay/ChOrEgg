@@ -18,12 +18,12 @@ angular
 
                 UserService.initialize();
             },
-            signInUser: function(aUser) {
+            setUser: function(aUser) {
                 signedIn = true;
                 $rootScope.$broadcast('signedInChanged', {signedIn: signedIn});
                 $localStorage.signedIn = signedIn;
                 
-                UserService.signInUser(aUser.w3.U3);
+                UserService.setUser(aUser.w3.U3);
             }
         }
     }]);

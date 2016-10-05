@@ -39,10 +39,6 @@ angular
             $scope.username = $scope.user.username;
         });
 
-        $scope.$on('usernameChanged', function(event, options) {
-            $scope.user = options.user;
-        });
-
         $scope.$on('isPausedChanged', function(event, options) {
             $scope.isPaused = options.isPaused;
         });
@@ -123,7 +119,7 @@ angular
 
         $scope.login = function () {
             GoogleSignin.signIn().then(function (user) {
-                AuthenticationService.signInUser(GoogleSignin.getUser());
+                AuthenticationService.setUser(GoogleSignin.getUser());
             }, function (err) {
                 AuthenticationService.signOut();
             });
