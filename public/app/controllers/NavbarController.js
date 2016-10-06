@@ -119,7 +119,7 @@ angular
 
         $scope.login = function () {
             GoogleSignin.signIn().then(function (user) {
-                AuthenticationService.setUser(GoogleSignin.getUser());
+                AuthenticationService.signIn(GoogleSignin.getUser());
             }, function (err) {
                 AuthenticationService.signOut();
             });

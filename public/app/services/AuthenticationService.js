@@ -8,17 +8,20 @@ angular
         }
 
         return {
+            getSignedIn: function() {
+                // THIS IS ONLY USED FOR TEST
+                return signedIn;
+            },
             signOut: function() {
                 signedIn = false;
                 $rootScope.$broadcast('signedInChanged', {signedIn: signedIn});
 
                 $localStorage.signedIn = false;
                 $localStorage.user = null;
-                $localStorage.username = null;
 
                 UserService.initialize();
             },
-            setUser: function(aUser) {
+            signIn: function(aUser) {
                 signedIn = true;
                 $rootScope.$broadcast('signedInChanged', {signedIn: signedIn});
                 $localStorage.signedIn = signedIn;
