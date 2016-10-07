@@ -27,6 +27,9 @@
     <div class="container-fluid" ng-hide="loading || (currentState != 'chooseCategory')">
         <div ng-include="'views/chooseCategory.html'"></div>
     </div>
+    <div class="container-fluid" ng-hide="loading || (currentState != 'chooseMode')">
+        <div ng-include="'views/chooseMode.html'"></div>
+    </div>
     <!--Footer-->
     <div class="container-fluid">
         <div ng-include="'views/footer.html'"></div>

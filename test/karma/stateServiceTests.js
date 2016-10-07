@@ -19,5 +19,6 @@ describe('State Service', function(){
         var aState = "game";
 
         StateService.setCurrentState(aState);
+        expect(StateService.getCurrentState()).toBe(aState);
     });
 });

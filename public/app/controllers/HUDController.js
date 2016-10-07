@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('HudController', ['$scope', 'HUDService', 'StateService', function($scope, HUDService, StateService) {
+    .controller('HudController', ['$scope', 'HUDService', 'ModeService', function($scope, HUDService, ModeService) {
         $scope.currentScore = 0;
         $scope.numStrikes = 0;
 

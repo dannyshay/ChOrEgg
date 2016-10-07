@@ -36,6 +36,12 @@ angular
             }
         });
 
+        $scope.$on('modeChanged', function(event, options) {
+            if (options.mode != null && options.mode != $scope.mode) {
+                $scope.mode = options.mode;
+            }
+        });
+
         $scope.$on('currentCategoryChanged', function(event, options) {
             if (options.currentCategory != null && options.currentCategory != $scope.currentCategory) {
                 $scope.currentCategory = options.currentCategory;
@@ -159,6 +165,7 @@ angular
                 } else {
                     $analytics.eventTrack('User choice - Wrong');
                     HUDService.addStrike();
+                    if ($scope.mode == 'Endless') { HUDService.resetCurrentScore() }
                 }
             }
         };

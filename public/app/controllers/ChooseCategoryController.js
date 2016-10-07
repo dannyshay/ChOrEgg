@@ -1,13 +1,18 @@
 angular
     .module('choregg')
-    .controller('ChooseCategoryController', ['$scope', 'StateService', 'CategoryService', 'LoadingService', function($scope, StateService, CategoryService, LoadingService) {
+    .controller('ChooseCategoryController', ['$scope', 'StateService', 'ModeService', function($scope, StateService, ModeService) {
         $scope.$on('categoriesLoaded', function(event, options) {
             $scope.categories = options.categories;
         });
 
-        $scope.viewGame = function(aCategory) {
-            LoadingService.setLoading(true);
-            CategoryService.setCurrentCategory(aCategory);
-            StateService.setCurrentState('game');
+        $scope.$on('loadingChanged', function(event, options) {
+            if (options.loading != null && options.loading != $scope.loading) {
+                $scope.loading = options.loading;
+            }
+        });
+
+        $scope.viewChooseMode = function(aMode) {
+            ModeService.setMode(aMode);
+            StateService.setCurrentState('chooseMode');
         }
     }]);

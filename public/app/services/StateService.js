@@ -15,22 +15,13 @@ angular
                 currentState = aState;
                 $rootScope.$broadcast('currentStateChanged', {currentState: currentState});
 
-                switch (aState) {
-                    case 'game':
-                        break;
-                    case 'chooseCategory':
-                        TimerService.stopTimer();
-                        break;
-                    case 'profile':
-                        TimerService.stopTimer();
-                        break;
-                    case 'leaderboard':
-                        UserService.refreshUsers();
-                        TimerService.stopTimer();
-                        break;
-                    case 'splash':
-                        TimerService.stopTimer();
-                        break;
+                if (aState === 'game') {
+                } else if (aState === 'leaderboard') {
+                    UserService.refreshUsers();
+                    TimerService.stopTimer();
+                    TimerService.stopTimer();
+                } else if (aState === 'chooseCategory' || aState === 'chooseMode' || aState === 'profile' || aState === 'splash') {
+                    TimerService.stopTimer();
                 }
             }
         }

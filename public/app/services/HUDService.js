@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .factory('HUDService', ['UserService', '$rootScope', function(UserService, $rootScope) {
+    .factory('HUDService', ['UserService', '$rootScope', 'ModeService', function(UserService, $rootScope, ModeService) {
         var currentScore = 0;
         var numStrikes = 0;
 
@@ -22,8 +22,11 @@ angular
                 $rootScope.$broadcast('currentScoreChanged', {currentScore: currentScore});
             },
             addStrike: function() {
-                numStrikes += 1;
-                $rootScope.$broadcast('numStrikesChanged', {numStrikes: numStrikes});
+                if (ModeService.getMode() != "Endless") {
+                    numStrikes += 1;
+                    $rootScope.$broadcast('numStrikesChanged', {numStrikes: numStrikes});
+                }
+
                 return numStrikes;
             },
             addPoints: function(numPoints) {
