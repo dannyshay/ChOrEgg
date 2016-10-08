@@ -54,8 +54,14 @@ angular
             if (options.currentDifficulty != null && options.currentDifficulty != $scope.currentDifficulty) {
                 $scope.currentDifficulty = options.currentDifficulty;
 
-                if ($scope.currentState == 'game') {getInitialItems();}
+                if ($scope.currentState == 'game') { getInitialItems(); }
             }
+        });
+
+        $scope.$on('modeChanged', function(event, options) {
+            $scope.mode = options.mode;
+
+            if ($scope.currentState == 'game') { getInitialItems(); }
         });
 
         $scope.$on('currentStateChanged', function(event, options) {
@@ -63,7 +69,7 @@ angular
                 $scope.currentState = options.currentState;
             }
 
-            if ($scope.currentState == 'game') {getInitialItems();}
+            if ($scope.currentState == 'game') { getInitialItems(); }
         });
 
         //-------------------------------------- CLASS METHODS --------------------------------------

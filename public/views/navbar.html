@@ -23,10 +23,13 @@
                         </ul>
                     </li>
                     <li class="dropdown" ng-hide="currentState != 'game'">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Difficulty <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown-header">Select One</li>
+                            <li class="dropdown-header">Difficulty</li>
                             <li ng-class="{'active':isActiveDifficulty(difficulty)}" ng-repeat="difficulty in difficulties track by $index"><a href="#" ng-click="difficultyChange(difficulty)">{{difficulty.difficultyName}}<i class="fa fa-asterisk" ng-style="handleDifficultyColor(difficulty)" style="float:right"></i></a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Mode</li>
+                            <li ng-class="{'active':isActiveMode(mode)}" ng-repeat="mode in modes track by $index"><a href="#" ng-click="modeChange(mode)">{{mode}}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

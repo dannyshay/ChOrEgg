@@ -17,7 +17,9 @@ angular
             client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com'
         });
     }])
-    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService) {
+    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', 'ModeService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService, ModeService) {
+        $scope.modes = ModeService.getModes();
+
         $scope.$on('categoriesLoaded', function(event, options) {
             $scope.categories = options.categories;
         });
@@ -37,6 +39,12 @@ angular
         $scope.$on('userChanged', function(event, options) {
             $scope.user = options.user;
             $scope.username = $scope.user.username;
+        });
+
+        $scope.$on('modeChanged', function(event, options) {
+            if (options.mode != null && options.mode != $scope.mode) {
+                $scope.mode = options.mode;
+            }
         });
 
         $scope.$on('isPausedChanged', function(event, options) {
@@ -77,7 +85,11 @@ angular
         $scope.categoryChange = function(aCategory) {
             HUDService.initialize();
             CategoryService.setCurrentCategory(aCategory);
+        };
 
+        $scope.modeChange = function(aMode) {
+            HUDService.initialize();
+            ModeService.setMode(aMode);
         };
 
         $scope.handleDifficultyColor = function(aDifficulty) {
@@ -145,4 +157,8 @@ angular
         $scope.isActiveDifficulty = function (difficulty) {
             return $scope.currentDifficulty == difficulty;
         };
+
+        $scope.isActiveMode = function(mode) {
+            return $scope.mode == mode;
+        }
     }]);
