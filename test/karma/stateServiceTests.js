@@ -11,8 +11,6 @@ describe('State Service', function(){
 
     it('exists', function() {
         expect(StateService).toBeDefined();
-        //This is defaulted
-        expect(StateService.getCurrentState()).toBe('splash');
     });
 
     it('can set a state', function() {

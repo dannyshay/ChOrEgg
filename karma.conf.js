@@ -33,6 +33,7 @@ module.exports = function(config) {
       'public/scripts/moment/moment.js',
       'public/scripts/ng-google-signin/dist/ng-google-signin.min.js',
       'public/scripts/ngstorage/ngStorage.min.js',
+      'public/scripts/angular-audio/app/angular.audio.js',
       'public/scripts/SHA-1/sha1.js',
 
       'public/app/app.js',        // Load your module before the rest of your app.
