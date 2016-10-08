@@ -1,6 +1,6 @@
 angular
     .module('choregg')
-    .controller('SplashController', ["$scope", 'StateService', 'CategoryService', 'DifficultyService', function($scope, StateService, CategoryService, DifficultyService) {
+    .controller('SplashController', ["$scope", 'StateService', 'CategoryService', 'DifficultyService', 'ModeService', function($scope, StateService, CategoryService, DifficultyService, ModeService) {
         CategoryService.loadCategories();
         DifficultyService.loadDifficulties();
 
@@ -12,7 +12,7 @@ angular
             $scope.currentState = options.currentState;
         });
 
-        $scope.viewChooseCategory = function() {
-            StateService.setCurrentState('chooseCategory');
+        $scope.viewChooseMode = function() {
+            StateService.setCurrentState('chooseMode');
         };
     }]);
