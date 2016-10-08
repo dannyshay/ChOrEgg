@@ -1,6 +1,7 @@
 angular
     .module('choregg')
     .controller('SplashController', ["$scope", 'StateService', 'CategoryService', 'DifficultyService', 'ModeService', function($scope, StateService, CategoryService, DifficultyService, ModeService) {
+        StateService.setCurrentState("splash");
         CategoryService.loadCategories();
         DifficultyService.loadDifficulties();
 

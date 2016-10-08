@@ -45,6 +45,8 @@
                             <li ng-hide="currentState != 'game'" class="dropdown-header">Options</li>
                             <li ng-hide="(isPaused || currentState != 'game')"><a href="#" ng-click="pause()"><i class="fa fa-pause-circle"></i><span style="padding-left:15px">Pause</span></a></li>
                             <li ng-hide="(!isPaused || currentState != 'game')"><a href="#" ng-click="resume()"><i class="fa fa-play"></i><span style="padding-left:15px">Resume</span></a></li>
+                            <li ng-hide="(!isPlaying)"><a href="#" ng-click="setMusic('off')"><i class="fa fa-volume-off" style="padding-left:2px;"></i><span style="padding-left:15px">Music Off</span></a></li>
+                            <li ng-hide="(isPlaying)"><a href="#" ng-click="setMusic('on')"><i class="fa fa-volume-up" style="padding-left:2px;"></i><span style="padding-left:15px">Music On</span></a></li>
                         </ul>
                     </li>
                 </ul>

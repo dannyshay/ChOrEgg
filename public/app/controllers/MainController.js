@@ -6,5 +6,4 @@ angular
         $scope.$on('currentStateChanged', function(event, options) {
             $scope.currentState =  options.currentState;
         });
-
     }]);

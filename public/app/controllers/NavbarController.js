@@ -2,12 +2,14 @@
 $(document).on('click','.navbar-collapse.in',function(e) {
     if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
         $(this).collapse('hide');
+        console.log('called');
     }
 });
 
 //Same fix for the main button
 $(document).on('click', '.navbar-brand', function(e) {
    $('.navbar-collapse').collapse('hide');
+    console.log('called');
 });
 
 angular
@@ -17,8 +19,9 @@ angular
             client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com'
         });
     }])
-    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', 'ModeService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService, ModeService) {
+    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', 'ModeService', 'AudioService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService, ModeService, AudioService) {
         $scope.modes = ModeService.getModes();
+        $scope.isPlaying = AudioService.getIsPlaying();
 
         $scope.$on('categoriesLoaded', function(event, options) {
             $scope.categories = options.categories;
@@ -45,6 +48,11 @@ angular
             if (options.mode != null && options.mode != $scope.mode) {
                 $scope.mode = options.mode;
             }
+        });
+
+        $scope.$on('isPlayingChanged', function(event, options) {
+            console.log('isplaying changed: ' + options.isPlaying);
+            $scope.isPlaying = options.isPlaying;
         });
 
         $scope.$on('isPausedChanged', function(event, options) {
@@ -150,6 +158,14 @@ angular
             TimerService.resume();
         };
 
+        $scope.setMusic = function(aOnOrOff) {
+            if (aOnOrOff == 'on') {
+                AudioService.startPlaying();
+            }  else {
+                AudioService.pausePlaying();
+            }
+        };
+
         $scope.isActiveCategory = function (category) {
             return $scope.currentCategory == category;
         };
@@ -160,5 +176,5 @@ angular
 
         $scope.isActiveMode = function(mode) {
             return $scope.mode == mode;
-        }
+        };
     }]);

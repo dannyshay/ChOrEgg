@@ -1,7 +1,8 @@
 angular
     .module('choregg')
-    .factory('StateService', ['TimerService', 'UserService', '$rootScope', 'CategoryService', 'DifficultyService', 'ItemService', 'LoadingService', function(TimerService, UserService, $rootScope, CategoryService, DifficultyService, ItemService, LoadingService) {
-        var currentState = "splash";
+    .factory('StateService', ['TimerService', 'UserService', '$rootScope', 'CategoryService', 'DifficultyService', 'ItemService', 'LoadingService', 'AudioService', function(TimerService, UserService, $rootScope, CategoryService, DifficultyService, ItemService, LoadingService, AudioService) {
+        //var currentState = "splash";
+        var currentState = null;
 
         return {
             getCurrentState: function() {
