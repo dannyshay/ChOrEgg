@@ -21,7 +21,7 @@ angular
                     UserService.refreshUsers();
                     TimerService.stopTimer();
                     TimerService.stopTimer();
-                } else if (aState === 'chooseCategory' || aState === 'chooseMode' || aState === 'profile' || aState === 'splash') {
+                } else if (aState == 'chooseCategory' || aState == 'chooseMode' || aState == 'profile' || aState == 'splash' || aState == 'admin') {
                     TimerService.stopTimer();
                 }
             }

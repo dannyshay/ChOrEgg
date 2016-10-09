@@ -2,8 +2,19 @@ angular
     .module('choregg')
     .factory('AudioService', ['$rootScope', 'ngAudio', function($rootScope, ngAudio) {
         // Default this to true since we have AutoPlay enabled on the HTML5 control
-        var isPlaying = true;
+        var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        var isPlaying = !iOS;
         var mainMusic = $('#mainMusic').get(0);
+
+        var showHidePlayer = function() {
+            if (document.hidden) {
+                mainMusic.pause()
+            } else {
+                if (isPlaying) { mainMusic.play(); }
+            }
+        };
+
+        $(document).on('visibilitychange', showHidePlayer(), false);
 
         return {
             getIsPlaying: function() {

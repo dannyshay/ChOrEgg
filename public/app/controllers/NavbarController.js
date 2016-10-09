@@ -67,6 +67,14 @@ angular
             $scope.signedIn = options.signedIn;
         });
 
+        $scope.isAdmin = function(aUsername) {
+            return (["danny624@gmail.com", "loserkidz2389@gmail.com"].indexOf(aUsername) >= 0);
+        };
+
+        $scope.viewAdmin = function() {
+            StateService.setCurrentState('admin');
+        };
+
         $scope.viewProfile = function() {
             StateService.setCurrentState('profile');
         };

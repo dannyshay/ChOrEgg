@@ -26,6 +26,9 @@
     <div class="container-fluid" ng-hide="loading || (currentState != 'profile')">
         <div ng-include="'views/profile.html'"></div>
     </div>
+    <div class="container-fluid" ng-hide="loading || (currentState != 'admin')">
+        <div ng-include="'views/admin.html'"></div>
+    </div>
     <div class="container-fluid" ng-hide="loading || (currentState != 'leaderboard')">
         <div ng-include="'views/leaderboard.html'"></div>
     </div>
