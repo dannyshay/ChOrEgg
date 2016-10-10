@@ -10,7 +10,7 @@ var adminHelper = require('./api/adminHelper');
 module.exports = function(app) {
     //General Functions
     app.get('/api/getEnvironment', function(req, res) {
-        res.send({Environment: process.env['mode'] || 'LOCAL'});
+        res.send({environment: process.env['mode'] || 'LOCAL'});
     });
 
     app.get('/api/downloadAndFormatImages', function(req, res) {
