@@ -19,9 +19,12 @@ angular
             client_id: '271196145347-2s58ab7cb31bh18m3u55d67ju1lmcq1f.apps.googleusercontent.com'
         });
     }])
-    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', 'ModeService', 'AudioService', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService, ModeService, AudioService) {
+    .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', 'ModeService', 'AudioService', 'choreggAPI', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService, ModeService, AudioService, choreggAPI) {
         $scope.modes = ModeService.getModes();
         $scope.isPlaying = AudioService.getIsPlaying();
+        choreggAPI.GetEnvironment().then(function(response) {
+            $scope.environment = response.data.environment;
+        });
 
         $scope.$on('categoriesLoaded', function(event, options) {
             $scope.categories = options.categories;

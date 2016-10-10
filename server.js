@@ -26,7 +26,7 @@ app.use('/partials', express.static(__dirname + '/partials'));
 // set our port
 var port = process.env.PORT || 8080;
 
-var mode = process.env['mode'] || 'DEV';
+var mode = process.env['mode'] || 'LOCAL';
 console.log('Current environment: ' + mode);
 
 // connect to our mongoDB database

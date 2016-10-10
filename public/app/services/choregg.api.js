@@ -35,6 +35,9 @@ angular
             },
             DownloadAndFormatImages: function() {
                 return $http.get('/api/downloadAndFormatImages');
+            },
+            GetEnvironment: function() {
+                return $http.get('/api/getEnvironment');
             }
         };
     }]);
