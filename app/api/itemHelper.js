@@ -55,7 +55,26 @@ module.exports = {
             utilities.handleErrorsAndItems(err, processItemsForResponse(items), res);
         });
     },
+    deleteAllItems: function(req, res) {
+        Item.find({}).remove(function() {
+            res.send({Message: "Items deleted successfully"});
+        });
+    },
+    addItems: function(req, res) {
+        var items = req.body;
+        if (items == null || items == undefined || items.length == 0) {
+            res.status(400).send({Error: "Must sepcify items."})
+            return;
+        }
 
+        Item.insertMany(items, function(err, items) {
+             if (err) {
+                 res.status(500).send({Error: err});
+             } else {
+                 res.send({Message: "Items added successfully"});
+             }
+        });
+    },
     getItemsInTimespan: function(req, res) {
         if (!req.query.category) {
             res.status(400).send({Error: "Must specify a category."});

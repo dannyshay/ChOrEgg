@@ -4,6 +4,7 @@ var genAPIHelper = require('./api/genAPIHelper');
 var difficultyHelper = require('./api/difficultyHelper');
 var categoryHelper = require('./api/categoryHelper');
 var userHelper = require('./api/userHelper');
+var adminHelper = require('./api/adminHelper');
 
 //API Calls
 module.exports = function(app) {
@@ -50,12 +51,25 @@ module.exports = function(app) {
         itemHelper.getAll(res);
     });
 
+    app.get('/api/items/deleteAllItems', function(req, res) {
+        itemHelper.deleteAllItems(req, res);
+    });
+
+    app.post('/api/items/addItems', function(req, res) {
+        itemHelper.addItems(req, res);
+    });
+
     app.get('/api/categories', function(req, res) {
         categoryHelper.getCategories(res);
     });
 
     app.get('/api/items/getItemsInTimespan', function(req, res) {
        itemHelper.getItemsInTimespan(req, res);
+    });
+
+    //Admin Functions
+    app.post('/api/admin/postFile', function(req, res) {
+        adminHelper.postFile(req, res);
     });
 
     // frontend routes ============================================

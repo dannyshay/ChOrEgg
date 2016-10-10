@@ -1,6 +1,6 @@
 angular
     .module("choregg")
-    .factory("choreggAPI", ["$resource", function ($resource) {
+    .factory("choreggAPI", ["$resource", '$http', function ($resource, $http) {
         // Wraps the API into something friendly we can call in the Services
         return {
             Categories: $resource('/api/categories', null,
@@ -26,6 +26,12 @@ angular
             GetUsersByHighScore: $resource('/api/users/getUsersByHighScore', null,
                 {
                     'query' : {method: 'GET', isArray:true}
-                })
+                }),
+            DeleteAllItems: function() {
+                return $http.get('/api/items/deleteAllItems');
+            },
+            AddItems: function(someItems) {
+                return $http.post('/api/items/addItems', someItems);
+            }
         };
     }]);

@@ -1,5 +1,35 @@
 <div class="text-center" ng-controller="AdminController as adminCtrl" class="topPadding" ng-hide="loading || currentState != 'admin'">
     <h1 class="page-header topPadding">Admin</h1>
+    <div class="row">
+        <h2>CSV 2 JSON Converter</h2>
+        <div class="col-lg-6">
+            <h3>CSV</h3>
+            <div class="row">
+                <div class="col-lg-6 col-xs-6">
+                    <button type="file" ngf-select="upload($file, $invalidFile)" ngf-max-height="1000">Select File</button>
+                </div>
+                <div class="col-lg-6 col-xs-6" ng-hide="file == null">
+                    <span>{{file.name}}</span>
+                </div>
+                <div class="col-lg-6 col-xs-6" ng-show="invalidFile">
+                    <span style="color:red;font-weight:bold;">{{invalidMessage}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h3>JSON</h3>
+            <textarea style="width:100%; min-height:200px; resize:both;">{{jsonData}}</textarea>
+        </div>
+    </div>
+    <hr/>
+    <div class="row" ng-hide="file == null">
+        <div class="col-lg-6 col-xs-6">
+            <button ng-click="clearItems()">Clear Items from Mongo</button>
+        </div>
+        <div class="col-lg-6 col-xs-6">
+            <button ng-click="addItems()">Add Items to Mongo</button>
+        </div>
+    </div>
 </div>
 
 
