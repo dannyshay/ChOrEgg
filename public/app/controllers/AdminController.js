@@ -64,4 +64,10 @@ angular
                 alert(response.data.Message);
             });
         };
+
+        $scope.downloadAndFormatImages = function() {
+            choreggAPI.DownloadAndFormatImages().then(function() {
+                alert('Images downloaded and formatted successfully.');
+            });
+        };
     }]);

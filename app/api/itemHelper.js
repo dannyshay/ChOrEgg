@@ -3,6 +3,9 @@ var utilities = require("./server_utilities");
 var async = require('async');
 var mongoose = require('mongoose');
 var rmdir = require('rmdir');
+var Grid = require('gridfs-stream');
+var db = require('../../config/db');
+Grid.mongo = mongoose.mongo;
 
 var setVerbs = function (category, items, callback) {
     var verb = "";
@@ -56,9 +59,12 @@ module.exports = {
         });
     },
     deleteAllItems: function(req, res) {
-        Item.find({}).remove(function() {
-            res.send({Message: "Items deleted successfully"});
-        });
+        mongoose.connection.db.dropCollection('items');
+        mongoose.connection.db.dropCollection('fs.files');
+        mongoose.connection.db.dropCollection('fs.chunks');
+        // mongoose.connection.collections['fs.files'].drop();
+        // mongoose.connection.collections['fs.chunks'].drop();
+        res.send({Message: "Items deleted successfully"});
     },
     addItems: function(req, res) {
         var items = req.body;

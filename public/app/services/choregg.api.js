@@ -32,6 +32,9 @@ angular
             },
             AddItems: function(someItems) {
                 return $http.post('/api/items/addItems', someItems);
+            },
+            DownloadAndFormatImages: function() {
+                return $http.get('/api/downloadAndFormatImages');
             }
         };
     }]);

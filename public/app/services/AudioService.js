@@ -10,7 +10,12 @@ angular
             if (document.hidden) {
                 mainMusic.pause()
             } else {
-                if (isPlaying) { mainMusic.play(); }
+                try {
+                    if (isPlaying) { mainMusic.play(); }
+                } catch (ex) {
+                    console.log("Error (likely in test) - " + ex);
+                }
+
             }
         };
 

@@ -22,12 +22,14 @@
         </div>
     </div>
     <hr/>
-    <div class="row" ng-hide="file == null">
+    <div class="row">
+        <h2>Mongo Tools</h2>
         <div class="col-lg-6 col-xs-6">
             <button ng-click="clearItems()">Clear Items from Mongo</button>
         </div>
-        <div class="col-lg-6 col-xs-6">
+        <div class="col-lg-6 col-xs-6" ng-hide="file == null">
             <button ng-click="addItems()">Add Items to Mongo</button>
+            <button ng-click="downloadAndFormatImages()">Download and Format Images</button>
         </div>
     </div>
 </div>

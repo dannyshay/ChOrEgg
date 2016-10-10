@@ -46,13 +46,13 @@ module.exports = function(app) {
        genAPIHelper.getImage(req, res);
     });
 
+    app.get('/api/items/deleteAllItems', function(req, res) {
+        itemHelper.deleteAllItems(req, res);
+    });
+
     //Item Functions
     app.get('/api/items', function(req, res) {
         itemHelper.getAll(res);
-    });
-
-    app.get('/api/items/deleteAllItems', function(req, res) {
-        itemHelper.deleteAllItems(req, res);
     });
 
     app.post('/api/items/addItems', function(req, res) {
