@@ -2,7 +2,7 @@
     <!--Item 1-->
     <div class="col-sm-6 padded" ng-repeat="item in CurrentItems.itemSet track by $index">
         <!--Name-->
-        <span class="label-important">{{ item.name }}</span>
+        <span class="label-important">{{ item.front }}</span>
         <!--Flipper - Item-->
         <div class="item">
             <div class="flip">
@@ -23,7 +23,7 @@
                                         <span class="correctHeader">{{(item.correct ? "Correct!" : "Incorrect...")}}</span>
                                     </div>
                                     <div class="row" >
-                                        <span class="correctMessage">{{item.name}} ({{item.date}}) was {{item.verb}} {{(item.correct ? "before" : "after")}} {{(CurrentItems.itemSet[0] == item ? CurrentItems.itemSet[1].name + " (" + CurrentItems.itemSet[1].date + ")" : CurrentItems.itemSet[0].name + " (" + CurrentItems.itemSet[0].date + ")")}}</span>
+                                        <span class="correctMessage">{{item.back}} ({{item.date}}) was {{item.verb}} {{(item.correct ? "before" : "after")}} {{(CurrentItems.itemSet[0] == item ? CurrentItems.itemSet[1].back + " (" + CurrentItems.itemSet[1].date + ")" : CurrentItems.itemSet[0].back + " (" + CurrentItems.itemSet[0].date + ")")}}</span>
                                     </div>
                                 </div>
                             </div>

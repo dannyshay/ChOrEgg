@@ -6,9 +6,8 @@ module.exports = {
         var form = new multiparty.Form();
 
         form.parse(req, function(err, fields, files) {
-
             var Converter = require("csvtojson").Converter;
-            var converter = new Converter({headers:['category','name','date','image']});
+            var converter = new Converter({headers:['category','front','back','date','image'], workerNum: 2, fork:true});
             converter.fromFile(files.file.path,function(err,result){
                 if (err) {
                     console.log('ERROR = ' + err);
