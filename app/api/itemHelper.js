@@ -62,8 +62,6 @@ module.exports = {
         mongoose.connection.db.dropCollection('items');
         mongoose.connection.db.dropCollection('fs.files');
         mongoose.connection.db.dropCollection('fs.chunks');
-        // mongoose.connection.collections['fs.files'].drop();
-        // mongoose.connection.collections['fs.chunks'].drop();
         res.send({Message: "Items deleted successfully"});
     },
     addItems: function(req, res) {
