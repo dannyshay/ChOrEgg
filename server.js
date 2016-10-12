@@ -46,7 +46,11 @@ app.use(session({
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+
+// limit incoming requests to 50mb
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // parse application/vnd.api+json as json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));

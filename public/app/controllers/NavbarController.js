@@ -2,14 +2,12 @@
 $(document).on('click','.navbar-collapse.in',function(e) {
     if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
         $(this).collapse('hide');
-        console.log('called');
     }
 });
 
 //Same fix for the main button
 $(document).on('click', '.navbar-brand', function(e) {
    $('.navbar-collapse').collapse('hide');
-    console.log('called');
 });
 
 angular

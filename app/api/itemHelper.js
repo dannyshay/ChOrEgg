@@ -71,12 +71,12 @@ module.exports = {
             return;
         }
 
-        Item.insertMany(items, function(err, items) {
-             if (err) {
-                 res.status(500).send({Error: err});
-             } else {
-                 res.send({Message: "Items added successfully"});
-             }
+        Item.insertMany(items, function(err) {
+            if (err) {
+                res.status(500).send({Error: err});
+            } else {
+                res.send({Message: "Items added successfully"});
+            }
         });
     },
     getItemsInTimespan: function(req, res) {

@@ -32,14 +32,13 @@ angular
             if(file.name != null && file.name.endsWith('.csv')) {
                 $scope.file = file;
                 $scope.invalidFile = false;
-                console.log('about to upload the file!' + file);
+
                 Upload.upload({
                     url: '/api/admin/postFile',
                     method: 'POST',
                     data: {test:"test"}, // Any data needed to be submitted along with the files
                     file: file
                 }).then(function(result) {
-                    console.log(result);
                     $scope.jsonData = result.data.csv;
                 });
             } else if(file.name != null) {
@@ -52,7 +51,7 @@ angular
         $scope.clearItems = function() {
             if (confirm('Are you sure you want to delete these items?')) {
                 choreggAPI.DeleteAllItems().then(function(response) {
-                    alert(response.data.Message);
+                    $scope.itemsCleared = true;
                 })
             } else {
                 return false;
@@ -61,7 +60,7 @@ angular
 
         $scope.addItems = function() {
             choreggAPI.AddItems($scope.jsonData).then(function(response) {
-                alert(response.data.Message);
+                $scope.itemsAdded = true;
             });
         };
 
@@ -69,5 +68,12 @@ angular
             choreggAPI.DownloadAndFormatImages().then(function() {
                 alert('Images downloaded and formatted successfully.');
             });
+        };
+
+        $scope.resetBulkItemLoadTool = function() {
+            $scope.file = null;
+            $scope.invalidFile = null;
+            $scope.itemsCleared = null;
+            $scope.itemsAdded = null;
         };
     }]);

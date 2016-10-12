@@ -1,22 +1,63 @@
-<div class="text-center" ng-controller="AdminController as adminCtrl" class="topPadding" ng-hide="loading || currentState != 'admin'">
-    <h1 class="page-header topPadding">Admin</h1>
+<div ng-controller="AdminController as adminCtrl" class="topPadding" ng-hide="loading || currentState != 'admin'">
+    <h1 class="page-header topPadding text-center">Admin</h1>
     <div class="row">
-        <h2>CSV 2 JSON Converter</h2>
-        <div class="col-lg-6">
-            <h3>CSV</h3>
-            <div class="row">
-                <div class="col-lg-6 col-xs-6">
-                    <button type="file" ngf-select="upload($file, $invalidFile)" ngf-max-height="1000">Select File</button>
+        <div class="col-lg-6 col-xs-6">
+            <h2>Bulk Item Load Tool</h2>
+        </div>
+        <div class="col-lg-6 col-xs-6">
+            <button style="float:right;" ng-click="resetBulkItemLoadTool()">Reset</button>
+        </div>
+        <div class="col-lg-12">
+            <h3 style="display:initial;">Step 1</h3>
+            <div class="row" style="padding-left:15px;">
+                <div class="col-lg-3 col-xs-6">
+                    <h6 style="display:initial">Choose a CSV File:</h6>
                 </div>
-                <div class="col-lg-6 col-xs-6" ng-hide="file == null">
-                    <span>{{file.name}}</span>
+                <div class="col-lg-3 col-xs-6">
+                    <button type="file" style="margin-left:15px;" ngf-select="upload($file, $invalidFile)" ngf-max-height="1000">Select File</button>
                 </div>
-                <div class="col-lg-6 col-xs-6" ng-show="invalidFile">
-                    <span style="color:red;font-weight:bold;">{{invalidMessage}}</span>
+                <div class="col-lg-6 col-xs-6" ng-show="file == null && invalidFile">
+                    <span class="label-danger">{{invalidMessage}}</span>
+                </div>
+                <div class="col-lg-12 col-xs-12" style="padding-top:15px;" ng-hide="file == null || invalidFile">
+                    <h5 style="display:initial;">{{file.name}}</h5>
+                    <i class="fa fa-check-circle" ng-hide="file == null || invalidFile" style="color:green" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-12" ng-hide="file == null || invalidFile">
+            <h3>Step 2</h3>
+            <div class="row" style="padding-left:15px;">
+                <div class="col-lg-3 col-xs-6">
+                    <h6 style="display:initial;">Clear Items from Mongo:</h6>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <button ng-click="clearItems();" style="margin-left:15px;">Clear Items from Mongo</button>
+                </div>
+                <div class="col-lg-12" style="padding-top:15px;" ng-hide="!itemsCleared">
+                    <h5 style="display:initial;">Items cleared successfully.</h5>
+                    <i class="fa fa-check-circle" style="color:green" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12" ng-hide="!itemsCleared">
+            <h3>Step 3</h3>
+            <div class="row" style="padding-left:15px;">
+                <div class="col-lg-3 col-xs-6">
+                    <h6 style="display:initial;">Add Items to Mongo:</h6>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <button ng-click="addItems()" style="margin-left:15px;">Add Items to Mongo</button>
+                </div>
+                <div class="col-lg-12" style="padding-top:15px;" ng-hide="!itemsAdded">
+                    <h5 style="display:initial;">Items added successfully.</h5>
+                    <i class="fa fa-check-circle" style="color:green" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6" hidden="true">
             <h3>JSON</h3>
             <textarea style="width:100%; min-height:200px; resize:both;">{{jsonData}}</textarea>
         </div>
@@ -25,10 +66,9 @@
     <div class="row">
         <h2>Mongo Tools</h2>
         <div class="col-lg-6 col-xs-6">
-            <button ng-click="clearItems()">Clear Items from Mongo</button>
+
         </div>
         <div class="col-lg-6 col-xs-6" ng-hide="file == null">
-            <button ng-click="addItems()">Add Items to Mongo</button>
             <button ng-click="downloadAndFormatImages()">Download and Format Images</button>
         </div>
     </div>
