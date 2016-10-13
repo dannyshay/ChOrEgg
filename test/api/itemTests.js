@@ -23,6 +23,7 @@ describe("Items", function() {
         var category = "People";
         var numPairs = 4;
         var anOldItemSet = items.slice(0,2);
+        console.log(anOldItemSet);
 
         request
             .get('/api/items/getItemsInTimespan?category=' + category + '&timeSpan=' + timespan + '&numPairs=' + numPairs + '&anOldItemSet=' + JSON.stringify(anOldItemSet))
@@ -42,7 +43,7 @@ describe("Items", function() {
                 if(item1.category != category) throw new Error("GET /api/items/getItemsInTimespan - Items weren't the specified category.");
 
                 // Check that the new items don't contain an item from the old item set
-                if (anOldItemSet.some(function(anItem) {return ((anItem.name == item1.name) || (anItem.name == item2.name))})) {
+                if (anOldItemSet.some(function(anItem) {return ((anItem.front == item1.front) || (anItem.front == item2.front))})) {
                     throw new Error("GET /api/items/getItemsInTimespan - Items matched oldItems.");
                 }
             }).end(done);
