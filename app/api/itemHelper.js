@@ -36,7 +36,8 @@ var processItemsForResponse = function(anItemSet) {
            category: anItem.category,
            date: anItem.date,
            image: anItem.image,
-           name: anItem.name
+           front: anItem.front,
+           back: anItem.back
        })
     });
 
