@@ -13,6 +13,9 @@ module.exports = {
     },
 
     download: function (uri, filename, callback) {
+        if (uri == null || uri == undefined) {
+            throw new Error(filename + ' bad image - need to update master list.');
+        }
         request.head(uri, function (err, res, body) {
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
@@ -31,29 +34,36 @@ module.exports = {
             });
         };
 
-        gm(myImgPath)
-            .resize(width, height, '^')
-            .gravity('Center')
-            .crop(width, height)
-            .compress('jpeg')
-            .write(myMinImgPath, function (err) {
-                if (err) console.log(err);
-                fs.unlink(myImgPath);
+        try {
+            fs.accessSync(myImgPath, fs.F_OK);
 
-                var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+            gm(myImgPath)
+                .resize(width, height, '^')
+                .gravity('Center')
+                .crop(width, height)
+                .compress('jpeg')
+                .write(myMinImgPath, function (err) {
+                    if (err) console.log(err);
+                    fs.unlink(myImgPath);
 
-                gfs.exist({filename: imgName}, function (err, found) {
-                    if (found) {
-                        gfs.remove({filename: imgName}, function (err) {
-                            if (err) return err;
+                    var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+
+                    gfs.exist({filename: imgName}, function (err, found) {
+                        if (found) {
+                            gfs.remove({filename: imgName}, function (err) {
+                                if (err) return err;
+                                myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
+                            });
+                        } else {
                             myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
-                        });
-                    } else {
-                        myFunction(imgName, myMinImgPath, gfs, anAsyncCallback);
-                    }
+                        }
 
+                    });
                 });
-            });
+        } catch (e) {
+            // It isn't accessible
+            throw new Error(imgName + ' bad image - need to update master list.');
+        }
     },
 
     createDirectoryIfDoesntExist: function (directory) {

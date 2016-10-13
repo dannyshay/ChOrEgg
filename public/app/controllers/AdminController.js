@@ -66,7 +66,7 @@ angular
 
         $scope.downloadAndFormatImages = function() {
             choreggAPI.DownloadAndFormatImages().then(function() {
-                alert('Images downloaded and formatted successfully.');
+                $scope.imagesDownloaded = true;
             });
         };
 
@@ -75,5 +75,6 @@ angular
             $scope.invalidFile = null;
             $scope.itemsCleared = null;
             $scope.itemsAdded = null;
+            $scope.imagesDownloaded = null;
         };
     }]);

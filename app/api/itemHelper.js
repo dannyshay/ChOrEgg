@@ -152,7 +152,13 @@ module.exports = {
             var startTime = new Date();
             utilities.handleErrors(res, err);
 
-            async.forEachOf(items, function(myImage, key, callback) {
+            var count = 0;
+            var itemCount = items.length;
+            var currentCompleted = 0;
+
+            console.log('Downloading Images...............');
+
+            async.forEachOfLimit(items, 500, function(myImage, key, callback) {
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/');
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/' + myImage.category);
 
@@ -162,6 +168,14 @@ module.exports = {
                     var myMinImgPath = myImgPath.slice(0, myImgPath.length - 9) + '.jpeg';
 
                     utilities.cropImageToBounds(myImgPath, myMinImgPath, 350, 350, myImage.id + '.jpeg', callback);
+
+                    count++;
+                    var newCurrentCompleted = (count / itemCount).toFixed(2);
+
+                    if (newCurrentCompleted != currentCompleted) {
+                        currentCompleted = newCurrentCompleted;
+                        console.log(currentCompleted.replace("0.0","").replace("0.","").replace("1.00","100") + '% completed.')
+                    }
                 });
             }, function() {
                 rmdir('./public/assets/ConvertedImages');
