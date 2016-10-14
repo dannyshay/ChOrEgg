@@ -33,9 +33,7 @@ console.log('Current environment: ' + mode);
 // connect to our mongoDB database
 mongoose.connect(db.url);
 
-// Add CORS support for swagger.io
-app.use(cors());
-
+// setup mongo session
 app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     secret: 'thisismysecretpasswordandyoullneverguessit',
@@ -44,6 +42,14 @@ app.use(session({
     resave: true,
     saveUninitialized: true}));
 
+// socket.io setup
+var server = http.createServer(app);
+var io = socketio.listen(server);
+app.set('socketio', io);
+app.set('server', server);
+
+// Add CORS support for swagger.io
+app.use(cors());
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
@@ -62,7 +68,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-// set the static files location /public/img will be /img for users
+// set the static files location
 app.use(express.static(__dirname + '/public'));
 
 // routes ========================================================
@@ -71,7 +77,7 @@ require('./app/routes')(app);
 // start app =====================================================
 // startup our app at http://localhost:8080
 if(!module.parent) {
-    app.listen(port);
+    app.get('server').listen(port);
 }
 
 // shoutout to the user
