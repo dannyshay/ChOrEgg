@@ -13,7 +13,7 @@ angular
 
         $scope.hasFiles = function() {
             return currentFile != null;
-        }
+        };
 
         $scope.submit = function() {
             if ($scope.form.file.$valid && $scope.file) {
@@ -48,11 +48,49 @@ angular
             }
         };
 
-        $scope.clearItems = function() {
+        $scope.hasSynced = function(environment) {
+            switch (environment) {
+                case 'DEV':
+                    if (!$scope.hasSyncedDEV)
+                        $scope.hasSyncedDEV = false;
+
+                    return $scope.hasSyncedDEV;
+                    break;
+                case 'QA':
+                    if (!$scope.hasSyncedQA)
+                        $scope.hasSyncedQA = false;
+
+                    return $scope.hasSyncedQA;
+                    break;
+                case 'PROD':
+                    if (!$scope.hasSyncedPROD)
+                        $scope.hasSyncedPROD = false;
+
+                    return $scope.hasSyncedPROD;
+                    break;
+                case '':
+                default:
+                    return true;
+                    break;
+            }
+        };
+
+        $scope.clearItems = function(environment) {
             if (confirm('Are you sure you want to delete these items?')) {
-                choreggAPI.DeleteAllItems().then(function(response) {
-                    $scope.itemsCleared = true;
-                })
+                switch (environment) {
+                    case 'DEV':
+                        break;
+                    case 'QA':
+                        break;
+                    case 'PROD':
+                        break;
+                    case '':
+                    default:
+                        choreggAPI.DeleteAllItems().then(function() {
+                            $scope.itemsCleared = true;
+                        })
+                }
+
             } else {
                 return false;
             }

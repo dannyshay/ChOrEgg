@@ -1,17 +1,18 @@
 // server.js
 
 // modules =======================================================
-//var express         = require('express');
-var express         = require('express');
-var app             = express();
-var bodyParser      = require('body-parser');
-var methodOverride  = require('method-override');
-var session       = require('express-session');
-var MongoStore    = require('connect-mongo')(session);
-var mongoose        = require('mongoose');
-var cors            = require('cors');
+var express = require('express');
+var app = express();
+var http = require('http');
+var socketio = require('socket.io');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
+var cors = require('cors');
 var fs = require('fs')
-    , gm = require('gm');
+var gm = require('gm');
 
 // configuration =================================================
 
@@ -46,7 +47,7 @@ app.use(session({
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 // limit incoming requests to 50mb
 app.use(bodyParser.json({limit: '50mb'}));
