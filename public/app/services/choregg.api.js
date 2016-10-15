@@ -21,14 +21,17 @@ angular
                 }),
             User: $resource('/api/users/:aUsername', null,
                 {
-                    'update' : {method: 'PUT'},
+                    'update' : {method: 'PUT'}
                 }),
             GetUsersByHighScore: $resource('/api/users/getUsersByHighScore', null,
                 {
                     'query' : {method: 'GET', isArray:true}
                 }),
-            DeleteAllItems: function() {
-                return $http.get('/api/items/deleteAllItems');
+            DeleteAllItems: function(environment) {
+                return $http.get('/api/items/deleteAllItems?environment=' + environment);
+            },
+            SyncItemsFromLocalMongo: function(environment) {
+                return $http.get('/api/items/syncItemsFromLocalMongo?environment=' + environment);
             },
             AddItems: function(someItems) {
                 return $http.post('/api/items/addItems', someItems);

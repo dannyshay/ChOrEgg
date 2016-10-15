@@ -64,45 +64,88 @@ angular
         $scope.hasSynced = function(environment) {
             switch (environment) {
                 case 'DEV':
-                    if (!$scope.hasSyncedDEV)
-                        $scope.hasSyncedDEV = false;
+                    if (!$scope.imagesSyncedDEV)
+                        $scope.imagesSyncedDEV = false;
 
-                    return $scope.hasSyncedDEV;
+                    return $scope.imagesSyncedDEV;
                     break;
                 case 'QA':
-                    if (!$scope.hasSyncedQA)
-                        $scope.hasSyncedQA = false;
+                    if (!$scope.imagesSyncedQA)
+                        $scope.imagesSyncedQA = false;
 
-                    return $scope.hasSyncedQA;
+                    return $scope.imagesSyncedQA;
                     break;
                 case 'PROD':
-                    if (!$scope.hasSyncedPROD)
-                        $scope.hasSyncedPROD = false;
+                    if (!$scope.imagesSyncedPROD)
+                        $scope.imagesSyncedPROD = false;
 
-                    return $scope.hasSyncedPROD;
+                    return $scope.imagesSyncedPROD;
                     break;
                 case '':
                 default:
-                    return true;
+                    return $scope.imagesSynced;
                     break;
             }
         };
 
-        $scope.clearItems = function(environment) {
-            if (confirm('Are you sure you want to delete these items?')) {
+        $scope.syncItemsFromLocalMongo = function(environment) {
+            switch (environment) {
+                case 'DEV':
+                    $scope.isSyncingDEV = true;
+                    break;
+                case 'QA':
+                    $scope.isSyncingQA = true;
+                    break;
+                case 'PROD':
+                    $scope.isSyncingPROD = true;
+                    break;
+                case '':
+                default:
+                    $scope.isSyncing = true;
+                    break;
+            }
+
+            choreggAPI.SyncItemsFromLocalMongo(environment).then(function() {
                 switch (environment) {
                     case 'DEV':
+                        $scope.imagesSyncedDEV = true;
+                        $scope.isSyncingDEV = false;
                         break;
                     case 'QA':
+                        $scope.imagesSyncedQA = true;
+                        $scope.isSyncingQA = false;
                         break;
                     case 'PROD':
+                        $scope.imagesSyncedPROD = true;
+                        $scope.isSyncingPROD = false;
                         break;
                     case '':
                     default:
-                        choreggAPI.DeleteAllItems().then(function() {
-                            $scope.itemsCleared = true;
-                        })
+                        $scope.imagesSynced = true;
+                        break;
                 }
+            });
+        };
+
+        $scope.clearItems = function(environment) {
+            if (confirm('Are you sure you want to delete these items?')) {
+                choreggAPI.DeleteAllItems(environment).then(function() {
+                    switch (environment) {
+                        case 'DEV':
+                            $scope.itemsClearedDEV = true;
+                            break;
+                        case 'QA':
+                            $scope.itemsClearedQA = true;
+                            break;
+                        case 'PROD':
+                            $scope.itemsClearedPROD = true;
+                            break;
+                        case '':
+                        default:
+                            $scope.itemsCleared = true;
+                            break;
+                    }
+                });
 
             } else {
                 return false;

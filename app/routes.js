@@ -51,6 +51,10 @@ module.exports = function(app) {
         itemHelper.deleteAllItems(req, res);
     });
 
+    app.get('/api/items/syncItemsFromLocalMongo', function(req, res) {
+        itemHelper.syncItemsFromLocalMongo(req, res);
+    });
+
     app.get('/api/items', function(req, res) {
         itemHelper.getAll(res);
     });

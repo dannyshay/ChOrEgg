@@ -60,10 +60,46 @@ module.exports = {
         });
     },
     deleteAllItems: function(req, res) {
-        mongoose.connection.db.dropCollection('items');
-        mongoose.connection.db.dropCollection('fs.files');
-        mongoose.connection.db.dropCollection('fs.chunks');
-        res.send({Message: "Items deleted successfully"});
+        var environment = ((req.query.environment) ? req.query.environment : 'LOCAL');
+        console.log(environment);
+        switch (environment) {
+            case 'LOCAL':
+                mongoose.connection.db.dropCollection('items');
+                mongoose.connection.db.dropCollection('fs.files');
+                mongoose.connection.db.dropCollection('fs.chunks');
+
+                res.send({Message: "Items deleted successfully"});
+                break;
+            default:
+                var MongoClient = require('mongodb').MongoClient;
+
+                var url = null;
+
+                if (environment == 'DEV') {
+                    url = 'mongodb://app_choregg_dev:fHK2NxT5CrGZSFvS@ds015780.mlab.com:15780/heroku_l6cnt4kv';
+                } else if (environment == 'QA') {
+                    url = 'mongodb://app_choregg_qa:BCSkpQ5dDHwZRe4X@ds031978.mlab.com:31978/heroku_fbw36qss';
+                } else if (environment == 'PROD') {
+                    url = 'mongodb://app_choregg:pJkAc2THuFWE6nUb@ds015939.mlab.com:15939/heroku_9nm45jhg';
+                } else {
+                    throw new Error('Invalid environment to delete');
+                }
+
+                // Connect to the db
+                MongoClient.connect(url, function(err, db) {
+                    if(!err) {
+                        db.dropCollection('items');
+                        db.dropCollection('fs.files');
+                        db.dropCollection('fs.chunks');
+
+                        res.send({Message: 'Items deleted successfully'});
+                    } else {
+                        res.send({Error: err});
+                    }
+                });
+
+                break;
+        }
     },
     addItems: function(req, res) {
         var items = req.body;
@@ -78,6 +114,55 @@ module.exports = {
             } else {
                 res.send({Message: "Items added successfully"});
             }
+        });
+    },
+    syncItemsFromLocalMongo: function(req, res) {
+        var environment = req.query.environment;
+        console.log('environment = ' + req.query.environment);
+
+        async.series([
+            function(callback) {
+                utilities.dumpCollection('items', callback);
+            },
+            function(callback) {
+                utilities.dumpCollection('fs.files', callback);
+            },
+            function(callback) {
+                utilities.dumpCollection('fs.chunks', callback);
+            }
+        ], function(err) {
+            if (err) {
+                res.status(400).send({Error: error});
+                return;
+            }
+
+            if (!req.query.environment) {
+                res.status(400).send({Error: "No environment specified"});
+                return;
+            }
+
+            async.series([
+                function(callback) {
+                    utilities.restoreCollection(environment, 'items', callback);
+                },
+                function(callback) {
+                    utilities.restoreCollection(environment, 'fs.files', callback);
+                },
+                function(callback) {
+                    utilities.restoreCollection(environment, 'fs.chunks', callback);
+                }
+            ], function(err2) {
+                if (err2) {
+                    res.status(400).send({Error: err2});
+                    return;
+                }
+
+                utilities.deleteFolderRecursive('./dump');
+
+                res.send({Message: "All items restored"});
+            });
+
+
         });
     },
     getItemsInTimespan: function(req, res) {
