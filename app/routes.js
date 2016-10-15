@@ -14,7 +14,7 @@ module.exports = function(app) {
     });
 
     app.get('/api/downloadAndFormatImages', function(req, res) {
-        itemHelper.downloadAndFormatImages(res);
+        itemHelper.downloadAndFormatImages(req, res);
     });
 
     //User Functions

@@ -67,8 +67,12 @@
                     <div class="col-lg-3 col-xs-12">
                         <button class="btn btn-success" ng-disabled="imagesDownloaded" ng-click="downloadAndFormatImages()" style="margin-left:15px;">Download and Format Images</button>
                     </div>
+                    <div class="col-lg-12" style="padding-top:15px;" ng-hide="!progress || imagesDownloaded">
+                        <h5 style="display:initial;">{{progress}}</h5>
+                        <i class="fa fa-spin fa-spinner" aria-hidden="true"></i>
+                    </div>
                     <div class="col-lg-12" style="padding-top:15px;" ng-hide="!imagesDownloaded">
-                        <h5 style="display:initial;">Items added successfully.</h5>
+                        <h5 style="display:initial;">Images downloaded successfully.</h5>
                         <i class="fa fa-check-circle" style="color:green" aria-hidden="true"></i>
                     </div>
                 </div>

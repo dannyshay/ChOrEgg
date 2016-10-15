@@ -53,7 +53,7 @@ app.use(cors());
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 // limit incoming requests to 50mb
 app.use(bodyParser.json({limit: '50mb'}));

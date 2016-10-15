@@ -148,8 +148,9 @@ module.exports = {
         });
     },
 
-    downloadAndFormatImages: function (res) {
+    downloadAndFormatImages: function (req, res) {
         Item.find(function (err, items) {
+            var socketio = req.app.get('socketio');
             var startTime = new Date();
             utilities.handleErrors(res, err);
 
@@ -158,6 +159,7 @@ module.exports = {
             var currentCompleted = 0;
 
             console.log('Downloading Images...............');
+            socketio.sockets.emit('downloading', true);
 
             async.forEachOfLimit(items, 500, function(myImage, key, callback) {
                 utilities.createDirectoryIfDoesntExist('./public/assets/ConvertedImages/');
@@ -175,7 +177,8 @@ module.exports = {
 
                     if (newCurrentCompleted != currentCompleted) {
                         currentCompleted = newCurrentCompleted;
-                        console.log(currentCompleted.replace("0.0","").replace("0.","").replace("1.00","100") + '% completed.')
+                        var progress = currentCompleted.replace("0.0","").replace("0.","").replace("1.00","100") + '% completed.';
+                        socketio.sockets.emit('downloadProgressUpdate', progress);
                     }
                 });
             }, function() {
@@ -183,6 +186,7 @@ module.exports = {
                 var endTime = new Date();
                 var totalTime = (endTime - startTime) / 1000;
                 console.log('Finished retrieving items - total time: ' + totalTime + ' seconds.');
+                socketio.sockets.emit('imagesDownloadedUpdated', true);
             });
 
             res.json({successful: true});
