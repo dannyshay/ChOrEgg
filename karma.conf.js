@@ -36,6 +36,8 @@ module.exports = function(config) {
       'public/scripts/angular-audio/app/angular.audio.js',
       'public/scripts/SHA-1/sha1.js',
       'public/scripts/ng-file-upload/ng-file-upload-all.min.js',
+      '/socket.io/socket.io.js',
+      'public/scripts/angular-socket-io/socket.min.js',
 
       'public/app/app.js',        // Load your module before the rest of your app.
 
