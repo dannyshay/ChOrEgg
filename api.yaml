@@ -227,7 +227,24 @@ paths:
             description: Error retrieving difficulties
             schema:
               $ref: '#/definitions/Error'
+  /api/getEnvironment:
+    get:
+      tags:
+        - Other
+      summary: Gets the current executing environment
+      responses:
+        200:
+          description: Environment retrieved successfully
+          schema:
+            $ref: '#/definitions/Environment'
 definitions:
+  Environment:
+    type: object
+    properties:
+      environment:
+        type: string
+    example:
+      environment: 'PROD'
   User:
     type: object
     properties:

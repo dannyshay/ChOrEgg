@@ -1,6 +1,5 @@
 //Includes
 var itemHelper = require('./api/itemHelper');
-var genAPIHelper = require('./api/genAPIHelper');
 var difficultyHelper = require('./api/difficultyHelper');
 var categoryHelper = require('./api/categoryHelper');
 var userHelper = require('./api/userHelper');
@@ -42,19 +41,16 @@ module.exports = function(app) {
         userHelper.getUser(req, res);
     });
 
+    // Difficulties
     app.get('/api/difficulties', function(req, res) {
         difficultyHelper.getAll(res);
     });
 
-    app.get('/api/getImage', function(req, res) {
-       genAPIHelper.getImage(req, res);
-    });
-
+    //Item Functions
     app.get('/api/items/deleteAllItems', function(req, res) {
         itemHelper.deleteAllItems(req, res);
     });
 
-    //Item Functions
     app.get('/api/items', function(req, res) {
         itemHelper.getAll(res);
     });
