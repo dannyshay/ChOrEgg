@@ -136,6 +136,12 @@ angular
                 case "Monuments":
                     return 'fa fa-institution';
                     break;
+                case "Paintings":
+                    return 'fa fa-paint-brush';
+                    break;
+                case "Video Games":
+                    return "fa fa-gamepad";
+                    break;
                 default:
                     break;
             }
