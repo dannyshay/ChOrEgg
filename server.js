@@ -26,9 +26,11 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
 
 // set our port
-var port = process.env.PORT || 6969;
+if (!process.env.PORT) { process.env.PORT = 6969; }
+var port = process.env.PORT;
 
-var mode = process.env['mode'] || 'LOCAL';
+if (!process.env['mode']) { process.env['mode'] = 'LOCAL'; }
+var mode = process.env['mode'];
 console.log('Current environment: ' + mode);
 
 // connect to our mongoDB database

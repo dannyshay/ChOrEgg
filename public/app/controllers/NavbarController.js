@@ -20,8 +20,9 @@ angular
     .controller('NavbarController', ['$scope', '$rootScope', 'CategoryService', 'DifficultyService', 'HUDService', 'ItemService', 'TimerService', 'GoogleSignin', 'AuthenticationService','UserService', 'StateService', 'ModeService', 'AudioService', 'choreggAPI', function($scope, $rootScope, CategoryService, DifficultyService, HUDService, ItemService, TimerService, GoogleSignin, AuthenticationService, UserService, StateService, ModeService, AudioService, choreggAPI) {
         $scope.modes = ModeService.getModes();
         $scope.isPlaying = AudioService.getIsPlaying();
-        choreggAPI.GetEnvironment().then(function(response) {
-            $scope.environment = response.data.environment;
+        
+        choreggAPI.GetVariable("mode").then(function(response) {
+            $scope.environment = response.data.value;
         });
 
         $scope.$on('categoriesLoaded', function(event, options) {
