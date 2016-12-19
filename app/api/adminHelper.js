@@ -46,5 +46,8 @@ module.exports = {
                 })
             });
         });
+    },
+    getVariable: function(req, res) {
+        return res.status(200).send({value: process.env[req.params.variable]});
     }
 };

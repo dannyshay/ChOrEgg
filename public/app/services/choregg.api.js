@@ -39,8 +39,8 @@ angular
             DownloadAndFormatImages: function() {
                 return $http.get('/api/downloadAndFormatImages');
             },
-            GetEnvironment: function() {
-                return $http.get('/api/getEnvironment');
+            GetVariable: function(aVariable) {
+                return $http.get('/api/getVariable/' + aVariable); 
             }
         };
     }]);
