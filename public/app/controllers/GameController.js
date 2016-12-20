@@ -177,8 +177,8 @@ angular
         };
 
         $scope.getStyle = function(aLabel) {
-	      if (aLabel.length > 48)      {
-		return {"font-size": "12px"}
+	        if (aLabel.length > 48) {
+		        return {"font-size": "12px"}
             } else if (aLabel.length > 40) {
                 return {"font-size": "13px"}
             } else if (aLabel.length > 30) {
