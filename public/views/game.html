@@ -2,7 +2,9 @@
     <!--Item 1-->
     <div class="col-sm-6 padded" ng-repeat="item in CurrentItems.itemSet track by $index">
         <!--Name-->
-        <span class="label-important">{{ item.front }}</span>
+        <div class="row" style="min-height: 50px; padding-top:25px;">
+            <span class="label-important vertical-center" ng-style="getStyle(item.front)">{{ item.front }}</span>
+        </div>
         <!--Flipper - Item-->
         <div class="item">
             <div class="flip">
