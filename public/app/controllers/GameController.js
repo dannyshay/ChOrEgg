@@ -176,6 +176,18 @@ angular
             }
         };
 
+        $scope.getStyle = function(aLabel) {
+            if (aLabel.length > 40) {
+                return {"font-size": "10px"}
+            } else if (aLabel.length > 30) {
+                return {"font-size": "15px"}
+            } else if (aLabel.length > 20) {
+                return {"font-size": "20px"}
+            } else {
+                return "";
+            }
+        };
+
         // This event is called when card flipped from 'front' to 'back'
         $scope.afterFlip = function () {
             $timeout(function () {
