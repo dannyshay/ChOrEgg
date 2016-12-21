@@ -28,7 +28,7 @@ angular
             if(options.isPaused != null && options.isPaused != $scope.isPaused) {
                 $scope.isPaused = options.isPaused;
 
-                if(!$scope.isPaused){
+                if(!$scope.isPaused && $scope.currentCategory){
                     getInitialItems();
                     return;
                 }                    
