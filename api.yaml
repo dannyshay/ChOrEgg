@@ -263,7 +263,7 @@ definitions:
     example:
       username: testUserName
       createdDate: 01/01/2016
-      lastSignInDate: 06/01/2016
+      lastSignInDate: 06/15/2016
       totalRoundsPlayed: 75
       highScore: 15
   Item:
