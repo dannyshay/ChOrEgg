@@ -27,6 +27,11 @@ angular
         $scope.$on('isPausedChanged', function(event, options) {
             if(options.isPaused != null && options.isPaused != $scope.isPaused) {
                 $scope.isPaused = options.isPaused;
+
+                if(!$scope.isPaused){
+                    getInitialItems();
+                    return;
+                }                    
             }
         });
 
