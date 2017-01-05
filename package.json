@@ -7,13 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install",
-    "test": "./node_modules/mocha/bin/mocha test/api; ./node_modules/karma/bin/karma start --browsers PhantomJS --single-run",
+    "postinstall": "",
+    "test": "",
     "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dannyshay/ChOrEgg-Web.git"
   },
   "keywords": [
     "chicken",
@@ -24,9 +20,9 @@
   "author": "Danny Shay <danny624@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dannyshay/ChOrEgg-Web/issues"
+    "url": "www.choregg.com"
   },
-  "homepage": "https://github.com/dannyshay/ChOrEgg-Web#readme",
+  "homepage": "www.choregg.com",
   "dependencies": {
     "angular-mocks": "^1.5.8",
     "async": "^2.0.0-rc.3",
