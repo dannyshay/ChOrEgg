@@ -70,7 +70,7 @@ module.exports = function(config) {
     coverageReporter: {
         reporters: [
             {type: 'text-summary'},
-            {type: 'clover', dir: '', subdir: '.', file: 'clover.xml'}
+            {type: 'clover', dir: 'coverage', subdir: '.', file: 'clover.xml'}
         ]
     },
 
