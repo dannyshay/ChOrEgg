@@ -9,7 +9,8 @@
   "scripts": {
     "postinstall": "",
     "test": "",
-    "start": "node server.js"
+    "start": "node server.js",
+    "bamboo": "node node_modules/mocha/bin/mocha -R mocha-bamboo-reporter"
   },
   "keywords": [
     "chicken",
@@ -40,6 +41,7 @@
     "jsonfile": "^2.4.0",
     "method-override": "^2.3.5",
     "mocha": "^2.4.5",
+    "mocha-bamboo-reporter": "^1.1.1",
     "mongodb": "^2.2.10",
     "mongoose": "^4.4.12",
     "request": "^2.72.0",
