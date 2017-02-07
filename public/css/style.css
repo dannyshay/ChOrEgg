@@ -247,7 +247,24 @@ body {
     }
 
     .playGameButton {
-        font-size:36px;
+        font-size:18px;
+    }
+
+    .padded {
+        padding-bottom:5px;
+    }
+
+    .row {
+        margin-top:-10px;
+    }
+
+    .correctHeader {
+        font-size: 28px;
+        padding-bottom:10px;
+    }
+
+    .correctMessage {
+        font-size: 16px;
     }
 
     /*Web - App View*/
@@ -310,10 +327,6 @@ body {
 
         .fa-custom {
             font-size:1.5em;
-        }
-
-        .playGameButton {
-            font-size:24px;
         }
 
         .eggImage {
