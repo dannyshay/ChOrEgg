@@ -26,7 +26,7 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/partials', express.static(__dirname + '/partials'));
 
 // set our port
-if (!process.env.PORT) { process.env.PORT = 6969; }
+if (!process.env.PORT) { process.env.PORT = 8080; }
 var port = process.env.PORT;
 
 if (!process.env['mode']) { process.env['mode'] = 'LOCAL'; }
