@@ -90,8 +90,6 @@ angular
             if (!$scope.currentCategory)
                 $scope.currentCategory = CategoryService.getCurrentCategory();
 
-            console.log("current cateogry = " + $scope.currentCategory.categoryName);
-
             if(!$scope.currentDifficulty)
                 $scope.currentDifficulty = DifficultyService.getCurrentDifficulty();
 

@@ -4,7 +4,6 @@ angular
         $scope.$on('categoriesLoaded', function(event, options) {
             $scope.categories = options.categories;
             $scope.selectedCategory = JSON.stringify($scope.categories[0]);
-
         });
 
         $scope.$on('loadingChanged', function(event, options) {
