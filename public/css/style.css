@@ -267,6 +267,10 @@ body {
         font-size: 16px;
     }
 
+    .scoreLabel {
+        padding-top:-10px;
+    }
+
     /*Web - App View*/
     @media screen and (max-height: 740px) and (min-height: 631px) {
         .navbar {
