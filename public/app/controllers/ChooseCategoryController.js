@@ -3,6 +3,7 @@ angular
     .controller('ChooseCategoryController', ['$scope', 'StateService', 'CategoryService', 'LoadingService', function($scope, StateService, CategoryService, LoadingService) {
         $scope.$on('categoriesLoaded', function(event, options) {
             $scope.categories = options.categories;
+            $scope.selectedCategory = JSON.stringify($scope.categories[0]);
         });
 
         $scope.$on('loadingChanged', function(event, options) {
@@ -11,9 +12,9 @@ angular
             }
         });
 
-        $scope.viewGame = function(aCategory) {
+        $scope.viewGame = function() {
             LoadingService.setLoading(true);
-            CategoryService.setCurrentCategory(aCategory);
+            CategoryService.setCurrentCategory(JSON.parse($scope.selectedCategory));
             StateService.setCurrentState('game');
         };
     }]);

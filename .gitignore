@@ -19,5 +19,6 @@ Thumbs.db
 node_modules/
 public/scripts/
 public/assets/ConvertedImages
+coverage/
 
 .idea/workspace.xml
