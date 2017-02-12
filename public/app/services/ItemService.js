@@ -45,6 +45,8 @@ angular
                             itemNames = items[0].itemSet.map(function(i) { return i.name});
                         }
 
+                        console.log("aCategory = " + aCategory);
+
                         // Call the API to get some more items as specified by the input params
                         choreggAPI.GetItemsInTimespan.query({ category: aCategory, timeSpan: aTimespan, numPairs: aNumPairs, anOldItemSet: JSON.stringify(itemNames)},
                             function (data) {
