@@ -1,4 +1,4 @@
-var myApp = require('../../server.js');
+var myApp = require('../../app.js');
 var request = require('supertest')(myApp);
 
 describe("Admin Functions", function() {
@@ -7,7 +7,7 @@ describe("Admin Functions", function() {
 
     // -------------------------ADMIN FUNCTIONS---------------------
     it("GET /api/getVariable/:aVariable - should return a result.", function(done) {
-		var myVariable = "PORT";
+		var myVariable = "mode";
 
         request
             .get('/api/getVariable/' + myVariable)
