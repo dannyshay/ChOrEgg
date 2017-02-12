@@ -1,6 +1,6 @@
 <div ng-controller="TimerController as timeCtrl" ng-hide="loading">
     <h4>Time Remaining: {{timeRemaining}}</h4>
-    <div class="progress">
+    <div class="progress" style="margin-top:-5px;">
         <div class="progress-bar" role="progressbar" aria-valuenow="70"
              aria-valuemin="0" aria-valuemax="100" style="width:{{timeRemaining*10}}%"></div>
         <timer interval="1000" countdown="timeRemaining" finish-callback="timeOut()" auto-start="false">{{}}</timer>
