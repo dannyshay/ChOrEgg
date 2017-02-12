@@ -1,20 +1,7 @@
 angular
     .module('choregg')
-    .controller('AdminController', ["$scope", 'Upload', 'choreggAPI', 'SocketService',function($scope, Upload, choreggAPI, SocketService) {
+    .controller('AdminController', ["$scope", 'Upload', 'choreggAPI',function($scope, Upload, choreggAPI) {
         var currentFile = null;
-
-        SocketService.on('downloading', function(msg) {
-            $scope.downloading = msg;
-        });
-
-        SocketService.on('downloadProgressUpdate', function(progress) {
-            $scope.progress = progress;
-            $scope.imagesDownloaded = false;
-        });
-
-        SocketService.on('imagesDownloadedUpdated', function(update) {
-            $scope.imagesDownloaded = update;
-        });
 
         $scope.$on('loadingChanged', function(event, options) {
             $scope.loading = options.loading;
