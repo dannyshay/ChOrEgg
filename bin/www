@@ -21,11 +21,26 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+var gracefullyClosing = false;
+ app.use(function(req, res, next) {
+    if (!gracefullyClosing) {
+      return next();  
+    } else {
+      res.setHeader('Connection', 'close');
+      res.send(502, "Server is in the process of restarting")
+    }
+    
+ });
+
 /**
  * Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);
+process.on('SIGETERM', function() {
+  gracefullyClosing = true;
+});
+
 server.on('error', onError);
 server.on('listening', onListening);
 
