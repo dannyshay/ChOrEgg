@@ -64,7 +64,8 @@ module.exports = function(app) {
     });
 
     app.get('/api/categories', function(req, res) {
-        categoryHelper.getCategories(res);
+        console.log('got here');
+        categoryHelper.getAll(res);
     });
 
     app.get('/api/items/getItemsInTimespan', function(req, res) {

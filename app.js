@@ -26,6 +26,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors()); //CORS support for swagger.io
+
 //mongo session
 app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
@@ -53,7 +54,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  //res.render('error');
 });
 
 module.exports = app;
