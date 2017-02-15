@@ -2,9 +2,6 @@ var myApp = require('../../app.js');
 var request = require('supertest')(myApp);
 
 describe("Admin Functions", function() {
-    // Mocha system-level timeout for all tests
-    this.timeout(5000);
-
     // -------------------------ADMIN FUNCTIONS---------------------
     it("GET /api/getVariable/:aVariable - should return a result.", function(done) {
 		var myVariable = "mode";

@@ -2,8 +2,6 @@ var myApp = require('../../app.js');
 var request = require('supertest')(myApp);
 
 describe("Items", function() {
-    // Mocha system-level timeout for all tests
-    this.timeout(5000);
     var items = [];
 
     // -------------------------ITEMS------------------------

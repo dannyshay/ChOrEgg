@@ -2,9 +2,6 @@ var myApp = require('../../app.js');
 var request = require('supertest')(myApp);
 
 describe("Categories", function() {
-    // Mocha system-level timeout for all tests
-    this.timeout(5000);
-
     // -------------------------CATEGORIES------------------------
     it("GET /api/categories - should return some categories.", function(done) {
         request
