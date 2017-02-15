@@ -9,7 +9,6 @@ module.exports = {
             }
 
             else {
-                console.log('got here 3');
                 var myCategories = [];
 
                 categories.forEach(function(aCategory) {

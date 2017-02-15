@@ -69,7 +69,6 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  console.log('got an error');
   if (error.syscall !== 'listen') {
     throw error;
   }
