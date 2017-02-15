@@ -2,9 +2,6 @@ var myApp = require('../../app.js');
 var request = require('supertest')(myApp);
 
 describe("Users", function() {
-    // Mocha system-level timeout for all tests
-    this.timeout(5000);
-
     // -----------------------FUNCTIONS----------------------
     var handleErrorsAndResponse = function(err, res, done) {
         if (res.body.Error)
