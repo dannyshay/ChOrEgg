@@ -10,7 +10,7 @@ info:
     Find source code of this API [here](https://github.com/dannyshay/ChOrEgg-Web)
 basePath: /
 schemes:
-  - http
+  - https
 consumes:
   - application/json
 produces:
