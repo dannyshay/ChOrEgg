@@ -16,7 +16,7 @@ angular
                 return $q(function (resolve) {
                     // Try and load the difficulties from cookies
                     var myDifficulties = $cookies.get('difficulties');
-                    if (!myDifficulties || myDifficulties == undefined) {
+                    if (true || !myDifficulties || myDifficulties == undefined) {
                         // If we can't find anything - grab them from the API
                         choreggAPI.Difficulties.query(function (data) {
                             myDifficulties = data;

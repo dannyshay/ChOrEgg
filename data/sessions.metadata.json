@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"choregg.sessions"},{"v":2,"key":{"expires":1},"name":"expires_1","expireAfterSeconds":0,"ns":"choregg.sessions"}],"uuid":"5677ede969e34812bf8fecc15a53d366"}
