@@ -1,0 +1,27 @@
+version: '3.0'
+services:
+  choregg:
+    build: ./
+    container_name: choregg
+    ports:
+      - "3000:3000"
+    environment:
+      - mongoURI=mongodb://192.168.1.18:27017/choregg
+      - NODE_ENV=production
+    links:
+      - choregg_db
+    restart: always
+        #depends_on:
+      #choregg_db:
+      #condition: service_healthy
+  choregg_db:
+    image: mongo:latest
+    container_name: choregg_db
+    ports:
+    - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
