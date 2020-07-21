@@ -3,6 +3,11 @@
 /**
  * Module dependencies.
  */
+require('elastic-apm-node').start({
+  serviceName: 'choregg',
+  serverUrl: 'https://apm.dannyshay.com',
+  captureBody: 'all',
+});
 
 var app = require('../app');
 var debug = require('debug')('choregg:server');
@@ -24,12 +29,12 @@ var server = http.createServer(app);
 var gracefullyClosing = false;
  app.use(function(req, res, next) {
     if (!gracefullyClosing) {
-      return next();  
+      return next();
     } else {
       res.setHeader('Connection', 'close');
       res.send(502, "Server is in the process of restarting")
     }
-    
+
  });
 
 /**
