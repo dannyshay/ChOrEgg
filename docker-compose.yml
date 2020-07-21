@@ -1,4 +1,4 @@
-version: '3.0'
+version: '2.2'
 services:
   choregg:
     build: ./
@@ -10,17 +10,22 @@ services:
       - NODE_ENV=production
     links:
       - choregg_db
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail 192.168.1.18:3000 || exist 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
     restart: always
-        #depends_on:
-      #choregg_db:
-      #condition: service_healthy
+    depends_on:
+      choregg_db:
+        condition: service_healthy
   choregg_db:
     image: mongo:latest
     container_name: choregg_db
     ports:
     - "27017:27017"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongo 192.168.1.18:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5
