@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   choregg:
-    build: ./
+    image: danny624/choregg:latest
     container_name: choregg
     ports:
       - "3000:3000"
@@ -30,3 +30,5 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    volumes:
+      - ./mongo-volume:/data/db
