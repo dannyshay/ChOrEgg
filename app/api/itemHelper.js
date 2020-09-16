@@ -2,7 +2,8 @@ var Item = require('./../models/item');
 var utilities = require("./server_utilities");
 var async = require('async');
 var mongoose = require('mongoose');
-var rmdir = require('rmdir');
+//var rmdir = require('rmdir');
+var fs = require('fs');
 var Grid = require('gridfs-stream');
 var db = require('../../config/db');
 Grid.mongo = mongoose.mongo;
@@ -267,7 +268,7 @@ module.exports = {
                     }
                 });
             }, function() {
-                rmdir('./public/assets/ConvertedImages');
+                fs.rmDir('./public/assets/ConvertedImages');
                 var endTime = new Date();
                 var totalTime = (endTime - startTime) / 1000;
                 console.log('Finished retrieving items - total time: ' + totalTime + ' seconds.');
